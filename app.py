@@ -1,14 +1,19 @@
+from os import getenv
+
 import pyodbc
+from dotenv import load_dotenv
 from flask import Flask, redirect, render_template, request, url_for
 
 from services import *
 
+# Load environment variables
+load_dotenv()
+
 app = Flask(__name__)
 
 # Connection to the SQL Server
-#! TODO: Update the server and database name
-server = "."
-database = "recipe"
+server = getenv("DB_SERVER", ".")  # Fallback to '.' if not set
+database = getenv("DB_NAME", "recipe")  # Fallback to 'recipe' if not set
 
 conn = pyodbc.connect(
     f"Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;"
