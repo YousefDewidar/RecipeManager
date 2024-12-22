@@ -32,12 +32,17 @@ RecipeManager/
 
 ## Installation  
 
-### Prerequisites  
-- Python 3.7 or higher.  
-- Microsoft SQL Server.  
-- `pip` (Python package installer).  
+### Prerequisites 
 
-### Steps to Run the Application  
-1. Clone this repository:  
+   - Clone this repository:  
    ```bash
    git clone https://github.com/yourusername/RecipeManager.git
+   ```
+  - Update the database connection in app.py to match your environment
+```bash
+server = "YourServerName"
+database = "recipe"
+conn = pyodbc.connect(
+    f"Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;"
+)
+```
