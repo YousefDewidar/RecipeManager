@@ -5,37 +5,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recipes</title>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='home/home.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
 
 <body>
-  <div class="create-recipe-container">
-    <a href="/create" class="create-recipe-btn">Create New Recipe</a>
+
+  <div id="loading-screen">
+    <h1 class="title_landing">Welcome to Recipe Manager</h1>
+    <div id="lottie-animation"></div>
   </div>
 
-  <div class="all_courses all_dash">
-    <section class="cour dash">
+  <div id="home-content" style="display: none;">
 
-      <h1>Recipes</h1>
-      <div class="all dg gtc-4 p-20">
-        {% for recipe in recipes %}
-        <div class="cour_1 bg-wh br-6">
-          <img src="{{ url_for('static', filename='home/img_test.jpg') }}">
-          <h5>{{ recipe.name }}</h5>
-          <p class="c-p">{{ recipe.description }}</p>
-          <span>Recipe Info</span>
-          <div class="foot_cour_1 jc-sb ai-c plr-10 mt-10 ">
-            <div class="c-p"><i class="fa-regular fa-user"></i>{{ recipe.auther_name }}</div>
-            <div class="c-p"><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }}</div>
+    <div class="create-recipe-container">
+      <a href="/create" class="create-recipe-btn">Create New Recipe</a>
+    </div>
+
+    <div class="all_courses all_dash">
+      <section class="cour dash">
+
+        <h1>Recipes</h1>
+        <div class="all dg gtc-4 p-20">
+          {% for recipe in recipes %}
+          <div class="cour_1 bg-wh br-6">
+            <img src="{{ url_for('static', filename='home/img_test.jpg') }}">
+            <h5>{{ recipe.name }}</h5>
+            <p class="c-p">{{ recipe.description }}</p>
+            <span>Recipe Info</span>
+            <div class="foot_cour_1 jc-sb ai-c plr-10 mt-10 ">
+              <div class="c-p"><i class="fa-regular fa-user"></i>{{ recipe.auther_name }}</div>
+              <div class="c-p"><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }}</div>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-    </section>
+      </section>
+    </div>
+
   </div>
+
+
+  <script src="{{ url_for('static', filename='home/home.js') }}"></script>
 
 </body>
 
