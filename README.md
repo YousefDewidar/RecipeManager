@@ -35,11 +35,15 @@ RecipeManager/
 
 ### Prerequisites
 
-   - Clone this repository:  
+- Clone this repository:  
+
    ```bash
    git clone https://github.com/YousefDewidar/RecipeManager.git
    ```
-  - Update the database connection in app.py to match your environment
+
+- Update the database connection in app.py to match your environment
+- Change YouServerName to match you server's name or use "." to use local server.
+
 ```bash
 server = "YourServerName"
 database = "recipe"
