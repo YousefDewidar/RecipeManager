@@ -41,11 +41,12 @@ RecipeManager/
    git clone https://github.com/YousefDewidar/RecipeManager.git
    ```
 
-- Update the database connection in env.example to match your environment
-- Change DB_SERVER to match you server's name or use "." to use local server(MSQL Developer Edition)
-- Change DB_NAME and insure it's created.
+- Update the database connection in `env.example` to match your environment and make sure to **Rename** it to `.env`
 
 ```bash
 RecipeManager/
 ├── .env.example
 ```
+
+- Change DB_SERVER to match you server's name or use "." to use local server(MSQL Developer Edition)
+- Change DB_NAME and insure it's created.
