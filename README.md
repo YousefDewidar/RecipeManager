@@ -21,6 +21,7 @@
 ---
 
 ## Folder Structure
+
 ```bash
 RecipeManager/
 ├── static/             # Static files (CSS, JS, images)
@@ -32,14 +33,17 @@ RecipeManager/
 
 ## Installation  
 
-### Prerequisites 
+### Prerequisites
 
-   - Clone this repository:  
-   ```bash
-   git clone https://github.com/matic113/RecipeManager.git
-   ```
-  - Update the database connection in app.py to match your environment
-  - You can replace "ServerName" with your sql server name or just use "." to use your local sql server.
+- Clone this repository:  
+
+  ```bash
+  git clone https://github.com/matic113/RecipeManager.git
+  ```
+  
+- Update the database connection in app.py to match your environment
+- You can replace "ServerName" with your sql server name or just use "." to use your local sql server.
+
 ```bash
 server = "YourServerName"
 database = "recipe"
