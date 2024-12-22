@@ -1,20 +1,22 @@
 import pyodbc
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
+
 from services import *
 
 app = Flask(__name__)
 
 # Connection to the SQL Server
 #! TODO: Update the server and database name
-server = "FOCLA"
+server = "."
 database = "recipe"
 
 conn = pyodbc.connect(
-  f"Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;"
+    f"Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;"
 )
 
 # Create a cursor object to execute SQL queries
 cursor = conn.cursor()
+
 
 # Main App View
 @app.route("/")
@@ -23,10 +25,13 @@ def home():
     return render_template("home/home.html", recipes=result)
 
 
+@app.route("/create")
+def create_recipe():
+    users = get_all_users(cursor)
+    categories = get_all_categories(cursor)
+    return render_template("recipe/create.html", users=users, categories=categories)
 
 
-
-#! Not Used Now 
 @app.route("/submit_newrecipe", methods=["POST"])
 def submit_newrecipe():
     if request.method == "POST":
@@ -41,7 +46,7 @@ def submit_newrecipe():
         cursor.execute(query, (name, description, cooking_time, user_id, category_id))
         conn.commit()
 
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
 @app.route("/submit_search", methods=["GET"])

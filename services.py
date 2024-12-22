@@ -1,4 +1,3 @@
-
 # return all the recipes from the database
 def get_all_recipes(cursor):
     query = f"""SELECT full_name as auther_name,name, description, cooking_time 
@@ -9,11 +8,18 @@ def get_all_recipes(cursor):
     return results
 
 
+def get_all_users(cursor):
+    cursor.execute("SELECT user_id, full_name FROM Users")
+    return cursor.fetchall()
 
 
+def get_all_categories(cursor):
+    cursor.execute("SELECT category_id, name FROM Category")
+    return cursor.fetchall()
 
 
-#! Not Used Now 
+#! Not Used Now
+
 
 # Retrieve the search name and perform a search in the database
 def search_recipe(cursor, keyword):
@@ -50,4 +56,3 @@ def delete_recipe(cursor, conn, recipe_id):
         return True
     else:
         return False
-
