@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Operation Failed</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div id="branding">
+                <h1>Operation Success</h1>
+            </div>
+        </header>
+        <div class="content">
+            <p>Sorry, the delete operation failed. Please try again.</p>
+            <a href="{{ url_for('index') }}">Go back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

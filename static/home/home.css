@@ -1,0 +1,292 @@
+:root {
+  --blue-color: #0075ff;
+  --blue-alt-color: #0d69d5;
+  --orange-color: #f59e0b;
+  --green-color: #22c55e;
+  --red-color: #f44336;
+  --grey-color: #888;
+  --p-color: rgba(0, 0, 0, 0.297);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+
+}
+
+/* Start  Dash*/
+.all_dash {
+  background-color: #f1f5f9;
+  display: flex;
+  height: 100%;
+}
+
+/* 0000000000000000 */
+.dash h1 {
+  position: relative;
+  width: fit-content;
+  padding: 0 0 10px 20px;
+
+}
+
+.dash h1::after,
+.dash h1::before {
+  content: "";
+  background-color: white;
+  width: 65%;
+  height: 3px;
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+}
+
+.dash h1::before {
+  background-color: black;
+  z-index: 1;
+  width: 30%;
+}
+
+/* Courses */
+.cour_1 {
+  position: relative;
+
+  & .img img {
+    width: 60px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: white;
+    padding: 2px;
+    top: 20px;
+    left: 20px;
+  }
+
+  & h5 {
+    padding: 15px 0 0 20px;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  & p {
+    padding: 0 0 20px 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-bottom: 1px #88888845 solid;
+  }
+
+  & span {
+    background-color: var(--blue-color);
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: 50px;
+    color: white;
+    font-size: 12px;
+  }
+
+  & .foot_cour_1 {
+    padding: 10px 20px 20px;
+
+    & i {
+      margin-right: 5px;
+    }
+  }
+}
+
+.cour_1>img {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  width: 100%;
+}
+
+@media (max-width:1150px) {
+  .cour .all {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width:600px) {
+  .cour .all {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* Framework */
+
+.w-40 {
+  width: 40px;
+}
+
+.w-120 {
+  width: 120px;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* padding & margin */
+.p-20 {
+  padding: 20px;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.plr-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.pt-20 {
+  padding: 20px;
+}
+
+.m-20 {
+  margin: 20px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.pt-10 {
+  padding: 10px;
+}
+
+.m-10 {
+  margin: 10px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+/* border */
+.br-6 {
+  border-radius: 8px;
+}
+
+.br-50 {
+  border-radius: 50%;
+}
+
+/* flex */
+.df {
+  display: flex;
+}
+
+.dp {
+  display: block;
+}
+
+.jc-sb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.jc-c {
+  justify-content: center;
+}
+
+.ai-c {
+  align-items: center;
+}
+
+/* color */
+.c-p {
+  color: #888;
+}
+
+.c-bl {
+  color: black;
+}
+
+.c-wh {
+  color: white;
+}
+
+.bg-wh {
+  background-color: white;
+}
+
+/* grid */
+.dg {
+  display: grid;
+}
+
+.gtc-3 {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.gtc-2 {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.gtc-4 {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* .0.. */
+.tc {
+  text-align: center;
+}
+
+/* font */
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
+.fs-16 {
+  font-size: 16px;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-24 {
+  font-size: 24px;
+}
+
+.fw-100 {
+  font-weight: 100;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-b {
+  font-weight: bold;
+}
+
+.lh-1-6 {
+  line-height: 1.6;
+}
