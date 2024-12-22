@@ -1,7 +1,8 @@
 # return all the recipes from the database
 def get_all_recipes(cursor):
     query = f"""SELECT full_name as auther_name,name, description, cooking_time 
-  FROM [dbo].[Recipes] ,[dbo].[Users];"""
+  FROM [dbo].[Recipes] ,[dbo].[Users]
+  WHERE recipes.user_id= Users.user_id;"""
 
     cursor.execute(query)
     results = cursor.fetchall()
