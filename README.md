@@ -36,7 +36,7 @@ RecipeManager/
 
    - Clone this repository:  
    ```bash
-   git clone https://github.com/yourusername/RecipeManager.git
+   git clone https://github.com/YousefDewida/RecipeManager.git
    ```
   - Update the database connection in app.py to match your environment
 ```bash
