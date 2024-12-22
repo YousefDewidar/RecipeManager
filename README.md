@@ -41,13 +41,11 @@ RecipeManager/
    git clone https://github.com/YousefDewidar/RecipeManager.git
    ```
 
-- Update the database connection in app.py to match your environment
-- Change YouServerName to match you server's name or use "." to use local server.
+- Update the database connection in env.example to match your environment
+- Change DB_SERVER to match you server's name or use "." to use local server(MSQL Developer Edition)
+- Change DB_NAME and insure it's created.
 
 ```bash
-server = "YourServerName"
-database = "recipe"
-conn = pyodbc.connect(
-    f"Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;"
-)
+RecipeManager/
+├── .env.example
 ```
