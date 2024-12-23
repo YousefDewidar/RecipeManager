@@ -164,6 +164,7 @@ body {
 
   </style>
 
+{% include "navbar/navbar.html" %}
 <section class="hero-section d-flex align-items-center">
   <!-- Particles.js Container -->
   <div id="particles-js"></div>
@@ -171,8 +172,8 @@ body {
   <div class="container hero-content">
       <div class="row align-items-center">
           <div class="col-lg-6">
-              <h1 class="hero-heading text-bg-danger">Cook Like a Pro with Our <span class="highlight">Easy</span> and <span class="highlight">Tasty</span> Recipes</h1>
-              <p class="mt-4 ">From quick and easy meals to gourmet delights, we have something for every taste and occasion.</p>
+              <h1 class="hero-heading text-bg-danger text-white">Cook Like a Pro with Our <span class="highlight">Easy</span> and <span class="highlight">Tasty</span> Recipes</h1>
+              <p class="mt-4 text-white text-xl-center">From quick and easy meals to gourmet delights, we have something for every taste and occasion.</p>
               <div class="container  mb-4">
                 <a href="/create" class="btn btn-lg btn-primary  ">Create New Recipe</a>
               </div>
@@ -203,7 +204,7 @@ body {
     </div>
 
     <!-- Recipes Section -->
-    <div class="container">
+    <div class="container" id="recpie">
       <h1 class="text-center mb-4">Recipes</h1>
       <div class="row">
         {% for recipe in recipes %}

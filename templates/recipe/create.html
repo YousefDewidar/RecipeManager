@@ -3,130 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Add a New Recipe</title>
     <style>
-        body {
+        .recipe-page {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
             background-color: #f5f5f5;
+            margin: 0;
+            padding-top: 80px;
         }
-        .container {
+
+        .recipe-page .container {
+            width: 80%;
             max-width: 800px;
-            width: 65%;
             margin: 0 auto;
-            background: white;
+            background: #fff;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            color: #333;
+
+        .recipe-page h1 {
             text-align: center;
+            color: #333;
+            font-size: 28px;
             margin-bottom: 30px;
+            font-weight: 700;
         }
-        form {
+
+        .recipe-page form {
             display: grid;
             gap: 20px;
         }
-        label {
+
+        .recipe-page label {
             font-weight: bold;
             color: #555;
         }
-        input, textarea {
+
+        .recipe-page input, .recipe-page select, .recipe-page textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 16px;
+            background-color: #fafafa;
         }
-        textarea {
-            min-height: 200px;
+
+        .recipe-page textarea {
+            min-height: 150px;
             resize: vertical;
         }
-        .button-container {
+
+        .recipe-page .button-container {
             display: flex;
             justify-content: space-between;
         }
-        button {
-            background-color: #4CAF50;
-            color: white;
+
+        .recipe-page button {
             padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
             font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
             transition: background-color 0.3s ease;
             width: 48%;
         }
-        button:hover {
-            background-color: #45a049;
-        }
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: white;
+
+        .recipe-page button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
         }
 
-        select:focus {
+        .recipe-page button[type="button"].return-home {
+            background-color: #00CED1;
+            color: white;
+        }
+
+        .recipe-page button:hover {
+            opacity: 0.9;
+        }
+
+        .recipe-page button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .recipe-page button.return-home:hover {
+            background-color: #20B2AA;
+        }
+
+        .recipe-page select:focus {
             outline: none;
             border-color: #4CAF50;
         }
-        .return-home {
-            background-color: #00CED1;
-        }
-        .return-home:hover {
-            background-color: #20B2AA;
+
+        .recipe-page input:focus, .recipe-page textarea:focus {
+            border-color: #4CAF50;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Add a New Recipe</h1>
-        <form action="/submit_newrecipe" method="post">
-            <div>
-                <label for="name">Recipe Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+    {% include "navbar/navbar.html" %}
+    <div class="recipe-page">
+        <div class="container">
+            <h1>Add a New Recipe</h1>
+            <form action="/submit_newrecipe" method="post">
+                <div>
+                    <label for="name">Recipe Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
 
-            <div>
-                <label for="cooking_time">Cooking Time (minutes)</label>
-                <input type="number" id="cooking_time" name="cooking_time" required>
-            </div>
+                <div>
+                    <label for="cooking_time">Cooking Time (minutes)</label>
+                    <input type="number" id="cooking_time" name="cooking_time" required>
+                </div>
 
-            <div>
-                <label for="user_id">Author</label>
-                <select id="user_id" name="user_id" required>
-                    <option value="">Select an author</option>
-                    {% for user in users %}
-                        <option value="{{ user[0] }}">{{ user[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            
-            <div>
-                <label for="category_id">Category</label>
-                <select id="category_id" name="category_id" required>
-                    <option value="">Select a category</option>
-                    {% for category in categories %}
-                        <option value="{{ category[0] }}">{{ category[1] }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+                <div>
+                    <label for="user_id">Author</label>
+                    <select id="user_id" name="user_id" required>
+                        <option value="" selected hidden>Select an author</option>
+                        {% for user in users %}
+                            <option value="{{ user[0] }}">{{ user[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="category_id">Category</label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="" selected hidden>Select a category</option>
+                        {% for category in categories %}
+                            <option value="{{ category[0] }}">{{ category[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-            <div>
-                <label for="description">Recipe Description</label>
-                <textarea id="description" name="description" required></textarea>
-            </div>
+                <div>
+                    <label for="description">Recipe Description</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
 
-            <div class="button-container">
-                <button type="submit">Add Recipe</button>
-                <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
-            </div>
-        </form>
+                <div class="button-container">
+                    <button type="submit" onclick="showAlert(event)">Add Recipe</button>
+                    <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <script>
+       function showAlert(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const cookingTime = document.getElementById('cooking_time').value;
+    const userId = document.getElementById('user_id').value;
+    const categoryId = document.getElementById('category_id').value;
+    const description = document.getElementById('description').value;
+
+    if (name && cookingTime && userId && categoryId && description) {
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your recipe has been added successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.forms[0].submit(); 
+            }
+        });
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all fields before submitting.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+}
+
+    </script>
 </body>
 </html>
