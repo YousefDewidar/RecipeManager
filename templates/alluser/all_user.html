@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Users</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  {% include "navbar/navbar.html" %}
+
+  <div id="loading-screen">
+    <h1>Welcome to User Manager</h1>
+  </div>
+
+  <div id="home-content" >
+    <div class="all_users">
+      <section>
+        <h1>All Users</h1>
+        <div>
+          {% if users %}
+            <table>
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Full Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                  <tr>
+                    <td>{{ user[0] }}</td>  <!-- user[0] هو user_id -->
+                    <td>{{ user[1] }}</td>  <!-- user[1] هو full_name -->
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No users found.</p>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

@@ -7,6 +7,11 @@ def get_all_recipes(cursor):
     results = cursor.fetchall()
     return results
 
+def get_all_users(cursor):
+    query = """SELECT user_id, full_name FROM Users;"""
+    cursor.execute(query)
+    results = cursor.fetchall()  
+    return results
 
 def get_recipe(cursor, recipe_id):
     query = f"""SELECT recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time, R.user_id, R.category_id, C.name as category_name

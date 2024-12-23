@@ -39,6 +39,10 @@ def create_recipe():
     categories = get_all_categories(cursor)
     return render_template("recipe/create.html", users=users, categories=categories)
 
+@app.route("/all_user")
+def all_users():
+    result = get_all_users(cursor) 
+    return render_template("alluser/all_user.html", users=result)
 
 @app.route("/create_authour")
 def create_author():
