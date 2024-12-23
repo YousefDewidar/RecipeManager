@@ -58,13 +58,13 @@
 
     .card {
       border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
     }
 
     .card-img-top {
@@ -92,6 +92,7 @@
     }
 
     .card-footer {
+      background-color: rgba(255, 127, 80, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -227,6 +228,20 @@
     #scrollToTopBtn i {
       font-size: 1.5rem;
     }
+    .hero-heading {
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #scrollToTopBtn {
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    #scrollToTopBtn:hover {
+      transform: scale(1.1);
+      background-color: #ff4500;
+    }
+
+
   </style>
 </head>
 

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Add a New Recipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.7), rgba(255, 170, 123, 0.8)), 
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.8), rgba(255, 170, 123, 0.9)), 
                         url('../../static/home/home_background.jpg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
@@ -17,21 +18,20 @@
         }
 
         .recipe-page {
-            padding-top: 80px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
-            background-color: #ffffff;
-            width: 90%;
+            background-color: #fff;
             max-width: 800px;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
@@ -47,10 +47,10 @@
 
         h1 {
             text-align: center;
-            color: #444;
             font-size: 2rem;
+            color: #333;
             margin-bottom: 20px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         form {
@@ -59,28 +59,28 @@
         }
 
         label {
-            font-weight: bold;
+            font-weight: 500;
             color: #555;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
+            font-size: 16px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: #fafafa;
-            font-size: 16px;
+            background: #f9f9f9;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         input:focus, select:focus, textarea:focus {
             border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
             outline: none;
         }
 
         textarea {
-            min-height: 150px;
+            min-height: 120px;
             resize: vertical;
         }
 
@@ -89,75 +89,76 @@
             flex-wrap: wrap;
             gap: 10px;
             padding: 10px;
-            background-color: #f8fffa;
-            border: 1px solid #d6e9d7;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
             border-radius: 8px;
-        }
-
-        .tag {
-            position: relative;
-        }
-
-        .tag input[type="checkbox"] {
-            display: none;
         }
 
         .tag label {
             display: inline-block;
             padding: 8px 16px;
+            background: #fff;
             border: 1px solid #007BFF;
-            border-radius: 20px;
-            background-color: #fff;
             color: #007BFF;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 20px;
             font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
         .tag input[type="checkbox"]:checked + label {
-            background-color: #007BFF;
+            background: #007BFF;
             color: #fff;
             border-color: #0056b3;
         }
 
         .button-container {
             display: flex;
-            justify-content: space-between;
-            gap: 10px;
+            gap: 15px;
         }
 
         button {
-            padding: 12px 20px;
+            flex: 1;
+            padding: 12px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
+            transition: all 0.3s;
         }
 
         button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
+            background: #4CAF50;
+            color: #fff;
         }
 
         button[type="submit"]:hover {
-            background-color: #45a049;
+            background: #45a049;
         }
 
         .return-home {
-            background-color: #00CED1;
-            color: white;
+            background: #00CED1;
+            color: #fff;
         }
 
         .return-home:hover {
-            background-color: #20B2AA;
+            background: #20B2AA;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -171,32 +172,28 @@
                     <label for="name">Recipe Name</label>
                     <input type="text" id="name" name="name" placeholder="Enter recipe name" required>
                 </div>
-
                 <div>
                     <label for="cooking_time">Cooking Time (minutes)</label>
                     <input type="number" id="cooking_time" name="cooking_time" placeholder="Enter cooking time" required>
                 </div>
-
                 <div>
                     <label for="user_id">Author</label>
                     <select id="user_id" name="user_id" required>
                         <option value="" selected hidden>Select an author</option>
                         {% for user in users %}
-                            <option value="{{ user[0] }}">{{ user[1] }}</option>
+                        <option value="{{ user[0] }}">{{ user[1] }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                
                 <div>
                     <label for="category_id">Category</label>
                     <select id="category_id" name="category_id" required>
                         <option value="" selected hidden>Select a category</option>
                         {% for category in categories %}
-                            <option value="{{ category[0] }}">{{ category[1] }}</option>
+                        <option value="{{ category[0] }}">{{ category[1] }}</option>
                         {% endfor %}
                     </select>
                 </div>
-
                 <div>
                     <label>Ingredients</label>
                     <div class="tags-container">
@@ -208,12 +205,10 @@
                         {% endfor %}
                     </div>
                 </div>
-                
                 <div>
                     <label for="description">Recipe Description</label>
                     <textarea id="description" name="description" placeholder="Enter recipe description" required></textarea>
                 </div>
-
                 <div class="button-container">
                     <button type="submit" onclick="showAlert(event)">Add Recipe</button>
                     <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
@@ -221,11 +216,9 @@
             </form>
         </div>
     </div>
-
     <script>
         function showAlert(event) {
             event.preventDefault();
-
             const name = document.getElementById('name').value;
             const cookingTime = document.getElementById('cooking_time').value;
             const userId = document.getElementById('user_id').value;
@@ -238,10 +231,8 @@
                     text: 'Your recipe has been added successfully!',
                     icon: 'success',
                     confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.forms[0].submit(); 
-                    }
+                }).then(() => {
+                    document.forms[0].submit();
                 });
             } else {
                 Swal.fire({
