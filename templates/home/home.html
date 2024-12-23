@@ -10,12 +10,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
-
 <body>
 
   <div id="loading-screen">
     <h1 class="title_landing">Welcome to Recipe Manager</h1>
     <div id="lottie-animation"></div>
+  </div>
+  <div class="search-container">
+    <form action="/submit_search" method="GET" class="search-form">
+        <input type="text" name="keyword" placeholder="Search recipes..." class="search-input">
+        <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
   </div>
 
   <div id="home-content" style="display: none;">
@@ -36,7 +43,7 @@
             <p class="c-p">{{ recipe.description }}</p>
             <span>Recipe Info</span>
             <div class="foot_cour_1 jc-sb ai-c plr-10 mt-10 ">
-              <div class="c-p"><i class="fa-regular fa-user"></i>{{ recipe.auther_name }}</div>
+              <div class="c-p"><i class="fa-regular fa-user"></i>{{ recipe.author_name }}</div>
               <div class="c-p"><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }}</div>
             </div>
           </div>

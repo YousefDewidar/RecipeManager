@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/home.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results</h1>
+        {% if search_results %}
+            <div class="all dg gtc-4 p-20">
+                {% for recipe in search_results %}
+                <div class="cour_1 bg-wh br-6">
+                    <img src="{{ url_for('static', filename='home/img_test.jpg') }}">
+                    <h5>{{ recipe.name }}</h5>
+                    <p class="c-p">{{ recipe.description }}</p>
+                    <div class="foot_cour_1 jc-sb ai-c plr-10 mt-10">
+                        <div class="c-p"><i class="fa-regular fa-user"></i>{{ recipe.author_name }}</div>
+                        <div class="c-p"><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }}</div>
+                    </div>
+                    <div class="recipe-actions">
+                        <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-edit">Edit</a>
+                        <a href="/delete/{{ recipe.recipe_id }}" class="btn btn-delete">Delete</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No recipes found.</p>
+        {% endif %}
+        <a href="/" class="btn btn-primary">Back to Home</a>
+    </div>
+</body>
+</html>
