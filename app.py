@@ -40,6 +40,11 @@ def create_recipe():
     return render_template("recipe/create.html", users=users, categories=categories)
 
 
+@app.route("/create_authour")
+def create_author():
+    return render_template("autour/create_authour.html")
+
+
 @app.route("/submit_newrecipe", methods=["POST"])
 def submit_newrecipe():
     if request.method == "POST":
@@ -55,6 +60,17 @@ def submit_newrecipe():
         cursor.execute(query, (name, description, cooking_time, user_id, category_id))
         conn.commit()
 
+        return redirect(url_for("home"))
+@app.route("/submit_newauthor", methods=["POST"])
+def submit_newauthor():
+    if request.method == "POST":
+        name = request.form["name"]
+        
+        query = """INSERT INTO Users(full_name)
+                  VALUES (?);"""
+        
+        cursor.execute(query, (name))
+        conn.commit()
         return redirect(url_for("home"))
 
 
