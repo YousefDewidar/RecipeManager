@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Recipe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            display: grid;
+            gap: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        input, textarea, select {
+            max-width: 800px;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 48%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .return-home {
+            background-color: #00CED1;
+        }
+        .return-home:hover {
+            background-color: #20B2AA;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Recipe</h1>
+        <form action="/submit_updaterecipe" method="post">
+            <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">
+            
+            <div>
+                <label for="name">Recipe Name</label>
+                <input type="text" id="name" name="name" value="{{ recipe.name }}" required>
+            </div>
+
+            <div>
+                <label for="cooking_time">Cooking Time (minutes)</label>
+                <input type="number" id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" required>
+            </div>
+
+            <div>
+                <label for="user_id">Author</label>
+                <select id="user_id" name="user_id" required>
+                    <option value="">Select an author</option>
+                    {% for user in users %}
+                        <option value="{{ user[0] }}" {% if user[0] == recipe.user_id %}selected{% endif %}>{{ user[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="category_id">Category</label>
+                <select id="category_id" name="category_id" required>
+                    <option value="">Select a category</option>
+                    {% for category in categories %}
+                        <option value="{{ category[0] }}" {% if category[0] == recipe.category_id %}selected{% endif %}>{{ category[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="description">Recipe Description</label>
+                <textarea id="description" name="description" required>{{ recipe.description }}</textarea>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Update Recipe</button>
+                <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
