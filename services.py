@@ -2,16 +2,11 @@ def get_all_recipes(cursor):
     query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time 
                FROM [dbo].[Recipes] R
                JOIN [dbo].[Users] U ON R.user_id = U.user_id;"""
-  
+
     cursor.execute(query)
     results = cursor.fetchall()
-    return results
+    return results if results else None
 
-def get_all_users(cursor):
-    query = """SELECT user_id, full_name FROM Users;"""
-    cursor.execute(query)
-    results = cursor.fetchall()  
-    return results
 
 def get_recipe(cursor, recipe_id):
     query = f"""SELECT recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time, R.user_id, R.category_id, C.name as category_name
@@ -37,9 +32,29 @@ def search_recipe(cursor, keyword):
     return results if results else None
 
 
+def insert_recipe(cursor, name, description, cooking_time, user_id, category_id):
+    query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
+              VALUES (?, ?, ?, ?, ?);"""
+    cursor.execute(query, (name, description, cooking_time, user_id, category_id))
+    cursor.commit()
+
+
+def update_recipe(
+    cursor, name, description, cooking_time, user_id, category_id, recipe_id
+):
+    query = """UPDATE Recipes
+            SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
+            WHERE recipe_id = ?"""
+    cursor.execute(
+        query, (name, description, cooking_time, user_id, category_id, recipe_id)
+    )
+    cursor.commit()
+
+
 def get_all_users(cursor):
     cursor.execute("SELECT user_id, full_name FROM Users;")
-    return cursor.fetchall()
+    results = cursor.fetchall()
+    return results if results else None
 
 
 def get_user(cursor, user_id):
@@ -52,7 +67,8 @@ def get_user(cursor, user_id):
 
 def get_all_categories(cursor):
     cursor.execute("SELECT category_id, name FROM Category")
-    return cursor.fetchall()
+    results = cursor.fetchall()
+    return results if results else None
 
 
 def get_category(cursor, category_id):
@@ -61,18 +77,3 @@ def get_category(cursor, category_id):
     result = cursor.fetchone()
 
     return result if result else None
-
-
-def insert_recipe(cursor, name, description, cooking_time, user_id, category_id):
-    query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
-              VALUES (?, ?, ?, ?, ?);"""
-    cursor.execute(query, (name, description, cooking_time, user_id, category_id))
-    cursor.commit()
-
-
-def update_recipe(cursor, name, description, cooking_time, user_id, category_id, recipe_id):
-    query = """UPDATE Recipes
-            SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
-            WHERE recipe_id = ?"""
-    cursor.execute(query, (name, description, cooking_time, user_id, category_id, recipe_id))
-    cursor.commit()
