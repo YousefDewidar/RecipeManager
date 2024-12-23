@@ -48,13 +48,9 @@ def submit_newrecipe():
         cooking_time = request.form["cooking_time"]
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
-
-        query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
-                  VALUES (?, ?, ?, ?, ?);"""
-
-        cursor.execute(query, (name, description, cooking_time, user_id, category_id))
-        conn.commit()
-
+        
+        insert_recipe(cursor, name, description, cooking_time, user_id, category_id)
+        
         return redirect(url_for("home"))
 
 
@@ -82,15 +78,7 @@ def update():
         cooking_time = request.form["cooking_time"]
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
-
-        query = """UPDATE Recipes
-                   SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
-                   WHERE recipe_id = ?"""
-        cursor.execute(
-            query, (name, description, cooking_time, user_id, category_id, recipe_id)
-        )
-        conn.commit()
-
+        update_recipe(cursor, name, description, cooking_time, user_id, category_id, recipe_id)
         return redirect(url_for("home"))
 
 

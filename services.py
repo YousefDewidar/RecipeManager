@@ -1,4 +1,3 @@
-# return all the recipes from the database
 def get_all_recipes(cursor):
     query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time 
                FROM [dbo].[Recipes] R
@@ -57,3 +56,18 @@ def get_category(cursor, category_id):
     result = cursor.fetchone()
 
     return result if result else None
+
+
+def insert_recipe(cursor, name, description, cooking_time, user_id, category_id):
+    query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
+              VALUES (?, ?, ?, ?, ?);"""
+    cursor.execute(query, (name, description, cooking_time, user_id, category_id))
+    cursor.commit()
+
+
+def update_recipe(cursor, name, description, cooking_time, user_id, category_id, recipe_id):
+    query = """UPDATE Recipes
+            SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
+            WHERE recipe_id = ?"""
+    cursor.execute(query, (name, description, cooking_time, user_id, category_id, recipe_id))
+    cursor.commit()
