@@ -39,7 +39,12 @@ def create_recipe():
     users = get_all_users(cursor)
     categories = get_all_categories(cursor)
     ingredients = get_all_ingredients(cursor)
-    return render_template("recipe/create.html", users=users, categories=categories,ingredients=ingredients)
+    return render_template(
+        "recipe/create.html",
+        users=users,
+        categories=categories,
+        ingredients=ingredients,
+    )
 
 
 @app.route("/submit_newrecipe", methods=["POST"])
@@ -51,7 +56,17 @@ def submit_newrecipe():
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
 
-        insert_recipe(cursor, name, description, cooking_time, user_id, category_id)
+        ingredient_ids = request.form.getlist("ingredient_id[]")
+        logging.debug(f"Selected ingredients: {ingredient_ids}")
+
+        # Insert recipe first
+        recipe_id = insert_recipe(
+            cursor, name, description, cooking_time, user_id, category_id
+        )
+
+        # Insert recipe-ingredient relationships
+        for ingredient_id in ingredient_ids:
+            insert_recipe_ingredient(cursor, recipe_id, ingredient_id)
 
         return redirect(url_for("home"))
 
@@ -83,7 +98,7 @@ def update():
         update_recipe(
             cursor, name, description, cooking_time, user_id, category_id, recipe_id
         )
-        return redirect(url_for("home"))
+        return redirect(url_for("home"))    
 
 
 @app.route("/delete/<int:recipe_id>")
