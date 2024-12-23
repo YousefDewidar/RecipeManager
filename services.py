@@ -3,7 +3,7 @@ def get_all_recipes(cursor):
     query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time 
                FROM [dbo].[Recipes] R
                JOIN [dbo].[Users] U ON R.user_id = U.user_id;"""
-
+  
     cursor.execute(query)
     results = cursor.fetchall()
     return results
