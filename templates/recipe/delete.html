@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Recipe</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --blue-color: #0075ff;
@@ -16,14 +19,15 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+            font-family: 'Poppins', sans-serif; /* Changed font to Poppins */
+            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)),
+                url('../../static/home/home_background.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #333;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            }
+        }
 
         .container {
             max-width: 800px;
@@ -32,7 +36,7 @@
             background: white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -52,7 +56,8 @@
             font-weight: 500;
         }
 
-        input, textarea {
+        input,
+        textarea {
             width: 96%;
             max-width: 800px;
             padding: 12px;
@@ -68,7 +73,8 @@
             resize: none;
         }
 
-        input:read-only, textarea:read-only {
+        input:read-only,
+        textarea:read-only {
             background-color: #f5f5f5;
             border-color: #ddd;
         }
@@ -105,13 +111,14 @@
         }
     </style>
 </head>
+
 <body>
     {% include "navbar/navbar.html" %}
     <div class="container">
         <h1>Delete Recipe</h1>
         <form action="/submit_deleterecipe" method="post">
             <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">
-            
+
             <div class="field-container">
                 <label for="name">Recipe Name</label>
                 <input type="text" id="name" name="name" value="{{ recipe.name }}" readonly>
@@ -126,7 +133,7 @@
                 <label for="cooking_time">Cooking Time (minutes)</label>
                 <input type="number" id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" readonly>
             </div>
-            
+
             <div class="field-container">
                 <label for="description">Recipe Description</label>
                 <textarea id="description" name="description" readonly>{{ recipe.description }}</textarea>
@@ -139,4 +146,5 @@
         </form>
     </div>
 </body>
+
 </html>
