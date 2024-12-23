@@ -38,7 +38,8 @@ def home():
 def create_recipe():
     users = get_all_users(cursor)
     categories = get_all_categories(cursor)
-    return render_template("recipe/create.html", users=users, categories=categories)
+    ingredients = get_all_ingredients(cursor)
+    return render_template("recipe/create.html", users=users, categories=categories,ingredients=ingredients)
 
 
 @app.route("/submit_newrecipe", methods=["POST"])

@@ -4,64 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>All Users</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
       margin-top: 20px;
     }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border: 1px solid #ddd;
+
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
     }
-    th {
-      background-color: #4CAF50;
-      color: white;
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
+
+    .card img {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
     }
-    tr:hover {
-      background-color: #ddd;
+
+    .card-body {
+      background-color: #fff;
+      border-top: 3px solid #4CAF50;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      color: #333;
+    }
+
+    .card-text {
+      color: #666;
     }
   </style>
 </head>
 <body>
   {% include "navbar/navbar.html" %}
 
-  <div id="loading-screen">
-    <h1>Welcome to User Manager</h1>
-  </div>
-
-  <div id="home-content" >
-    <div class="all_users">
-      <section>
-        <h1>All Users</h1>
-        <div>
-          {% if users %}
-            <table>
-              <thead>
-                <tr>
-                  <th>User ID</th>
-                  <th>Full Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for user in users %}
-                  <tr>
-                    <td>{{ user[0] }}</td>  <!-- user[0] هو user_id -->
-                    <td>{{ user[1] }}</td>  <!-- user[1] هو full_name -->
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% else %}
-            <p>No users found.</p>
-          {% endif %}
-        </div>
-      </section>
+  <div class="container">
+    <h1 class="text-center mb-4">All Users</h1>
+    <div class="row g-4">
+      {% if users %}
+        {% for user in users %}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+              <img src="../../static/home/user.jpg" alt="User Image" class="card-img-top">
+              <div class="card-body text-center">
+                <h5 class="card-title">User ID: {{ user[0] }}</h5>
+                <p class="card-text">{{ user[1] }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-center">No users found.</p>
+      {% endif %}
     </div>
   </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

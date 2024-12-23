@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-    user_id INT PRIMARY KEY IDENTITY(1,1), -- IDENTITY for auto-increment in T-SQL
+    user_id INT PRIMARY KEY IDENTITY(1,1),
     full_name VARCHAR(255)
 );
 
