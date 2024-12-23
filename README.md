@@ -2,6 +2,8 @@
 
 **RecipeManager** is a web-based application for managing food recipes. It allows users to perform CRUD (Create, Read, Update, Delete) operations on a SQL Server database, making it easy to organize and search for recipes.
 
+![Screenshot 2024-12-23 232935](https://github.com/user-attachments/assets/92494e9b-abc0-483f-a4cc-fddc4817b700)
+
 ---
 
 ## Features  
