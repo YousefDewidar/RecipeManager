@@ -14,176 +14,219 @@
 
 <body>
   <style>
-      
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  #loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 9999;
-}
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.title_landing {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #ff7f50;
-}
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.98);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
 
-#home-content {
-  display: block;
-  padding: 30px;
-  transition: opacity 0.5s ease;
-}
-  .card {
-    border-radius: 15px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;     
-  }
-  
-  .card:hover {
-    transform: translateY(-5px); 
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);    
-  }
-  
-  .card-img-top {
-    border-top-left-radius: 15px; 
-    border-top-right-radius: 15px;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 15px; 
-  }
-  
-  .card-text {
-    font-size: 0.9rem;
-    color: #777;
-    margin-bottom: 15px;
-  }
-  
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    font-size: 0.9rem;
-    color: #555;
-  }
-  
-  
-  .card-body .btn-sm {
-    padding: 8px 18px;
-    font-size: 0.85rem;
-    border-radius: 20px;
-    text-align: center;
-    margin: 0 5px;
-  }
-  
-  .card-body .btn-sm:hover {
-    transform: translateY(-3px); 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  
-  .btn-primary {
-    background-color: #ff7f50;
-    border: none;
-    color: white;
-    padding: 12px 25px;
-    font-size: 1rem;
-    border-radius: 30px;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #ff5722;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .btn-danger {
-    background-color: #f44336;
-    border: none;
-    color: white;
-    padding: 12px 25px;
-    font-size: 1rem;
-    border-radius: 30px;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .btn-danger:hover {
-    background-color: #e53935;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  
-  .card-body .btn-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+    #lottie-animation {
+      width: 500px;
+      height: 500px;
+    }
+
+    .title_landing {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #ff7f50;
+    }
+
+    #home-content {
+      display: block;
+      padding: 30px;
+      transition: opacity 0.5s ease;
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img-top {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
 
 
+    .card-body .btn-sm {
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      border-radius: 20px;
+      text-align: center;
+      margin: 0 5px;
+    }
 
-.search-input {
-    padding: 12px 15px;
-    border-radius: 30px;
-    border: 2px solid #ccc;
-    width: 100%;
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    margin-right: 10px;
-}
+    .card-body .btn-sm:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
 
+    .btn-primary {
+      background-color: #ff7f50;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 30px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
 
+    .btn-primary:hover {
+      background-color: #ff5722;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-danger {
+      background-color: #f44336;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 30px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-danger:hover {
+      background-color: #e53935;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-body .btn-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .search-input {
+      padding: 12px 15px;
+      border-radius: 30px;
+      border: 2px solid #ccc;
+      width: 100%;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      margin-right: 10px;
+    }
+
+    /* hover in recipe to show description*/
+    .image-container {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    .image-container img {
+      display: block;
+      overflow: hidden;
+    }
+
+    .image-container .desc {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(128, 128, 128, 0.207);
+      color: white;
+      padding: 10px;
+      text-align: center;
+      opacity: 0;
+      transform: rotate(0deg) scale(1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-container:hover img {
+      overflow: hidden;
+      transform: rotate(0.5deg) scale(1.1);
+      transition: .7s;
+      filter: blur(4px);
+    }
+
+    .image-container:hover .desc {
+      opacity: 1;
+      transition: .7s;
+    }
   </style>
 
-{% include "navbar/navbar.html" %}
-<section class="hero-section d-flex align-items-center">
-  <!-- Particles.js Container -->
-  <div id="particles-js"></div>
-  <div class="hero-overlay"></div>
-  <div class="container hero-content">
+  {% include "navbar/navbar.html" %}
+  <section class="hero-section d-flex align-items-center">
+    <!-- Particles.js Container -->
+    <div id="particles-js"></div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
       <div class="row align-items-center">
-          <div class="col-lg-6">
-              <h1 class="hero-heading text-bg-danger text-white">Cook Like a Pro with Our <span class="highlight">Easy</span> and <span class="highlight">Tasty</span> Recipes</h1>
-              <p class="mt-4 text-white text-xl-center">From quick and easy meals to gourmet delights, we have something for every taste and occasion.</p>
-              <div class="container  mb-4">
-                <a href="/create" class="btn btn-lg btn-primary  ">Create New Recipe</a>
-              </div>
+        <div class="col-lg-6">
+          <h1 class="hero-heading text-bg-danger text-white">Cook Like a Pro with Our <span
+              class="highlight">Easy</span> and <span class="highlight">Tasty</span> Recipes</h1>
+          <p class="mt-4 text-white text-xl-center">From quick and easy meals to gourmet delights, we have something for
+            every taste and occasion.</p>
+          <div class="container  mb-4">
+            <a href="/create" class="btn btn-lg btn-primary  ">Create New Recipe</a>
           </div>
-          <div class="col-lg-6 text-center mt-4 mt-lg-0">
-              <img src="../../static/home/logo.jpg" alt="Chef" class="img-fluid hero-img shadow-img">
-          </div>
+        </div>
+        <div class="col-lg-6 text-center mt-4 mt-lg-0">
+          <img src="../../static/home/logo.jpg" alt="Chef" class="img-fluid hero-img shadow-img">
+        </div>
       </div>
-  </div>
-</section>
+    </div>
+  </section>
   <div id="loading-screen">
     <h1 class="title_landing">Welcome to Recipe Manager</h1>
     <div id="lottie-animation"></div>
@@ -195,7 +238,8 @@ body {
     <div class="container mb-4">
       <div class="row justify-content-center">
         <form action="/submit_search" method="GET" class="col-md-6 d-flex">
-          <input type="text" name="keyword" placeholder="Search recipes..." class="form-control rounded-3 search-input ">
+          <input type="text" name="keyword" placeholder="Search recipes..."
+            class="form-control rounded-3 search-input ">
           <button type="submit" class="btn btn-primary rounded-3">
             <i class="fas fa-search "></i>
           </button>
@@ -209,8 +253,11 @@ body {
       <div class="row">
         {% for recipe in recipes %}
         <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image">
+          <div class="card ph_1">
+            <div class="image-container">
+              <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image">
+              <div class="desc"> {{ recipe.description }} </div>
+            </div>
             <div class="card-body">
               <h5 class="card-title">{{ recipe.name }}</h5>
               <p class="card-text">{{ recipe.description }}</p>
