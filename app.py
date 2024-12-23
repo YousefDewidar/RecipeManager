@@ -33,20 +33,12 @@ def home():
     return render_template("home/home.html", recipes=result)
 
 
+# Recipe routes
 @app.route("/create")
 def create_recipe():
     users = get_all_users(cursor)
     categories = get_all_categories(cursor)
     return render_template("recipe/create.html", users=users, categories=categories)
-
-@app.route("/all_user")
-def all_users():
-    result = get_all_users(cursor) 
-    return render_template("alluser/all_user.html", users=result)
-
-@app.route("/create_authour")
-def create_author():
-    return render_template("autour/create_authour.html")
 
 
 @app.route("/submit_newrecipe", methods=["POST"])
@@ -57,20 +49,9 @@ def submit_newrecipe():
         cooking_time = request.form["cooking_time"]
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
-        
+
         insert_recipe(cursor, name, description, cooking_time, user_id, category_id)
-        
-        return redirect(url_for("home"))
-@app.route("/submit_newauthor", methods=["POST"])
-def submit_newauthor():
-    if request.method == "POST":
-        name = request.form["name"]
-        
-        query = """INSERT INTO Users(full_name)
-                  VALUES (?);"""
-        
-        cursor.execute(query, (name))
-        conn.commit()
+
         return redirect(url_for("home"))
 
 
@@ -98,7 +79,9 @@ def update():
         cooking_time = request.form["cooking_time"]
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
-        update_recipe(cursor, name, description, cooking_time, user_id, category_id, recipe_id)
+        update_recipe(
+            cursor, name, description, cooking_time, user_id, category_id, recipe_id
+        )
         return redirect(url_for("home"))
 
 
@@ -134,6 +117,31 @@ def search():
         keyword = request.args.get("keyword")
         results = search_recipe(cursor, keyword)
         return render_template("home/search_result.html", search_results=results)
+
+
+# User routes
+@app.route("/all_user")
+def all_users():
+    result = get_all_users(cursor)
+    return render_template("alluser/all_user.html", users=result)
+
+
+@app.route("/create_authour")
+def create_author():
+    return render_template("autour/create_authour.html")
+
+
+@app.route("/submit_newauthor", methods=["POST"])
+def submit_newauthor():
+    if request.method == "POST":
+        name = request.form["name"]
+
+        query = """INSERT INTO Users(full_name)
+                  VALUES (?);"""
+
+        cursor.execute(query, (name))
+        conn.commit()
+        return redirect(url_for("home"))
 
 
 app.run(debug=True)
