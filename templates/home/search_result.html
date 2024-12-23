@@ -6,32 +6,173 @@
     <title>Search Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='home/home.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 223, 186, 0.6)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.8); /* Adding background for better readability */
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+        }
+
+        .card {
+            border-radius: 15px; /* Rounded corners for the cards */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            transition: transform 0.3s ease; /* Smooth transform effect */
+            margin-bottom: 20px; /* Add margin at the bottom to separate the cards */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+
+        .card-body {
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e68900;
+            transform: scale(1.05); /* Slight scale-up effect on hover */
+        }
+
+        .btn-danger {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05); /* Slight scale-up effect on hover */
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05); /* Slight scale-up effect on hover */
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+            padding: 10px;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .text-muted {
+            font-size: 0.875rem;
+        }
+
+        .back-button {
+            background-color: #f1d117;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-align: center;
+            width: 200px;
+            margin: 0 auto;
+            display: block;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+
+            transform: scale(1.05);
+        }
+
+        .row {
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
+
+        .col {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+    </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Search Results</h1>
+        <h1 class="text-center mb-4">Search Results</h1>
+        
         {% if search_results %}
-            <div class="all dg gtc-4 p-20">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {% for recipe in search_results %}
-                <div class="cour_1 bg-wh br-6">
-                    <img src="{{ url_for('static', filename='home/img_test.jpg') }}">
-                    <h5>{{ recipe.name }}</h5>
-                    <p class="c-p">{{ recipe.description }}</p>
-                    <div class="foot_cour_1 jc-sb ai-c plr-10 mt-10">
-                        <div class="c-p"><i class="fa-regular fa-user"></i>{{ recipe.author_name }}</div>
-                        <div class="c-p"><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }}</div>
-                    </div>
-                    <div class="recipe-actions">
-                        <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-edit">Edit</a>
-                        <a href="/delete/{{ recipe.recipe_id }}" class="btn btn-delete">Delete</a>
+                <div class="col">
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <p class="card-text">{{ recipe.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-muted"><i class="fa-regular fa-user"></i> {{ recipe.author_name }}</div>
+                                <div class="text-muted"><i class="fa-solid fa-clock"></i> {{ recipe.cooking_time }} min</div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-warning btn-sm me-2">Edit</a>
+                            <a href="/delete/{{ recipe.recipe_id }}" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p>No recipes found.</p>
+            <p class="text-center">No recipes found.</p>
         {% endif %}
-        <a href="/" class="btn btn-primary">Back to Home</a>
+        
+        <div class="text-center mt-4">
+            <a href="/" class="back-button">Back to Home</a>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
