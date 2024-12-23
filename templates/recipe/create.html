@@ -14,6 +14,7 @@
         }
         .container {
             max-width: 800px;
+            width: 65%;
             margin: 0 auto;
             background: white;
             padding: 30px;
@@ -44,6 +45,10 @@
             min-height: 200px;
             resize: vertical;
         }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
         button {
             background-color: #4CAF50;
             color: white;
@@ -53,9 +58,7 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
-            width: 200px;
-            margin: 0 auto;
-            display: block;
+            width: 48%;
         }
         button:hover {
             background-color: #45a049;
@@ -71,6 +74,12 @@
         select:focus {
             outline: none;
             border-color: #4CAF50;
+        }
+        .return-home {
+            background-color: #00CED1;
+        }
+        .return-home:hover {
+            background-color: #20B2AA;
         }
     </style>
 </head>
@@ -113,7 +122,10 @@
                 <textarea id="description" name="description" required></textarea>
             </div>
 
-            <button type="submit">Add Recipe</button>
+            <div class="button-container">
+                <button type="submit">Add Recipe</button>
+                <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
+            </div>
         </form>
     </div>
 </body>

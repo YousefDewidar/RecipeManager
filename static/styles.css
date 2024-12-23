@@ -128,3 +128,69 @@ th {
   background: #333;
   color: #fff;
 }
+.recipe-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  color: white;
+}
+
+.btn-edit {
+  background-color: #4CAF50; /* Green */
+}
+
+.btn-delete {
+  background-color: #f44336; /* Red */
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+.search-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #eee;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--blue-color);
+  outline: none;
+}
+
+.search-btn {
+  background-color: var(--blue-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.search-btn:hover {
+  opacity: 0.9;
+}
