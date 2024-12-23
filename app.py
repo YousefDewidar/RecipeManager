@@ -1,8 +1,9 @@
+import logging
 from os import getenv
 
 import pyodbc
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, abort, redirect, render_template, request, url_for
 
 from services import *
 
@@ -21,6 +22,8 @@ conn = pyodbc.connect(
 
 # Create a cursor object to execute SQL queries
 cursor = conn.cursor()
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 # Main App View
@@ -47,42 +50,82 @@ def submit_newrecipe():
         category_id = request.form["category_id"]
 
         query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
-                  VALUES (?, ?, ?, ?, ?)"""
+                  VALUES (?, ?, ?, ?, ?);"""
+
         cursor.execute(query, (name, description, cooking_time, user_id, category_id))
         conn.commit()
 
         return redirect(url_for("home"))
 
 
-@app.route("/submit_search", methods=["GET"])
-def search():
-    if request.method == "GET":
-        keyword = request.args.get("searchName")
-        results = search_recipe(cursor, keyword)
-        return render_template("results.html", search_results=results)
+@app.route("/edit/<int:recipe_id>")
+def edit_recipe(recipe_id):
+    recipe = get_recipe(cursor, recipe_id)
+
+    if not recipe:
+        abort(404)
+
+    users = get_all_users(cursor)
+    categories = get_all_categories(cursor)
+
+    return render_template(
+        "recipe/edit.html", recipe=recipe, users=users, categories=categories
+    )
 
 
 @app.route("/submit_updaterecipe", methods=["POST"])
 def update():
     if request.method == "POST":
-        recipe_id = request.form["recipeID"]
-        recipe_name = request.form["recipeName"]
-        quantity = request.form["quantity"]
-        price = request.form["price"]
+        recipe_id = request.form["recipe_id"]
+        name = request.form["name"]
+        description = request.form["description"]
+        cooking_time = request.form["cooking_time"]
+        user_id = request.form["user_id"]
+        category_id = request.form["category_id"]
 
-        update_recipe(cursor, conn, recipe_id, recipe_name, quantity, price)
-        return render_template("index.html")
+        query = """UPDATE Recipes
+                   SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
+                   WHERE recipe_id = ?"""
+        cursor.execute(
+            query, (name, description, cooking_time, user_id, category_id, recipe_id)
+        )
+        conn.commit()
+
+        return redirect(url_for("home"))
+
+
+@app.route("/delete/<int:recipe_id>")
+def delete_recipe(recipe_id):
+    recipe = get_recipe(cursor, recipe_id)
+
+    if not recipe:
+        abort(404)
+
+    return render_template("recipe/delete.html", recipe=recipe)
 
 
 @app.route("/submit_deleterecipe", methods=["POST"])
 def delete():
-    if request.method == "POST":
-        recipe_id = request.form["recipeID"]
-        successful = delete_recipe(cursor, conn, recipe_id)
-        if successful:
-            return render_template("index.html")
-        else:
-            return render_template("fail.html")
+    recipe_id = request.form["recipe_id"]
+
+    query = f"DELETE FROM Recipes WHERE recipe_id = ?;"
+    cursor.execute(query, recipe_id)
+    conn.commit()
+
+    if cursor.rowcount > 0:
+        # Deletion was successful
+        return redirect(url_for("home"))
+    else:
+        # Deletion failed (recipe_id not found)
+        return "Error: Recipe not found or could not be deleted", 404
+
+
+@app.route("/submit_search", methods=["GET"])
+def search():
+    if request.method == "GET":
+        keyword = request.args.get("keyword")
+        results = search_recipe(cursor, keyword)
+        return render_template("home/search_result.html", search_results=results)
 
 
 app.run(debug=True)
