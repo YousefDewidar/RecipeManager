@@ -28,15 +28,18 @@ def get_recipe(cursor, recipe_id):
 
 
 def search_recipe(cursor, keyword):
-    query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time
-               FROM [dbo].[Recipes] R
-               JOIN [dbo].[Users] U ON R.user_id = U.user_id
-               WHERE R.name LIKE ? OR R.description LIKE ?;"""
+    # if not keyword or keyword.strip() == "":
+    #     pass
+    # else:
+        query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time
+                   FROM [dbo].[Recipes] R
+                   JOIN [dbo].[Users] U ON R.user_id = U.user_id
+                   WHERE R.name LIKE ? OR R.description LIKE ?;"""
 
-    search_pattern = f"%{keyword}%"
-    cursor.execute(query, (search_pattern, search_pattern))
-    results = cursor.fetchall()
-    return results if results else None
+        search_pattern = f"%{keyword}%"
+        cursor.execute(query, (search_pattern, search_pattern))
+        results = cursor.fetchall()
+        return results if results else None
 
 
 def get_all_users(cursor):

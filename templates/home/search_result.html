@@ -219,8 +219,11 @@
                         </div>
                         <div class="card-footer text-center">
                             <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-warning btn-sm me-2">Edit</a>
-                            <a href="/delete/{{ recipe.recipe_id }}" class="btn btn-danger btn-sm">Delete</a>
-                        </div>
+                            <form action="/delete/{{ recipe.recipe_id }}" method="POST" style="display: inline-block;" id="deleteForm">
+                              <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">
+                                Delete Recipe
+                              </button>
+                            </form>                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -233,6 +236,25 @@
             <a href="/" class="back-button">Back to Home</a>
         </div>
     </div>
+     <script>
+      //  alert function
+    function confirmDelete() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this recipe!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('deleteForm').submit();
+      }
+    });
+  }
+     </script>
+         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
