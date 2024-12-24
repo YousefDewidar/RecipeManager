@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,41 +120,156 @@
         font-size: 0.8rem;
       }
     }
+
+    /* adsonsjbkbsdkjbvask */
+
+    .testimonials {
+      background-color: var(--b_g-color);
+      padding-top: 10px;
+      margin-top: 80px;
+      padding-bottom: 80px;
+
+    }
+
+    .testimonials .title {
+      margin-top: 80px;
+    }
+
+    .testimonials .boxs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 45px;
+
+    }
+
+    .box_1 {
+      position: relative;
+      border-radius: 8px;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.058);
+    }
+
+    .box_1 h6 {
+      position: relative;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .box_1 h6::after {
+      content: "Full Stack Developer";
+      position: relative;
+      bottom: 0;
+      left: 0;
+      display: block;
+      font-size: 16px;
+      font-weight: 100;
+      color: var(--color-p);
+      padding: 10px 0;
+    }
+
+    .box_1 .person_img {
+      position: absolute;
+      top: -50%;
+      right: 0;
+      transform: translate(0, 50%);
+      border-radius: 50%;
+      padding: 10px;
+      background-color: var(--b_g-color);
+      width: 100px;
+      height: 100px;
+    }
+
+    .box_1 .person_img img {
+      width: 100%;
+      border-radius: 50%;
+    }
+
+    .box_1 .rate {
+
+      & i {
+        color: gold;
+      }
+    }
+
+    .box_1 p {
+      color: var(--color-p);
+      line-height: 1.7;
+    }
+
+    .box_1:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+      /* background-color: ; */
+      transform: scale(1.05);
+      transition: .5s;
+    }
   </style>
 </head>
+
 <body>
+
   {% include "navbar/navbar.html" %}
 
   <div class="container text-center">
     <h1>All Users</h1>
     <div class="row g-4 mt-4">
       {% if users %}
-        {% for user in users %}
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card">
-              <img src="../../static/home/user.jpg" alt="User Image" class="card-img-top">
-              <div class="card-body">
-                <!-- Added icons before name and ID -->
-                <h5 class="card-title">
-                  <i class="fas fa-user"></i> {{ user[1] }}
-                </h5>
-                <p class="card-text">
-                  <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
-                </p>
-              </div>
-            </div>
+      {% for user in users %}
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card">
+          <img src="../../static/home/user.jpg" alt="User Image" class="card-img-top">
+          <div class="card-body">
+            <!-- Added icons before name and ID -->
+            <h5 class="card-title">
+              <i class="fas fa-user"></i> {{ user[1] }}
+            </h5>
+            <p class="card-text">
+              <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
+            </p>
           </div>
-        {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
       {% else %}
-        <p class="text-center text-muted">No users found.</p>
+      <p class="text-center text-muted">No users found.</p>
       {% endif %}
     </div>
   </div>
-  
+
+
 
   <button id="scrollToTopBtn" onclick="scrollToTop()" aria-label="Scroll to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
+
+
+
+  <section class="testimonials" id="testimonials">
+    <div class="boxs container">
+      {% if users %}
+      {% for user in users %}
+
+      <div class="box_1">
+        <h6> {{ user[1] }}</h6>
+        <div class="person_img">
+          <img src="../../static/home/user.jpg">
+        </div>
+        <div class="rate">
+          <i class="filled fas fa-star"></i>
+          <i class="filled fas fa-star"></i>
+          <i class="filled fas fa-star"></i>
+          <i class="filled fas fa-star"></i>
+          <i class="far fa-star"></i>
+        </div>
+        <p> User ID: {{ user[0] }}</p>
+      </div>
+
+      {% endfor %}
+      {% else %}
+      <p class="text-center text-muted">No users found.</p>
+      {% endif %}
+    </div>
+  </section>
 
   <script>
     window.onscroll = function () {
@@ -176,4 +292,5 @@
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
