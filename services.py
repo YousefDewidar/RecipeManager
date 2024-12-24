@@ -28,9 +28,9 @@ def get_recipe(cursor, recipe_id):
 
 
 def search_recipe(cursor, keyword):
-    # if not keyword or keyword.strip() == "":
-    #     pass
-    # else:
+    if not keyword or keyword.strip() == "":
+        pass
+    else:
         query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time
                    FROM [dbo].[Recipes] R
                    JOIN [dbo].[Users] U ON R.user_id = U.user_id
