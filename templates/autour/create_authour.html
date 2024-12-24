@@ -1,121 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="create_author_style.css">
     <title>Add a New Author</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.85), rgba(255, 182, 193, 0.85)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .recipe-page {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .recipe-page .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffffee;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .recipe-page h1 {
+            color: #444;
+            font-size: 36px;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .recipe-page form {
+            display: grid;
+            gap: 24px;
+        }
+
+        .recipe-page label {
+            font-weight: 600;
+            color: #555;
+            text-align: left;
+            display: block;
+        }
+
+        .recipe-page input, .recipe-page select, .recipe-page textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #f8f8f8;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .recipe-page input:focus, .recipe-page textarea:focus, .recipe-page select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45%;
+            max-width: 200px;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        button.return-home {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        button.return-home:hover {
+            background-color: #138496;
+        }
+
+        @media (max-width: 480px) {
+            .recipe-page h1 {
+                font-size: 28px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-<style>
-
-body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 223, 186, 0.6)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #333;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-.recipe-page {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f500;
-    margin: 0;
-    padding-top: 80px;
-}
-
-.recipe-page .container {
-    width: 80%;
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.recipe-page h1 {
-    text-align: center;
-    color: #333;
-    font-size: 28px;
-    margin-bottom: 30px;
-    font-weight: 700;
-}
-
-.recipe-page form {
-    display: grid;
-    gap: 20px;
-}
-
-.recipe-page label {
-    font-weight: bold;
-    color: #555;
-}
-
-.recipe-page input, .recipe-page select, .recipe-page textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box;
-    font-size: 16px;
-    background-color: #fafafa;
-}
-
-.recipe-page textarea {
-    min-height: 150px;
-    resize: vertical;
-}
-
-.recipe-page .button-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.recipe-page button {
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 48%;
-}
-
-.recipe-page button[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.recipe-page button[type="button"].return-home {
-    background-color: #00CED1;
-    color: white;
-}
-
-.recipe-page button:hover {
-    opacity: 0.9;
-}
-
-.recipe-page button[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-.recipe-page button.return-home:hover {
-    background-color: #20B2AA;
-}
-
-.recipe-page select:focus {
-    outline: none;
-    border-color: #4CAF50;
-}
-
-.recipe-page input:focus, .recipe-page textarea:focus {
-    border-color: #4CAF50;
-}
- 
-</style>
 <body>
     {% include "navbar/navbar.html" %}
     <div class="recipe-page">
@@ -123,11 +128,14 @@ body {
             <h1>Add a New User</h1>
             <form id="authorForm" action="/submit_newauthor" method="POST">
                 <label for="name">User Name</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" placeholder="Enter user name" required aria-label="User Name">
+                
                 <label for="age">User Age</label>
-                <input type="number" id="age" name="age" required>
+                <input type="number" id="age" name="age" placeholder="Enter user age" required aria-label="User Age">
+                
                 <label for="email">User Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Enter user email" required aria-label="User Email">
+                
                 <div class="button-container">
                     <button type="submit" onclick="showAlert(event)">Add Author</button>
                     <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
@@ -139,9 +147,9 @@ body {
     <script>
         function showAlert(event) {
             event.preventDefault();
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const email = document.getElementById('email').value.trim();
 
             if (name && age && email) {
                 Swal.fire({
