@@ -60,6 +60,8 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
+        }
+        .btn1{
             width: 48%;
         }
         button:hover {
@@ -94,7 +96,7 @@
             <div>
                 <label for="user_id">Author</label>
                 <select id="user_id" name="user_id" required>
-                    <option value="">Select an author</option>
+                    <option value="" selected hidden> Select an author </option>
                     {% for user in users %}
                         <option value="{{ user[0] }}" {% if user[0] == recipe.user_id %}selected{% endif %}>{{ user[1] }}</option>
                     {% endfor %}
@@ -104,9 +106,9 @@
             <div>
                 <label for="category_id">Category</label>
                 <select id="category_id" name="category_id" required>
-                    <option value="">Select a category</option>
+                    <option value="" selected hidden>Select a category</option>
                     {% for category in categories %}
-                        <option value="{{ category[0] }}" {% if category[0] == recipe.category_id %}selected{% endif %}>{{ category[1] }}</option>
+                        <option value="{{ category[0] }} " {% if category[0] == recipe.category_id %}selected{% endif %}>{{ category[1] }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -117,10 +119,63 @@
             </div>
 
             <div class="button-container">
-                <button type="submit">Update Recipe</button>
-                <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
+                <button  class="btn1" onclick="showAlert(event)">Update Recipe</button>
+                <button class="btn1" type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
             </div>
         </form>
     </div>
+    <script>
+        function showAlert(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const cookingTime = document.getElementById('cooking_time').value.trim();
+    const userId = document.getElementById('user_id').value.trim();
+    const categoryId = document.getElementById('category_id').value.trim();
+    const description = document.getElementById('description').value.trim();
+
+    const originalName = "{{ recipe.name }}";
+    const originalCookingTime = "{{ recipe.cooking_time }}";
+    const originalUserId = "{{ recipe.user_id }}";
+    const originalCategoryId = "{{ recipe.category_id }}";
+    const originalDescription = "{{ recipe.description }}";
+
+    if (name === originalName && cookingTime === originalCookingTime && userId === originalUserId && categoryId === originalCategoryId && description === originalDescription) {
+        Swal.fire({
+            title: 'No Changes!',
+            text: 'You haven\'t made any changes to the recipe.',
+            icon: 'info',
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Go to Home',
+            customClass: {
+                confirmButton: 'return-home'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/';
+            }
+        });
+    } else if (name && cookingTime && userId && categoryId && description) {
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your recipe has been updated successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            document.forms[0].submit();
+        });
+    } else {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all fields before submitting.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+}
+
+    </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>

@@ -83,8 +83,8 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 45%;
-            max-width: 200px;
+            
+           
         }
 
         button[type="submit"] {
@@ -119,6 +119,14 @@
                 width: 100%;
             }
         }
+        .my-custom-button {
+    background-color: #4CAF50 !important;  /* اللون الأخضر */
+    color: white !important;               /* النص باللون الأبيض */
+    padding: 12px 30px !important;         /* حواف الزر */
+    border-radius: 8px !important;         /* تدوير الزوايا */
+    font-size: 16px !important;            /* حجم الخط */
+    border: none !important;               /* إزالة الحدود */
+}
     </style>
 </head>
 <body>
@@ -156,7 +164,8 @@
                     title: 'Success!',
                     text: 'Your author has been added successfully!',
                     icon: 'success',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    
                 }).then((result) => {
                     if (result.isConfirmed) {
                         document.getElementById('authorForm').submit();
