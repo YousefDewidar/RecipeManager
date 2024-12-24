@@ -48,7 +48,7 @@
     .card img {
       border-top-left-radius: 12px;
       border-top-right-radius: 12px;
-      max-height: 150px;
+      max-height: 170px;
       object-fit: cover;
     }
 
@@ -133,8 +133,13 @@
             <div class="card">
               <img src="../../static/home/user.jpg" alt="User Image" class="card-img-top">
               <div class="card-body">
-                <h5 class="card-title">{{ user[1] }}</h5>
-                <p class="card-text">User ID: {{ user[0] }}</p>
+                <!-- Added icons before name and ID -->
+                <h5 class="card-title">
+                  <i class="fas fa-user"></i> {{ user[1] }}
+                </h5>
+                <p class="card-text">
+                  <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
+                </p>
               </div>
             </div>
           </div>
@@ -144,6 +149,7 @@
       {% endif %}
     </div>
   </div>
+  
 
   <button id="scrollToTopBtn" onclick="scrollToTop()" aria-label="Scroll to top">
     <i class="fa-solid fa-arrow-up"></i>
