@@ -178,11 +178,12 @@ def create_author():
 def submit_newauthor():
     if request.method == "POST":
         name = request.form["name"]
+        age = request.form.get("age")
+        email = request.form.get("email")
+        query = """INSERT INTO Users(full_name,age,email)
+                  VALUES (?,?,?);"""
 
-        query = """INSERT INTO Users(full_name)
-                  VALUES (?);"""
-
-        cursor.execute(query, (name))
+        cursor.execute(query, (name,age,email))
         conn.commit()
         return redirect(url_for("home"))
 
