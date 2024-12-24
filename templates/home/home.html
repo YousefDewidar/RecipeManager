@@ -13,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC+Guides&display=swap" rel="stylesheet">
+  
 
   <style>
     body {
@@ -388,8 +389,21 @@
               <div><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }}</div>
             </div>
             <div class="card-body d-flex justify-content-between">
-              <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-warning btn-sm">Edit</a>
-              <a href="/delete/{{ recipe.recipe_id }}" class="btn btn-danger btn-sm">Delete</a>
+
+               <!-- edit and delete buttom  -->
+              <div class="card-body d-flex justify-content-between">
+                <form action="/edit/{{ recipe.recipe_id }}" method="GET" style="display: inline-block;">
+                  <button class="btn btn-warning btn-sm" style="transition: transform 0.3s, background-color 0.3s;">Edit</button>
+                </form>
+              
+                <form action="/delete/{{ recipe.recipe_id }}" method="POST" style="display: inline-block;" id="deleteForm">
+                  <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">
+                    Delete Recipe
+                  </button>
+                </form>
+              </div>
+
+            
             </div>
           </div>
         </div>
@@ -422,7 +436,25 @@
         behavior: "smooth"
       });
     }
+    //  alert function
+    function confirmDelete() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this recipe!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('deleteForm').submit();
+      }
+    });
+  }
   </script>
+  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script src="{{ url_for('static', filename='home/home.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
