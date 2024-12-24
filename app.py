@@ -98,7 +98,7 @@ def update():
         update_recipe(
             cursor, name, description, cooking_time, user_id, category_id, recipe_id
         )
-        return redirect(url_for("home"))    
+        return redirect(url_for("home"))
 
 
 @app.route("/delete/<int:recipe_id>")
@@ -115,8 +115,11 @@ def delete_recipe(recipe_id):
 def delete():
     recipe_id = request.form["recipe_id"]
 
-    query = f"DELETE FROM Recipes WHERE recipe_id = ?;"
-    cursor.execute(query, recipe_id)
+    query1 = f"DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
+    cursor.execute(query1, recipe_id)
+
+    query2 = f"DELETE FROM Recipes WHERE recipe_id = ?;"
+    cursor.execute(query2, recipe_id)
     conn.commit()
 
     if cursor.rowcount > 0:
