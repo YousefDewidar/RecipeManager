@@ -5,17 +5,18 @@ INSERT INTO Category (name) VALUES
 ('Breakfast'), ('Lunch'), ('Dinner'), ('Dessert'), ('Appetizer'),
 ('Salad'), ('Soup'), ('Side Dish'), ('Beverage'), ('Snack');
 
-INSERT INTO Users (full_name) VALUES
-('Alice Johnson'),
-('Bob Williams'),
-('Charlie Brown'),
-('David Garcia'),
-('Eva Rodriguez'),
-('Frank Martinez'),
-('Grace Anderson'),
-('Henry Taylor'),
-('Ivy Thomas'),
-('Jack Moore');
+INSERT INTO Users (full_name, age, email) VALUES
+('Alice Johnson', 25, 'alice.johnson@example.com'),
+('Bob Williams', 30, 'bob.williams@example.com'),
+('Charlie Brown', 22, 'charlie.brown@example.com'),
+('David Garcia', 35, 'david.garcia@example.com'),
+('Eva Rodriguez', 28, 'eva.rodriguez@example.com'),
+('Frank Martinez', 40, 'frank.martinez@example.com'),
+('Grace Anderson', 27, 'grace.anderson@example.com'),
+('Henry Taylor', 33, 'henry.taylor@example.com'),
+('Ivy Thomas', 29, 'ivy.thomas@example.com'),
+('Jack Moore', 31, 'jack.moore@example.com');
+
 
 INSERT INTO Recipes (name, description, cooking_time, user_id, category_id) VALUES
 ('Pancakes', 'Fluffy breakfast pancakes', 15, 1, 1),
