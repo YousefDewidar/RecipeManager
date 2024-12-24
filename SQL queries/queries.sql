@@ -1,7 +1,7 @@
 CREATE TABLE Users (
     user_id INT PRIMARY KEY IDENTITY(1,1),
     full_name VARCHAR(255),
-    age integer,
+    age INT,
     email VARCHAR(255)
 );
 

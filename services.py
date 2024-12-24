@@ -43,7 +43,7 @@ def search_recipe(cursor, keyword):
 
 
 def get_all_users(cursor):
-    cursor.execute("SELECT user_id, full_name FROM Users;")
+    cursor.execute("SELECT user_id, full_name ,age ,email FROM Users;")
     return cursor.fetchall()
 
 
