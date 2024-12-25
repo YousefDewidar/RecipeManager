@@ -34,3 +34,9 @@ INSERT INTO Ingredients (name) VALUES
 ('Eggs'),('Cheese'),('Tuna'),('Bread'),('Chicken'),('Vegetables'),
 ('Apples'),('Cinnamon'),('Spinach'),('Tortilla Chips'),('Feta Cheese'),
 ('Lettuce'),('Noodles');
+
+INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
+(1, 1, 2, 'pcs'),(1, 2, 100, 'g'),(2, 3, 1, 'can'),(2, 4, 2, 'slices'),(3, 5, 200, 'g'),
+(3, 6, 150, 'g'),(4, 7, 3, 'pcs'),(4, 8, 1, 'tsp'),(5, 9, 100, 'g'),(5, 10, 50, 'g'),
+(6, 11, 100, 'g'),(6, 12, 1, 'head'),(7, 13, 200, 'g'),(7, 1, 2, 'pcs'),(8, 2, 150, 'g'),
+(8, 3, 1, 'can'),(9, 4, 2, 'slices'),(9, 5, 200, 'g'),(10, 6, 150, 'g'),(10, 7, 3, 'pcs');
