@@ -16,18 +16,18 @@
 
 
   <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-      @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
     body {
       font-family: "Playwrite AU VIC Guides", serif;
       background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
@@ -69,6 +69,33 @@
       padding: 30px;
       transition: opacity 0.5s ease;
     }
+
+
+
+    .img_animation {
+      margin-top: -300px;
+      width: fit-content;
+      display: flex;
+      justify-content: end;
+      animation: img 3s linear alternate infinite;
+
+      & img {
+        width: 90%;
+      }
+    }
+
+    @keyframes img {
+
+      0%,
+      100% {
+        transform: translateY(-5px);
+      }
+
+      50% {
+        transform: translateY(17px);
+      }
+    }
+
 
     .card {
       border-radius: 15px;
@@ -230,18 +257,19 @@
       background-color: #ff4500;
     }
 
-    .btn-primary{
+    .btn-primary {
       background-color: #ff7f50;
       border: none;
       border-radius: 50%;
     }
-    #bnn:hover  {
+
+    #bnn:hover {
       border: none;
       transition: background-color 0.3s ease;
     }
-    
   </style>
 </head>
+
 <body>
   {% include "navbar/navbar.html" %}
   <section class="hero-section d-flex align-items-center">
@@ -255,10 +283,11 @@
           <p class="mt-4 text-white text-xl-center">From quick and easy meals to gourmet delights, we have something for
             every taste and occasion.</p>
           <div class="container  mb-4">
-            <a href="/create" class="btn btn-lg btn-primary shadow-lg rounded-pill px-4 py-2" id = "bnn">Create New Recipe</a>
+            <a href="/create" class="btn btn-lg btn-primary shadow-lg rounded-pill px-4 py-2" id="bnn">Create New
+              Recipe</a>
           </div>
         </div>
-        <div class="col-lg-6 text-center mt-4 mt-lg-0">
+        <div class="col-lg-6 text-center mt-4 mt-lg-0 img_animation">
           <img src="../../static/home/logo.jpg" alt="Chef" class="img-fluid hero-img shadow-img">
         </div>
       </div>
