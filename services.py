@@ -121,6 +121,52 @@ def get_category(cursor, category_id):
     return result if result else None
 
 
+def insert_ingredient(cursor, ingredient_name):
+    query = """INSERT INTO Ingredients (name)
+               values (?)"""
+
+    cursor.execute(query, ingredient_name)
+    cursor.commit()
+    return
+
+
+def get_ingredient_id(cursor, ingredient_name):
+    query = """SELECT ingredient_id FROM Ingredients
+               WHERE name = (?)"""
+
+    cursor.execute(query, ingredient_name)
+    result = cursor.fetchone()
+    return result if result else None
+
+
+def update_ingredient_name(cursor, ingredient_id, new_name):
+    query = """UPDATE Ingredients
+               SET name = (?)
+               WHERE ingredient_id = (?);"""
+
+    cursor.execute(query, new_name, ingredient_id)
+    cursor.commit()
+    return
+
+
+def delete_ingredient_by_name(cursor, ingredient_name):
+    query = """DELETE FROM Ingredients
+               WHERE name = (?);"""
+
+    cursor.execute(query, ingredient_name)
+    cursor.commit()
+    return
+
+
+def delete_ingredient_by_id(cursor, ingredient_id):
+    query = """DELETE FROM Ingredients
+               WHERE ingredient_id = (?);"""
+
+    cursor.execute(query, ingredient_id)
+    cursor.commit()
+    return
+
+
 def get_all_ingredients(cursor):
     cursor.execute("SELECT ingredient_id, name FROM Ingredients")
     return cursor.fetchall()

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredients</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC+Guides&display=swap" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            font-family: "Playwrite AU VIC Guides", serif;
+            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7));
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.61);
+        }
+
+        .search-input {
+            padding: 12px 15px;
+            border-radius: 30px;
+            border: 2px solid #ccc;
+            width: 100%;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background-color: #ff7f50;
+            border: none;
+            border-radius: 50%;
+        }
+
+        .ingredient-icon {
+            font-size: 48px;
+            color: #ff7f50;
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff7f50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    {% include "navbar/navbar.html" %}
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-white">Ingredients</h1>
+            <button onclick="showCreateAlert()" class="btn btn-success">
+                <i class="fas fa-plus"></i> New Ingredient
+            </button>
+        </div>
+        <div class="row">
+            {% for ingredient in ingredients %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <span class="category-badge">{{ ingredient.category }}</span>
+                        <i class="fas fa-seedling ingredient-icon mb-3"></i>
+                        <h5 class="card-title">{{ ingredient.name }}</h5>
+                        <p class="card-text">Id :{{ ingredient.ingredient_id }}</p>
+                        <div class="mt-3">
+                            <button onclick="showEditAlert('{{ ingredient.ingredient_id }}', '{{ ingredient.name }}')" class="btn btn-sm btn-warning mr-2">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button onclick="confirmDelete('{{ ingredient.ingredient_id }}')" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function showCreateAlert() {
+            Swal.fire({
+                title: 'Create New Ingredient',
+                input: 'text',
+                inputLabel: 'Ingredient Name',
+                inputPlaceholder: 'Enter ingredient name',
+                showCancelButton: true,
+                confirmButtonText: 'Create',
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Name cannot be empty!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/ingredient/create?name=${encodeURIComponent(result.value)}`;
+                }
+            });
+        }
+
+        function showEditAlert(ingredient_id, currentName) {
+            Swal.fire({
+                title: 'Edit Ingredient',
+                input: 'text',
+                inputLabel: 'New Name',
+                inputValue: currentName,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                confirmButtonColor: '#ffc107',
+                cancelButtonColor: '#6c757d',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Name cannot be empty!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/ingredient/edit/${ingredient_id}?name=${encodeURIComponent(result.value)}`;
+                }
+            });
+        }
+
+        function confirmDelete(ingredient_id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/ingredient/delete/${ingredient_id}`;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

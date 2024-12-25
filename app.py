@@ -176,6 +176,50 @@ def submit_newauthor():
         return redirect(url_for("home"))
 
 
+# region Ingredients
+@app.route("/ingredients")
+def show_ingredients():
+    ingredients = get_all_ingredients(cursor)
+    return render_template("/ingredient/all_ingredients.html", ingredients=ingredients)
+
+
+@app.route("/ingredient/create/")
+def create_ingredient():
+    name = request.args.get("name")
+
+    name_exists = get_ingredient_id(cursor, name)
+    if name_exists is not None:
+        return "Ingredient Already Exists", 400
+
+    # create new ingredient
+    insert_ingredient(cursor, name)
+
+    return redirect(url_for("show_ingredients"))
+
+
+@app.route("/ingredient/delete/<int:ingredient_id>")
+def delete_ingredient(ingredient_id):
+
+    delete_ingredient_by_id(cursor, ingredient_id)
+    return redirect(url_for("show_ingredients"))
+
+
+@app.route("/ingredient/edit/<int:ingredient_id>")
+def edit_ingredient(ingredient_id):
+    # Get query parameter 'name'
+    new_name = request.args.get("name")
+
+    if not new_name:
+        return "Name parameter is required", 400
+
+    # Update ingredient name
+    update_ingredient_name(cursor, ingredient_id, new_name)
+
+    return redirect(url_for("show_ingredients"))
+
+
+# endregion
+
 app.run(debug=True)
 cursor.close()
 conn.close()
