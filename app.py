@@ -34,20 +34,6 @@ def home():
     return render_template("home/home.html", recipes=result)
 
 
-# Recipe details route
-@app.route("/recipe_details/<int:recipe_id>")
-def recipe_details(recipe_id):
-    recipe = get_recipe(cursor, recipe_id)
-    ingredients = get_recipe_ingredients(cursor, recipe_id)
-
-    if not recipe:
-        abort(404)
-
-    return render_template(
-        "home/recipe_details.html", recipe=recipe, ingredients=ingredients
-    )
-
-
 # Recipe routes
 @app.route("/create")
 def create_recipe():
@@ -116,16 +102,12 @@ def update():
         return redirect(url_for("home"))
 
 
-# new delete
 @app.route("/delete/<int:recipe_id>", methods=["POST"])
 def delete_recipe(recipe_id):
     recipe = get_recipe(cursor, recipe_id)
 
     if not recipe:
         abort(404)
-
-    query1 = "DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
-    cursor.execute(query1, (recipe_id,))
 
     query2 = "DELETE FROM Recipes WHERE recipe_id = ?;"
     cursor.execute(query2, (recipe_id,))
@@ -135,6 +117,20 @@ def delete_recipe(recipe_id):
         return redirect(url_for("home"))
     else:
         return "Error: Recipe not found or could not be deleted", 404
+
+
+# Recipe details route
+@app.route("/recipe_details/<int:recipe_id>")
+def recipe_details(recipe_id):
+    recipe = get_recipe(cursor, recipe_id)
+    ingredients = get_recipe_ingredients(cursor, recipe_id)
+
+    if not recipe:
+        abort(404)
+
+    return render_template(
+        "home/recipe_details.html", recipe=recipe, ingredients=ingredients
+    )
 
 
 @app.route("/submit_search", methods=["GET"])
