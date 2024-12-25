@@ -103,3 +103,19 @@ def update_recipe(
         query, (name, description, cooking_time, user_id, category_id, recipe_id)
     )
     cursor.commit()
+def get_recipes_with_authors(cursor):
+    query = """SELECT 
+                    u.full_name AS user_name,
+                    r.name AS recipe_name,
+                    r.recipe_id
+               FROM 
+                    [dbo].[Recipes] r
+               JOIN 
+                    [dbo].[Users] u
+               ON 
+                    r.user_id = u.user_id;"""
+
+    cursor.execute(query)
+    results = cursor.fetchall()
+    return results
+

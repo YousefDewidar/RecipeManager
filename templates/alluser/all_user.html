@@ -27,56 +27,66 @@
       font-size: 2.5rem;
       font-weight: 600;
       color: #fff;
-      padding: 10px 20px;
-      background-color: #ff7f50;
-      border-radius: 8px;
-      display: inline-block;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
     }
 
     .card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
-      background: #fff;
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -8px -8px 15px rgba(255, 255, 255, 0.5);
     }
 
     .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .card img {
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      max-height: 170px;
-      object-fit: cover;
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     }
 
     .card-body {
-      border-top: 4px solid #ff7f50;
       padding: 20px;
       text-align: center;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
       color: #333;
     }
 
-    .card-text {
-      font-size: 0.9rem;
-      color: #666;
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #2b5876;
     }
 
+    .card-text {
+      font-size: 0.95rem;
+      color: #666;
+      text-align: left;
+      margin: 15px;
+    }
+
+    ul {
+      padding: 0;
+      list-style-type: none;
+      margin: 0;
+    }
+
+    ul li {
+      font-size: 0.85rem;
+      color: #555;
+      text-align: left;
+    }
+
+    p{
+      color: #555;
+      text-align: left;
+      margin: 15px;
+    }
     #scrollToTopBtn {
       position: fixed;
       bottom: 30px;
       right: 30px;
       display: none;
       z-index: 1000;
-      background-color: #ff7f50;
+      background: linear-gradient(145deg, #4e4376, #2b5876);
       color: white;
       border: none;
       padding: 14px;
@@ -84,13 +94,15 @@
       border-radius: 50%;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
+      transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
     #scrollToTopBtn:hover {
-      background-color: #ff5722;
+      background-color: #3b4760;
       transform: scale(1.1);
     }
+
+
 
     #scrollToTopBtn i {
       font-size: 1.2rem;
@@ -99,10 +111,6 @@
     @media (max-width: 768px) {
       h1 {
         font-size: 2rem;
-      }
-
-      .card img {
-        max-height: 120px;
       }
 
       #scrollToTopBtn {
@@ -120,89 +128,6 @@
         font-size: 0.8rem;
       }
     }
-
-    /* adsonsjbkbsdkjbvask */
-
-    .testimonials {
-      background-color: var(--b_g-color);
-      padding-top: 10px;
-      margin-top: 80px;
-      padding-bottom: 80px;
-
-    }
-
-    .testimonials .title {
-      margin-top: 80px;
-    }
-
-    .testimonials .boxs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 45px;
-
-    }
-
-    .box_1 {
-      position: relative;
-      border-radius: 8px;
-      background-color: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.058);
-    }
-
-    .box_1 h6 {
-      position: relative;
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    .box_1 h6::after {
-      content: "Full Stack Developer";
-      position: relative;
-      bottom: 0;
-      left: 0;
-      display: block;
-      font-size: 16px;
-      font-weight: 100;
-      color: var(--color-p);
-      padding: 10px 0;
-    }
-
-    .box_1 .person_img {
-      position: absolute;
-      top: -50%;
-      right: 0;
-      transform: translate(0, 50%);
-      border-radius: 50%;
-      padding: 10px;
-      background-color: var(--b_g-color);
-      width: 100px;
-      height: 100px;
-    }
-
-    .box_1 .person_img img {
-      width: 100%;
-      border-radius: 50%;
-    }
-
-    .box_1 .rate {
-
-      & i {
-        color: gold;
-      }
-    }
-
-    .box_1 p {
-      color: var(--color-p);
-      line-height: 1.7;
-    }
-
-    .box_1:hover {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
-      /* background-color: ; */
-      transform: scale(1.05);
-      transition: .5s;
-    }
   </style>
 </head>
 
@@ -215,19 +140,25 @@
     <div class="row g-4 mt-4">
       {% if users %}
       {% for user in users %}
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
         <div class="card">
-          <img src="../../static/home/user.jpg" alt="User Image" class="card-img-top">
           <div class="card-body">
-            <!-- Added icons before name and ID -->
             <h5 class="card-title">
               <i class="fas fa-user"></i> {{ user[1] }}
             </h5>
             <p class="card-text">
               <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
             </p>
-            <p> age: {{ user[2] }}</p>
-            <p> email: {{ user[3] }}</p>
+            <p>Age: {{ user[2] }}</p>
+            <p> <i class="fa-solid fa-envelope"></i> Email: {{ user[3] }}</p>
+            <h4><i class="fa-solid fa-bowl-food"></i>Recipes:</h4>
+            <ul>
+              {% for recipe in recipes_with_authors %}
+              {% if recipe.user_name == user[1] %}
+              <li>{{ recipe.recipe_name }}</li>
+              {% endif %}
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>
@@ -238,42 +169,9 @@
     </div>
   </div>
 
-
-
   <button id="scrollToTopBtn" onclick="scrollToTop()" aria-label="Scroll to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
-
-
-
-  <section class="testimonials" id="testimonials">
-    <div class="boxs container">
-      {% if users %}
-      {% for user in users %}
-
-      <div class="box_1">
-        <h6> {{ user[1] }}</h6>
-        <div class="person_img">
-          <img src="../../static/home/user.jpg">
-        </div>
-        <div class="rate">
-          <i class="filled fas fa-star"></i>
-          <i class="filled fas fa-star"></i>
-          <i class="filled fas fa-star"></i>
-          <i class="filled fas fa-star"></i>
-          <i class="far fa-star"></i>
-        </div>
-        <p> User ID: {{ user[0] }}</p>
-        
-      </div>
-       
-
-      {% endfor %}
-      {% else %}
-      <p class="text-center text-muted">No users found.</p>
-      {% endif %}
-    </div>
-  </section>
 
   <script>
     window.onscroll = function () {

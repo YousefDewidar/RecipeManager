@@ -100,6 +100,27 @@ def update():
         )
         return redirect(url_for("home"))
 
+
+# new delete
+@app.route("/delete/<int:recipe_id>", methods=["POST"])
+def delete_recipe(recipe_id):
+    recipe = get_recipe(cursor, recipe_id)
+
+    if not recipe:
+        abort(404)
+
+    query1 = "DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
+    cursor.execute(query1, (recipe_id,))
+
+    query2 = "DELETE FROM Recipes WHERE recipe_id = ?;"
+    cursor.execute(query2, (recipe_id,))
+    conn.commit()
+
+    if cursor.rowcount > 0:
+        return redirect(url_for("home"))
+    else:
+        return "Error: Recipe not found or could not be deleted", 404
+
 #   check (old delet)
 # @app.route("/delete/<int:recipe_id>")
 # def delete_recipe(recipe_id):
@@ -131,29 +152,6 @@ def update():
 
 # -----------------------------------
 
-# new delete
-@app.route("/delete/<int:recipe_id>", methods=["POST"])
-def delete_recipe(recipe_id):
-    recipe = get_recipe(cursor, recipe_id)
-
-    if not recipe:
-        abort(404)
-
-    query1 = "DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
-    cursor.execute(query1, (recipe_id,))
-
-    query2 = "DELETE FROM Recipes WHERE recipe_id = ?;"
-    cursor.execute(query2, (recipe_id,))
-    conn.commit()
-
-    if cursor.rowcount > 0:
-        return redirect(url_for("home"))
-    else:
-        return "Error: Recipe not found or could not be deleted", 404
-
-#----------------------------------------------------------------- 
-
-
 @app.route("/submit_search", methods=["GET"])
 def search():
     if request.method == "GET":
@@ -161,12 +159,6 @@ def search():
         results = search_recipe(cursor, keyword)
         return render_template("home/search_result.html", search_results=results)
 
-
-# User routes
-@app.route("/all_user")
-def all_users():
-    result = get_all_users(cursor)
-    return render_template("alluser/all_user.html", users=result)
 
 
 @app.route("/create_authour")
@@ -183,11 +175,21 @@ def submit_newauthor():
         query = """INSERT INTO Users(full_name,age,email)
                   VALUES (?,?,?);"""
 
-        cursor.execute(query, (name,age,email))
+        cursor.execute(query, (name, age, email))
         conn.commit()
         return redirect(url_for("home"))
 
+# User routes  
+@app.route("/all_user")
+def all_users_with_recipes():
+    users = get_all_users(cursor)
+    recipes_with_authors = get_recipes_with_authors(cursor)
+    logging.debug(f"Recipes with authors: {recipes_with_authors}")
+    return render_template("alluser/all_user.html", users=users, recipes_with_authors=recipes_with_authors)
 
+# all_user old replaced by all_users_with_recipes
+# The /all_user_with_recipes route displays both users and their associated recipes, 
+# while the /all_user route only shows a list of users without any recipe information.
 app.run(debug=True)
 cursor.close()
 conn.close()
