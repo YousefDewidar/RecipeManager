@@ -177,9 +177,15 @@ def search():
 
 # User routes
 @app.route("/all_user")
-def all_users():
-    result = get_all_users(cursor)
-    return render_template("alluser/all_user.html", users=result)
+def all_users_with_recipes():
+    users = get_all_users(cursor)
+    recipes_with_authors = get_recipes_with_authors(cursor)
+    logging.debug(f"Recipes with authors: {recipes_with_authors}")
+    return render_template("alluser/all_user.html", users=users, recipes_with_authors=recipes_with_authors)
+
+# all_user old replaced by all_users_with_recipes
+# The /all_user_with_recipes route displays both users and their associated recipes, 
+# while the /all_user route only shows a list of users without any recipe information.
 
 
 @app.route("/create_authour")

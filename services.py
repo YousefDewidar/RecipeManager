@@ -83,6 +83,21 @@ def get_category(cursor, category_id):
 
     return result if result else None
 
+def get_recipes_with_authors(cursor):
+    query = """SELECT 
+                    u.full_name AS user_name,
+                    r.name AS recipe_name,
+                    r.recipe_id
+               FROM 
+                    [dbo].[Recipes] r
+               JOIN 
+                    [dbo].[Users] u
+               ON 
+                    r.user_id = u.user_id;"""
+
+    cursor.execute(query)
+    results = cursor.fetchall()
+    return results
 
 def insert_recipe(cursor, name, description, cooking_time, user_id, category_id):
     query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
