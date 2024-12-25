@@ -216,9 +216,19 @@
       transform: scale(1.1);
       background-color: #ff4500;
     }
+
+    .btn-primary{
+      background-color: #ff7f50;
+      border: none;
+      border-radius: 50%;
+    }
+    #bnn:hover  {
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    
   </style>
 </head>
-
 <body>
   {% include "navbar/navbar.html" %}
   <section class="hero-section d-flex align-items-center">
@@ -232,7 +242,7 @@
           <p class="mt-4 text-white text-xl-center">From quick and easy meals to gourmet delights, we have something for
             every taste and occasion.</p>
           <div class="container  mb-4">
-            <a href="/create" class="btn btn-lg btn-primary  ">Create New Recipe</a>
+            <a href="/create" class="btn btn-lg btn-primary shadow-lg rounded-pill px-4 py-2" id = "bnn">Create New Recipe</a>
           </div>
         </div>
         <div class="col-lg-6 text-center mt-4 mt-lg-0">
