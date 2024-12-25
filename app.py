@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.DEBUG)
 @app.route("/")
 def home():
     result = get_all_recipes(cursor)
-  
+
     return render_template("home/home.html", recipes=result)
 
 
@@ -43,7 +43,9 @@ def recipe_details(recipe_id):
     if not recipe:
         abort(404)
 
-    return render_template("home/recipe_details.html", recipe=recipe, ingredients=ingredients)
+    return render_template(
+        "home/recipe_details.html", recipe=recipe, ingredients=ingredients
+    )
 
 
 # Recipe routes
@@ -134,36 +136,6 @@ def delete_recipe(recipe_id):
     else:
         return "Error: Recipe not found or could not be deleted", 404
 
-#   check (old delet)
-# @app.route("/delete/<int:recipe_id>")
-# def delete_recipe(recipe_id):
-#     recipe = get_recipe(cursor, recipe_id)
-
-#     if not recipe:
-#         abort(404)
-
-#     return render_template("recipe/delete.html", recipe=recipe)
-
-
-# @app.route("/submit_deleterecipe", methods=["POST"])
-# def delete():
-#     recipe_id = request.form["recipe_id"]
-
-#     query1 = f"DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
-#     cursor.execute(query1, recipe_id)
-
-#     query2 = f"DELETE FROM Recipes WHERE recipe_id = ?;"
-#     cursor.execute(query2, recipe_id)
-#     conn.commit()
-
-#     if cursor.rowcount > 0:
-#         # Deletion was successful
-#         return redirect(url_for("home"))
-#     else:
-#         # Deletion failed (recipe_id not found)
-#         return "Error: Recipe not found or could not be deleted", 404
-
-# -----------------------------------
 
 @app.route("/submit_search", methods=["GET"])
 def search():
@@ -179,10 +151,13 @@ def all_users_with_recipes():
     users = get_all_users(cursor)
     recipes_with_authors = get_recipes_with_authors(cursor)
     logging.debug(f"Recipes with authors: {recipes_with_authors}")
-    return render_template("alluser/all_user.html", users=users, recipes_with_authors=recipes_with_authors)
+    return render_template(
+        "alluser/all_user.html", users=users, recipes_with_authors=recipes_with_authors
+    )
+
 
 # all_user old replaced by all_users_with_recipes
-# The /all_user_with_recipes route displays both users and their associated recipes, 
+# The /all_user_with_recipes route displays both users and their associated recipes,
 # while the /all_user route only shows a list of users without any recipe information.
 
 
