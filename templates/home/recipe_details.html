@@ -237,10 +237,11 @@
       display: flex;
 
       & div {
-        width: 100px;
+        width: 10%;
         margin-right: 20px;
       }
-      & div i{
+
+      & div i {
 
         margin-right: 5px;
       }
@@ -263,6 +264,7 @@
 </head>
 
 <body>
+  {% include "navbar/navbar.html" %}
   <div class="container">
     <div class="card">
       <!-- <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image"> -->
