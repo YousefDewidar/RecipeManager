@@ -27,7 +27,7 @@ CREATE TABLE Recipes (
 
 CREATE TABLE Ingredients (
     ingredient_id INT PRIMARY KEY IDENTITY(1,1),
-    name VARCHAR(255)
+    name VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE Recipe_Ingredients (
