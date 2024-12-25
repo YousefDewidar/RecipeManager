@@ -149,10 +149,10 @@ def search():
 @app.route("/all_user")
 def all_users_with_recipes():
     users = get_all_users(cursor)
-    recipes_with_authors = get_recipes_with_authors(cursor)
-    logging.debug(f"Recipes with authors: {recipes_with_authors}")
+    authors_with_recipes = get_authors_with_recipes(cursor)
+    logging.debug(f"Recipes with authors: {authors_with_recipes}")
     return render_template(
-        "alluser/all_user.html", users=users, recipes_with_authors=recipes_with_authors
+        "alluser/all_user.html", users=users, authors_with_recipes=authors_with_recipes
     )
 
 

@@ -183,7 +183,7 @@
             <p> <i class="fa-solid fa-envelope"></i> Email: {{ user[3] }}</p>
             <h4><i class="fa-solid fa-bowl-food"></i> Recipes:</h4>
             <ul>
-              {% for recipe in recipes_with_authors %}
+              {% for recipe in authors_with_recipes %}
               {% if recipe.user_name == user[1] %}
               <li>{{ recipe.recipe_name }}</li>
               {% endif %}
