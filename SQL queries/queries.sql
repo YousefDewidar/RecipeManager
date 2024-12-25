@@ -48,3 +48,16 @@ CREATE TABLE Reviews (
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE
 );
+
+
+CREATE PROCEDURE spGetRecipeById 
+@recipe_id INT 
+AS
+BEGIN 
+	SELECT recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time, R.user_id, R.category_id, C.name as category_name
+	FROM [dbo].[Recipes] R
+	join [dbo].[Users] U on R.user_id = U.user_id
+	join [dbo].[Category] C on R.category_id = C.category_id
+	WHERE R.recipe_id = @recipe_id
+end
+

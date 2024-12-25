@@ -14,6 +14,7 @@
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -25,9 +26,11 @@
         transform: scale(0.5);
         opacity: 0;
       }
+
       50% {
         transform: scale(1.2);
       }
+
       100% {
         transform: scale(1);
         opacity: 1;
@@ -78,7 +81,8 @@
       color: #333;
     }
 
-    .card-title , h4{
+    .card-title,
+    h4 {
       font-size: 1.5rem;
       font-weight: 600;
       color: #2b5876;
@@ -209,7 +213,9 @@
                 <i class="fas fa-user"></i> {{ user.full_name }}
               </h5>
               <div class="action-buttons">
-                <button onclick="showEditAlert('{{ user.user_id }}', '{{ user.user_name }}', '{{ user.age }}', '{{ user.email }}')"class="btn-icon edit">
+                <button
+                  onclick="showEditAlert('{{ user.user_id }}', '{{ user.full_name }}', '{{ user.age }}', '{{ user.email }}')"
+                  class="btn-icon edit">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button onclick="confirmDelete('{{ user.user_id }}')" class="btn-icon delete">
@@ -245,16 +251,16 @@
   </button>
 
 
-    <!-- Bootstrap JS Bundle -->
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     function showEditAlert(user_id, user_name, age, email) {
-        Swal.fire({
-            title: 'Edit User',
-            html: `
+      Swal.fire({
+        title: 'Edit User',
+        html: `
                 <form id="editUserForm" class="text-left">
                     <div class="mb-3">
                         <label for="userName" class="form-label">User Name</label>
@@ -270,51 +276,51 @@
                     </div>
                 </form>
             `,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            preConfirm: () => {
-                const userName = document.getElementById('userName').value;
-                const userAge = document.getElementById('userAge').value;
-                const userEmail = document.getElementById('userEmail').value;
-                
-                if (!userName || !userAge || !userEmail) {
-                    Swal.showValidationMessage('All fields are required');
-                    return false;
-                }
-                if (userAge < 0 || userAge > 120) {
-                    Swal.showValidationMessage('Please enter a valid age');
-                    return false;
-                }
-                if (!userEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                    Swal.showValidationMessage('Please enter a valid email address');
-                    return false;
-                }
-                return { userName, userAge, userEmail };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const { userName, userAge, userEmail } = result.value;
-                window.location.href = `/user/edit/${user_id}?name=${encodeURIComponent(userName)}&age=${encodeURIComponent(userAge)}&email=${encodeURIComponent(userEmail)}`;
-            }
-        });
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        preConfirm: () => {
+          const userName = document.getElementById('userName').value;
+          const userAge = document.getElementById('userAge').value;
+          const userEmail = document.getElementById('userEmail').value;
+
+          if (!userName || !userAge || !userEmail) {
+            Swal.showValidationMessage('All fields are required');
+            return false;
+          }
+          if (userAge < 0 || userAge > 120) {
+            Swal.showValidationMessage('Please enter a valid age');
+            return false;
+          }
+          if (!userEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            Swal.showValidationMessage('Please enter a valid email address');
+            return false;
+          }
+          return { userName, userAge, userEmail };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const { userName, userAge, userEmail } = result.value;
+          window.location.href = `/user/edit/${user_id}?name=${encodeURIComponent(userName)}&age=${encodeURIComponent(userAge)}&email=${encodeURIComponent(userEmail)}`;
+        }
+      });
     }
 
     function confirmDelete(user_id) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = `/user/delete/${user_id}`;
-                }
-            });
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/user/delete/${user_id}`;
+        }
+      });
     }
     window.onscroll = function () {
       const button = document.getElementById("scrollToTopBtn");
