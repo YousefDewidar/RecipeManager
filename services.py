@@ -20,13 +20,7 @@ def get_recipe_ingredients(cursor, recipe_id):
 
 
 def get_recipe(cursor, recipe_id):
-    query = f"""SELECT recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time, R.user_id, R.category_id, C.name as category_name
-                FROM [dbo].[Recipes] R
-                join [dbo].[Users] U on R.user_id = U.user_id
-                join [dbo].[Category] C on R.category_id = C.category_id
-                WHERE R.recipe_id = ?;"""
-
-    cursor.execute(query, recipe_id)
+    cursor.execute("EXEC spGetRecipeById @recipe_id = ?", recipe_id)
     result = cursor.fetchone()
     return result if result else None
 
