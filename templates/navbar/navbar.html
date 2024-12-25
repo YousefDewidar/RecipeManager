@@ -12,7 +12,7 @@
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            padding-top: 70px; 
+            padding-top: 70px;
         }
 
         *::selection {
@@ -21,14 +21,14 @@
         }
 
         .recipe-navbar {
-            position: fixed; 
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
             background: linear-gradient(45deg, #fec260, #d20c0c40);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 15px 0; 
+            padding: 15px 0;
             margin: 0;
         }
 
@@ -131,7 +131,6 @@
             transform: translateY(-5px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
-
     </style>
 </head>
 
@@ -142,7 +141,7 @@
             <div class="recipe-collapse" id="recipeNavbarNav">
                 <ul class="recipe-nav-links">
                     <li class="recipe-nav-item">
-                        <a class="recipe-nav-link " href="/#" > <i class="fa-solid fa-house"></i> Home</a>
+                        <a class="recipe-nav-link" href="/#" > <i class="fa-solid fa-house"></i> Home</a>
                     </li>
                     <li class="recipe-nav-item">
                         <a class="recipe-nav-link" href="/create"><i class="fas fa-plus-circle"></i> Add Recipes</a>
@@ -157,6 +156,22 @@
             </div>
         </div>
     </nav>
+
+    <script>
+        // Get all the navigation links
+        const navLinks = document.querySelectorAll('.recipe-nav-link');
+
+        // Add event listeners to each link
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Remove 'active' class from all links
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                // Add 'active' class to the clicked link
+                this.classList.add('active');
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
