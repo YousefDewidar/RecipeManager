@@ -6,8 +6,8 @@ def get_all_recipes(cursor):
     cursor.execute(query)
     results = cursor.fetchall()
     return results
-  
-  
+
+
 def get_recipe_ingredients(cursor, recipe_id):
     query = """SELECT RI.recipe_id, I.name as ingredient_name, RI.quantity, RI.unit
                FROM [dbo].[Recipe_Ingredients] RI
@@ -17,13 +17,6 @@ def get_recipe_ingredients(cursor, recipe_id):
     cursor.execute(query, recipe_id)
     results = cursor.fetchall()
     return results if results else []
-
-
-def get_all_users(cursor):
-    query = """SELECT user_id, full_name FROM Users;"""
-    cursor.execute(query)
-    results = cursor.fetchall()
-    return results
 
 
 def get_recipe(cursor, recipe_id):
@@ -53,37 +46,7 @@ def search_recipe(cursor, keyword):
         return results if results else None
 
 
-def get_all_users(cursor):
-    cursor.execute("SELECT user_id, full_name ,age ,email FROM Users;")
-    return cursor.fetchall()
-
-
-def get_user(cursor, user_id):
-    query = """SELECT user_id, full_name FROM Users WHERE user_id = ?;"""
-    cursor.execute(query, user_id)
-    result = cursor.fetchone()
-
-    return result if result else None
-
-
-def get_all_categories(cursor):
-    cursor.execute("SELECT category_id, name FROM Category")
-    return cursor.fetchall()
-
-
-def get_all_ingredients(cursor):
-    cursor.execute("SELECT ingredient_id, name FROM Ingredients")
-    return cursor.fetchall()
-
-
-def get_category(cursor, category_id):
-    query = """SELECT category_id, name FROM Category WHERE category_id = ?;"""
-    cursor.execute(query, category_id)
-    result = cursor.fetchone()
-
-    return result if result else None
-
-def get_recipes_with_authors(cursor):
+def get_authors_with_recipes(cursor):
     query = """SELECT 
                     u.full_name AS user_name,
                     r.name AS recipe_name,
@@ -98,6 +61,7 @@ def get_recipes_with_authors(cursor):
     cursor.execute(query)
     results = cursor.fetchall()
     return results
+
 
 def insert_recipe(cursor, name, description, cooking_time, user_id, category_id):
     query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
@@ -129,19 +93,34 @@ def update_recipe(
         query, (name, description, cooking_time, user_id, category_id, recipe_id)
     )
     cursor.commit()
-def get_recipes_with_authors(cursor):
-    query = """SELECT 
-                    u.full_name AS user_name,
-                    r.name AS recipe_name,
-                    r.recipe_id
-               FROM 
-                    [dbo].[Recipes] r
-               JOIN 
-                    [dbo].[Users] u
-               ON 
-                    r.user_id = u.user_id;"""
 
-    cursor.execute(query)
-    results = cursor.fetchall()
-    return results
 
+def get_all_users(cursor):
+    cursor.execute("SELECT user_id, full_name ,age ,email FROM Users;")
+    return cursor.fetchall()
+
+
+def get_user(cursor, user_id):
+    query = """SELECT user_id, full_name FROM Users WHERE user_id = ?;"""
+    cursor.execute(query, user_id)
+    result = cursor.fetchone()
+
+    return result if result else None
+
+
+def get_all_categories(cursor):
+    cursor.execute("SELECT category_id, name FROM Category")
+    return cursor.fetchall()
+
+
+def get_category(cursor, category_id):
+    query = """SELECT category_id, name FROM Category WHERE category_id = ?;"""
+    cursor.execute(query, category_id)
+    result = cursor.fetchone()
+
+    return result if result else None
+
+
+def get_all_ingredients(cursor):
+    cursor.execute("SELECT ingredient_id, name FROM Ingredients")
+    return cursor.fetchall()
