@@ -30,7 +30,20 @@ logging.basicConfig(level=logging.DEBUG)
 @app.route("/")
 def home():
     result = get_all_recipes(cursor)
+  
     return render_template("home/home.html", recipes=result)
+
+
+# Recipe details route
+@app.route("/recipe_details/<int:recipe_id>")
+def recipe_details(recipe_id):
+    recipe = get_recipe(cursor, recipe_id)
+    ingredients = get_recipe_ingredients(cursor, recipe_id)
+
+    if not recipe:
+        abort(404)
+
+    return render_template("home/recipe_details.html", recipe=recipe, ingredients=ingredients)
 
 
 # Recipe routes

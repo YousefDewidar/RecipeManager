@@ -6,6 +6,17 @@ def get_all_recipes(cursor):
     cursor.execute(query)
     results = cursor.fetchall()
     return results
+  
+  
+def get_recipe_ingredients(cursor, recipe_id):
+    query = """SELECT RI.recipe_id, I.name as ingredient_name, RI.quantity, RI.unit
+               FROM [dbo].[Recipe_Ingredients] RI
+               JOIN [dbo].[Ingredients] I ON RI.ingredient_id = I.ingredient_id
+               WHERE RI.recipe_id = ?;"""
+
+    cursor.execute(query, recipe_id)
+    results = cursor.fetchall()
+    return results if results else []
 
 
 def get_all_users(cursor):
