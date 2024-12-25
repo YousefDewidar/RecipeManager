@@ -16,6 +16,18 @@
 
 
   <style>
+
+      @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     body {
       font-family: "Playwrite AU VIC Guides", serif;
       background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
@@ -24,6 +36,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      animation: fadeIn 1s ease-out;
     }
 
     #loading-screen {
