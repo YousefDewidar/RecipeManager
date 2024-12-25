@@ -28,18 +28,24 @@
       font-weight: 600;
       color: #fff;
       text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
     }
 
     .card {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       border: none;
       border-radius: 16px;
+      border-radius: 16px;
       overflow: hidden;
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -8px -8px 15px rgba(255, 255, 255, 0.5);
       background: linear-gradient(145deg, #ffffff, #f0f0f0);
       box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.1), -8px -8px 15px rgba(255, 255, 255, 0.5);
     }
 
     .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
       transform: translateY(-10px);
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     }
@@ -48,15 +54,19 @@
       padding: 20px;
       text-align: center;
       color: #333;
+      color: #333;
     }
 
     .card-title {
       font-size: 1.5rem;
+      font-size: 1.5rem;
       font-weight: 600;
+      color: #2b5876;
       color: #2b5876;
     }
 
     .card-text {
+      font-size: 0.95rem;
       font-size: 0.95rem;
       color: #666;
       text-align: left;
@@ -88,6 +98,7 @@
       display: none;
       z-index: 1000;
       background: linear-gradient(145deg, #4e4376, #2b5876);
+      background: linear-gradient(145deg, #4e4376, #2b5876);
       color: white;
       border: none;
       padding: 14px;
@@ -96,12 +107,16 @@
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       transition: transform 0.3s ease, background-color 0.3s ease;
+      transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
     #scrollToTopBtn:hover {
       background-color: #3b4760;
+      background-color: #3b4760;
       transform: scale(1.1);
     }
+
+
 
 
 
@@ -142,6 +157,7 @@
       {% if users %}
       {% for user in users %}
       <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">
@@ -150,6 +166,16 @@
             <p class="card-text">
               <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
             </p>
+            <p>Age: {{ user[2] }}</p>
+            <p> <i class="fa-solid fa-envelope"></i> Email: {{ user[3] }}</p>
+            <h4><i class="fa-solid fa-bowl-food"></i>Recipes:</h4>
+            <ul>
+              {% for recipe in recipes_with_authors %}
+              {% if recipe.user_name == user[1] %}
+              <li>{{ recipe.recipe_name }}</li>
+              {% endif %}
+              {% endfor %}
+            </ul>
             <p>Age: {{ user[2] }}</p>
             <p> <i class="fa-solid fa-envelope"></i> Email: {{ user[3] }}</p>
             <h4><i class="fa-solid fa-bowl-food"></i>Recipes:</h4>

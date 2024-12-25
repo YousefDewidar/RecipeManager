@@ -113,6 +113,27 @@ def update():
         )
         return redirect(url_for("home"))
 
+
+# new delete
+@app.route("/delete/<int:recipe_id>", methods=["POST"])
+def delete_recipe(recipe_id):
+    recipe = get_recipe(cursor, recipe_id)
+
+    if not recipe:
+        abort(404)
+
+    query1 = "DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
+    cursor.execute(query1, (recipe_id,))
+
+    query2 = "DELETE FROM Recipes WHERE recipe_id = ?;"
+    cursor.execute(query2, (recipe_id,))
+    conn.commit()
+
+    if cursor.rowcount > 0:
+        return redirect(url_for("home"))
+    else:
+        return "Error: Recipe not found or could not be deleted", 404
+
 #   check (old delet)
 # @app.route("/delete/<int:recipe_id>")
 # def delete_recipe(recipe_id):
@@ -143,29 +164,6 @@ def update():
 #         return "Error: Recipe not found or could not be deleted", 404
 
 # -----------------------------------
-
-# new delete
-@app.route("/delete/<int:recipe_id>", methods=["POST"])
-def delete_recipe(recipe_id):
-    recipe = get_recipe(cursor, recipe_id)
-
-    if not recipe:
-        abort(404)
-
-    query1 = "DELETE FROM Recipe_Ingredients WHERE recipe_id = ?;"
-    cursor.execute(query1, (recipe_id,))
-
-    query2 = "DELETE FROM Recipes WHERE recipe_id = ?;"
-    cursor.execute(query2, (recipe_id,))
-    conn.commit()
-
-    if cursor.rowcount > 0:
-        return redirect(url_for("home"))
-    else:
-        return "Error: Recipe not found or could not be deleted", 404
-
-#----------------------------------------------------------------- 
-
 
 @app.route("/submit_search", methods=["GET"])
 def search():
@@ -202,7 +200,7 @@ def submit_newauthor():
         query = """INSERT INTO Users(full_name,age,email)
                   VALUES (?,?,?);"""
 
-        cursor.execute(query, (name,age,email))
+        cursor.execute(query, (name, age, email))
         conn.commit()
         return redirect(url_for("home"))
 
