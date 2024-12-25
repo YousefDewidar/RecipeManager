@@ -1,3 +1,7 @@
+CREATE DATABASE recipe;
+
+use recipe;
+
 CREATE TABLE Users (
     user_id INT PRIMARY KEY IDENTITY(1,1),
     full_name VARCHAR(255),
@@ -17,7 +21,7 @@ CREATE TABLE Recipes (
     cooking_time INT,
     user_id INT,
     category_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES Category(category_id)
 );
 
@@ -32,8 +36,8 @@ CREATE TABLE Recipe_Ingredients (
     quantity DECIMAL(10, 2),
     unit VARCHAR(50),
     PRIMARY KEY (recipe_id, ingredient_id),
-    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id),
-    FOREIGN KEY (ingredient_id) REFERENCES Ingredients(ingredient_id)
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE,
+    FOREIGN KEY (ingredient_id) REFERENCES Ingredients(ingredient_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Reviews (
@@ -41,6 +45,6 @@ CREATE TABLE Reviews (
     user_id INT,
     recipe_id INT,
     review_text TEXT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE
 );
