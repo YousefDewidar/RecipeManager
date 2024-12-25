@@ -1,105 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="create_author_style.css">
-    <title>Add a New Author</title>
+    <title>Add a New User</title>
     <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.85), rgba(255, 182, 193, 0.85)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+            background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
             background-size: cover;
-            color: #333;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            color: #333;
+            animation: fadeIn 1s ease-out;
         }
 
         .recipe-page {
             padding: 60px 20px;
             text-align: center;
+            animation: fadeIn 1s ease-out;
         }
 
         .recipe-page .container {
-            width: 90%;
             max-width: 700px;
-            margin: 0 auto;
-            background: #ffffffee;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
             padding: 40px;
             border-radius: 16px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .recipe-page h1 {
+        h1 {
+            font-size: 2.5rem;
             color: #444;
-            font-size: 36px;
-            margin-bottom: 24px;
-            font-weight: 600;
+            margin-bottom: 20px;
         }
 
-        .recipe-page form {
+        form {
             display: grid;
-            gap: 24px;
+            gap: 20px;
         }
 
-        .recipe-page label {
+        label {
             font-weight: 600;
             color: #555;
             text-align: left;
             display: block;
         }
 
-        .recipe-page input, .recipe-page select, .recipe-page textarea {
+        input, button {
             width: 100%;
             padding: 14px;
-            border: 1px solid #ddd;
+            border: none;
             border-radius: 10px;
-            font-size: 16px;
-            background-color: #f8f8f8;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .recipe-page input:focus, .recipe-page textarea:focus, .recipe-page select:focus {
-            outline: none;
+        input {
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        input:focus {
             border-color: #007bff;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+            outline: none;
         }
 
         .button-container {
             display: flex;
-            flex-wrap: wrap;
             gap: 15px;
-            justify-content: center;
-        }
-
-        button {
-            padding: 14px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            
-           
+            justify-content: space-around;
         }
 
         button[type="submit"] {
             background-color: #28a745;
-            color: #fff;
+            color: white;
+            font-weight: bold;
         }
 
         button.return-home {
             background-color: #17a2b8;
-            color: #fff;
+            color: white;
         }
 
         button:hover {
             transform: translateY(-3px);
-            opacity: 0.9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         button[type="submit"]:hover {
@@ -110,18 +113,25 @@
             background-color: #138496;
         }
 
-        @media (max-width: 480px) {
-            .recipe-page h1 {
-                font-size: 28px;
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
             }
 
+            button {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
             button {
                 width: 100%;
             }
         }
-       
     </style>
 </head>
+
 <body>
     {% include "navbar/navbar.html" %}
     <div class="recipe-page">
@@ -138,7 +148,7 @@
                 <input type="email" id="email" name="email" placeholder="Enter user email" required aria-label="User Email">
                 
                 <div class="button-container">
-                    <button type="submit" onclick="showAlert(event)">Add Author</button>
+                    <button type="submit" onclick="showAlert(event)">Add User</button>
                     <button type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
                 </div>
             </form>
@@ -148,6 +158,7 @@
     <script>
         function showAlert(event) {
             event.preventDefault();
+
             const name = document.getElementById('name').value.trim();
             const age = document.getElementById('age').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -155,11 +166,10 @@
             if (name && age && email) {
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Your author has been added successfully!',
+                    text: 'User added successfully!',
                     icon: 'success',
-                    confirmButtonText: 'OK',
-                    
-                }).then((result) => {
+                    confirmButtonText: 'OK'
+                }).then(result => {
                     if (result.isConfirmed) {
                         document.getElementById('authorForm').submit();
                     }
@@ -175,4 +185,5 @@
         }
     </script>
 </body>
+
 </html>
