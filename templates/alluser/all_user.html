@@ -226,6 +226,8 @@
             <p class="card-text">
               <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
             </p>
+            <p> age: {{ user[2] }}</p>
+            <p> email: {{ user[3] }}</p>
           </div>
         </div>
       </div>
@@ -262,7 +264,9 @@
           <i class="far fa-star"></i>
         </div>
         <p> User ID: {{ user[0] }}</p>
+        
       </div>
+       
 
       {% endfor %}
       {% else %}
