@@ -171,7 +171,7 @@ def submit_newauthor():
 
         cursor.execute(query, (name, age, email))
         conn.commit()
-        return redirect(url_for("home"))
+        return redirect(url_for("all_users_with_recipes"))
 
 
 @app.route("/user/delete/<int:user_id>")
