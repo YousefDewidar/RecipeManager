@@ -108,6 +108,21 @@ def get_user(cursor, user_id):
     return result if result else None
 
 
+def delete_user_by_id(cursor, user_id):
+    query = """DELETE FROM Users
+               WHERE user_id = (?);"""
+    cursor.execute(query, user_id)
+    cursor.commit()
+
+
+def update_user_by_id(cursor, user_id, new_name, new_age, new_email):
+    query = """UPDATE Users
+               SET full_name = ?, age = ?, email = ?
+               WHERE user_id = ?;"""
+    cursor.execute(query, (new_name, new_age, new_email, user_id))
+    cursor.commit()
+
+
 def get_all_categories(cursor):
     cursor.execute("SELECT category_id, name FROM Category")
     return cursor.fetchall()

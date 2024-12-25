@@ -158,6 +158,37 @@
         font-size: 0.8rem;
       }
     }
+
+    .card-title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      color: #2b5876;
+      padding: 5px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      transform: scale(1.2);
+    }
+
+    .btn-icon.edit:hover {
+      color: #28a745;
+    }
+
+    .btn-icon.delete:hover {
+      color: #dc3545;
+    }
   </style>
 </head>
 
@@ -173,14 +204,24 @@
       <div class="col-12 col-sm-6 col-md-4 col-lg-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">
-              <i class="fas fa-user"></i> {{ user[1] }}
-            </h5>
+            <div class="card-title-container">
+              <h5 class="card-title">
+                <i class="fas fa-user"></i> {{ user.full_name }}
+              </h5>
+              <div class="action-buttons">
+                <button onclick="showEditAlert('{{ user.user_id }}', '{{ user.user_name }}', '{{ user.age }}', '{{ user.email }}')"class="btn-icon edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="confirmDelete('{{ user.user_id }}')" class="btn-icon delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
             <p class="card-text">
-              <i class="fas fa-id-badge"></i> User ID: {{ user[0] }}
+              <i class="fas fa-id-badge"></i> User ID: {{ user.user_id }}
             </p>
-            <p><i class="fa-solid fa-person"></i> Age: {{ user[2] }}</p>
-            <p> <i class="fa-solid fa-envelope"></i> Email: {{ user[3] }}</p>
+            <p><i class="fa-solid fa-person"></i> Age: {{ user.age }}</p>
+            <p> <i class="fa-solid fa-envelope"></i> Email: {{ user.email }}</p>
             <h4><i class="fa-solid fa-bowl-food"></i> Recipes:</h4>
             <ul>
               {% for recipe in authors_with_recipes %}
@@ -203,7 +244,78 @@
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
+
+    <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    function showEditAlert(user_id, user_name, age, email) {
+        Swal.fire({
+            title: 'Edit User',
+            html: `
+                <form id="editUserForm" class="text-left">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="userName" value="${user_name}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userAge" class="form-label">Age</label>
+                        <input type="number" class="form-control" id="userAge" value="${age}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="userEmail" value="${email}">
+                    </div>
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#dc3545',
+            preConfirm: () => {
+                const userName = document.getElementById('userName').value;
+                const userAge = document.getElementById('userAge').value;
+                const userEmail = document.getElementById('userEmail').value;
+                
+                if (!userName || !userAge || !userEmail) {
+                    Swal.showValidationMessage('All fields are required');
+                    return false;
+                }
+                if (userAge < 0 || userAge > 120) {
+                    Swal.showValidationMessage('Please enter a valid age');
+                    return false;
+                }
+                if (!userEmail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                    Swal.showValidationMessage('Please enter a valid email address');
+                    return false;
+                }
+                return { userName, userAge, userEmail };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { userName, userAge, userEmail } = result.value;
+                window.location.href = `/user/edit/${user_id}?name=${encodeURIComponent(userName)}&age=${encodeURIComponent(userAge)}&email=${encodeURIComponent(userEmail)}`;
+            }
+        });
+    }
+
+    function confirmDelete(user_id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/user/delete/${user_id}`;
+                }
+            });
+    }
     window.onscroll = function () {
       const button = document.getElementById("scrollToTopBtn");
       if (document.documentElement.scrollTop > 100) {
@@ -227,9 +339,6 @@
       });
     });
   </script>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

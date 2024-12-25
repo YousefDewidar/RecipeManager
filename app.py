@@ -34,7 +34,7 @@ def home():
     return render_template("home/home.html", recipes=result)
 
 
-# Recipe routes
+# region Recipe
 @app.route("/create")
 def create_recipe():
     users = get_all_users(cursor)
@@ -141,7 +141,10 @@ def search():
         return render_template("home/search_result.html", search_results=results)
 
 
-# User routes
+# endregion
+
+
+# region User
 @app.route("/all_user")
 def all_users_with_recipes():
     users = get_all_users(cursor)
@@ -150,11 +153,6 @@ def all_users_with_recipes():
     return render_template(
         "alluser/all_user.html", users=users, authors_with_recipes=authors_with_recipes
     )
-
-
-# all_user old replaced by all_users_with_recipes
-# The /all_user_with_recipes route displays both users and their associated recipes,
-# while the /all_user route only shows a list of users without any recipe information.
 
 
 @app.route("/create_authour")
@@ -174,6 +172,27 @@ def submit_newauthor():
         cursor.execute(query, (name, age, email))
         conn.commit()
         return redirect(url_for("home"))
+
+
+@app.route("/user/delete/<int:user_id>")
+def delete_user(user_id):
+
+    delete_user_by_id(cursor, user_id)
+    return redirect(url_for("all_users_with_recipes"))
+
+
+@app.route("/user/edit/<int:user_id>")
+def edit_user(user_id):
+
+    new_name = request.args.get("name")
+    new_age = request.args.get("age")
+    new_email = request.args.get("email")
+
+    update_user_by_id(cursor, user_id, new_name, new_age, new_email)
+    return redirect(url_for("all_users_with_recipes"))
+
+
+# endregion
 
 
 # region Ingredients
