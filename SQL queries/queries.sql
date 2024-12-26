@@ -49,6 +49,9 @@ CREATE TABLE Reviews (
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE
 );
 
+ALTER TABLE Reviews
+ADD star_rating INT CHECK (star_rating BETWEEN 1 AND 5); 
+
 
 CREATE PROCEDURE spGetRecipeById 
 @recipe_id INT 

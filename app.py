@@ -13,6 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
+
 # Connection to the SQL Server
 server = getenv("DB_SERVER", ".")  # Fallback to '.' if not set
 database = getenv("DB_NAME", "recipe")  # Fallback to 'recipe' if not set
@@ -177,8 +178,11 @@ def recipe_details(recipe_id):
     if not recipe:
         abort(404)
 
+    # Fetch reviews for the recipe
+    reviews = get_reviews_for_recipe(cursor, recipe_id)
+
     return render_template(
-        "home/recipe_details.html", recipe=recipe, ingredients=ingredients
+        "home/recipe_details.html", recipe=recipe, ingredients=ingredients, reviews=reviews
     )
 
 
@@ -286,6 +290,43 @@ def edit_ingredient(ingredient_id):
     return redirect(url_for("show_ingredients"))
 
 
+# Route to add a new review
+@app.route("/review/<int:recipe_id>", methods=["POST"])
+def add_review(recipe_id):
+    if request.method == "POST":
+        # تعيين قيمة ثابتة لـ user_id (مثال: user_id = 1)
+        user_id = 1  # قيمة ثابتة للمستخدم الذي يضيف المراجعة
+
+        review_text = request.form["review_text"]
+        star_rating = request.form["star_rating"]
+        
+        # إدخال المراجعة في قاعدة البيانات
+        insert_review(cursor, user_id, recipe_id, review_text, star_rating)
+        return redirect(url_for("recipe_details", recipe_id=recipe_id))
+
+
+
+# Route to fetch reviews for a recipe
+@app.route("/recipe/<int:recipe_id>")
+def view_reviews(recipe_id):
+    reviews = get_reviews_for_recipe(cursor, recipe_id)
+    return render_template("recipe/edit.html", reviews=reviews, recipe_id=recipe_id)
+
+
+
+
+# Function to get reviews for a recipe
+def get_reviews_for_recipe(cursor, recipe_id):
+    query = "SELECT u.full_name as user_name, r.review_text, r.star_rating FROM Reviews r JOIN Users u ON r.user_id = u.user_id WHERE r.recipe_id = ?"
+    cursor.execute(query, (recipe_id,))
+    return cursor.fetchall()
+
+# Function to insert a new review
+def insert_review(cursor, user_id, recipe_id, review_text, star_rating):
+    query = "INSERT INTO Reviews (user_id, recipe_id, review_text, star_rating) VALUES (?, ?, ?, ?)"
+    cursor.execute(query, (user_id, recipe_id, review_text, star_rating))
+    cursor.connection.commit()
+    
 # endregion
 
 app.run(debug=True)
