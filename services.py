@@ -75,7 +75,9 @@ def insert_recipe(cursor, name, description, cooking_time, user_id, category_id)
 
 
 # Inserts a new ingredient for a specific recipe.
-def insert_recipe_ingredient(cursor, recipe_id, ingredient_id, quantity=1.0, unit="grams"):
+def insert_recipe_ingredient(
+    cursor, recipe_id, ingredient_id, quantity=1.0, unit="grams"
+):
     query = """INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, quantity, unit)
                VALUES (?, ?, ?, ?);"""
     cursor.execute(query, (recipe_id, ingredient_id, quantity, unit))
@@ -95,7 +97,9 @@ def update_recipe(
     query = """UPDATE Recipes
             SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
             WHERE recipe_id = ?"""
-    cursor.execute(query, (name, description, cooking_time, user_id, category_id, recipe_id))
+    cursor.execute(
+        query, (name, description, cooking_time, user_id, category_id, recipe_id)
+    )
     cursor.commit()
 
 
@@ -144,6 +148,20 @@ def get_category(cursor, category_id):
     result = cursor.fetchone()
 
     return result if result else None
+
+
+def get_category_by_name(cursor, category_name):
+    query = """SELECT category_id FROM Category WHERE name = ?;"""
+    cursor.execute(query, category_name)
+    result = cursor.fetchone()
+
+    return result if result else None
+
+
+def insert_category(cursor, category_name):
+    query = "INSERT INTO Category (name) VALUES (?);"
+    cursor.execute(query, (category_name,))
+    cursor.commit()
 
 
 # Inserts a new ingredient into the Ingredients table.
