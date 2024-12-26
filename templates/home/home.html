@@ -17,6 +17,12 @@
 </head>
 
 <body>
+
+
+  <div id="loading-screen">
+    <h1 class="title_landing">Welcome to Recipe Manager</h1>
+    <div id="lottie-animation"></div>
+  </div>
   {% include "navbar/navbar.html" %}
   <section class="hero-section d-flex align-items-center">
     <div id="particles-js"></div>
@@ -40,10 +46,6 @@
     </div>
   </section>
 
-  <div id="loading-screen">
-    <h1 class="title_landing">Welcome to Recipe Manager</h1>
-    <div id="lottie-animation"></div>
-  </div>
 
   <div id="home-content" style="display: none;">
     <div class="container mb-4" id="recpie">
@@ -88,7 +90,6 @@
   <button id="scrollToTopBtn" class="btn btn-primary" onclick="scrollToTop()">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
-  <button class="btn-light-dark" onclick="toggleNightMode()">🌙</button>
 
   <script>
 
@@ -107,11 +108,7 @@
         behavior: "smooth"
       });
     }
-    function toggleNightMode() {
-      document.body.classList.toggle('night-mode');
-      const navbar = document.querySelector('.recipe-navbar');
-      navbar.classList.toggle('night-mode');
-    }
+
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

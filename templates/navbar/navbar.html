@@ -2,181 +2,179 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-            padding-top: 70px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      padding-top: 70px;
+    }
 
-        *::selection {
-            background: #fec260;
-            color: black;
-        }
+    *::selection {
+      background: #fec260;
+      color: black;
+    }
 
-        .recipe-navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: linear-gradient(45deg, #fec260, #d20c0c40);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
-            margin: 0;
-        }
+    .recipe-navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: linear-gradient(45deg, #fec260, #d20c0c40);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      margin: 0;
+    }
 
-        .recipe-navbar .recipe-navbar-brand {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #d37014;
-            transition: transform 0.3s ease;
-            padding-left: 20px;
-        }
+    .recipe-navbar .recipe-navbar-brand {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #d37014;
+      transition: transform 0.3s ease;
+      padding-left: 20px;
+    }
 
-        .recipe-navbar .recipe-navbar-brand:hover {
-            transform: scale(1.1);
-        }
+    .recipe-navbar .recipe-navbar-brand:hover {
+      transform: scale(1.1);
+    }
 
-        .recipe-navbar .recipe-nav-links {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .recipe-navbar .recipe-nav-links {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-        .recipe-navbar .recipe-nav-item {
-            margin: 0 20px;
-        }
+    .recipe-navbar .recipe-nav-item {
+      margin: 0 20px;
+    }
 
-        .recipe-navbar .recipe-nav-link {
-            font-size: 1.2rem;
-            color: #ffffff;
-            transition: color 0.3s ease;
-            text-decoration: none;
-            position: relative;
-            padding: 10px 15px;
-        }
+    .recipe-navbar .recipe-nav-link {
+      font-size: 1.2rem;
+      color: #ffffff;
+      transition: color 0.3s ease;
+      text-decoration: none;
+      position: relative;
+      padding: 10px 15px;
+    }
 
-        .recipe-navbar .recipe-nav-link:hover {
-            color: #ff5722;
-            text-decoration: none;
-        }
+    .recipe-navbar .recipe-nav-link:hover {
+      color: #ff5722;
+      text-decoration: none;
+    }
 
-        .recipe-navbar .recipe-nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background-color: #d37014;
-            transition: width 0.3s ease, left 0.3s ease;
-        }
+    .recipe-navbar .recipe-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #d37014;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
 
-        .recipe-navbar .recipe-nav-link:hover::after {
-            width: 100%;
-            left: 0;
-        }
+    .recipe-navbar .recipe-nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
 
-        .recipe-navbar .recipe-nav-link.active {
-            font-weight: bold;
-            color: #d37014;
-        }
+    .recipe-navbar .recipe-nav-link.active {
+      font-weight: bold;
+      color: #d37014;
+    }
 
-        .recipe-navbar .recipe-navbar-toggler-icon {
-            background-color: #d37014;
-        }
 
-        .recipe-navbar .recipe-btn-primary {
-            background-color: #ff5722;
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 30px;
-            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-        }
 
-        .recipe-navbar .recipe-btn-primary:hover {
-            background-color: #e64a19;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
+    .recipe-navbar .recipe-btn-primary {
+      background-color: #ff5722;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 30px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
 
-        .recipe-navbar .recipe-search-input {
-            padding: 12px 15px;
-            border-radius: 30px;
-            border: 2px solid #ccc;
-            width: 100%;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
+    .recipe-navbar .recipe-btn-primary:hover {
+      background-color: #e64a19;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
 
-        .recipe-navbar .recipe-card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .recipe-navbar .recipe-search-input {
+      padding: 12px 15px;
+      border-radius: 30px;
+      border: 2px solid #ccc;
+      width: 100%;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
 
-        .recipe-navbar .recipe-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+    .recipe-navbar .recipe-card {
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .recipe-navbar .recipe-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="recipe-navbar">
-        <div class="recipe-container">
-            <div class="recipe-collapse" id="recipeNavbarNav">
-                <ul class="recipe-nav-links">
-                    <li class="recipe-nav-item">
-                        <a class="recipe-nav-link" href="/#" > <i class="fa-solid fa-house"></i> Home</a>
-                    </li>
-                    <li class="recipe-nav-item">
-                        <a class="recipe-nav-link" href="/create"><i class="fas fa-plus-circle"></i> Add Recipes</a>
-                    </li>
-                    <li class="recipe-nav-item">
-                        <a class="recipe-nav-link" href="/create_authour"><i class="fas fa-user"></i> Add User</a>
-                    </li>
-                    <li class="recipe-nav-item">
-                        <a class="recipe-nav-link" href="/all_user"><i class="fas fa-user"></i> All User</a>
-                    </li>
-                    <li class="recipe-nav-item">
-                        <a class="recipe-nav-link" href="/ingredients"><i class="fas fa-carrot"></i> Ingredients</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <!-- Navbar -->
+  <nav class="recipe-navbar">
+    <div class="recipe-container">
+      <div class="recipe-collapse" id="recipeNavbarNav">
+        <ul class="recipe-nav-links">
+          <li class="recipe-nav-item">
+            <a class="recipe-nav-link" href="/#"> <i class="fa-solid fa-house"></i> Home</a>
+          </li>
+          <li class="recipe-nav-item">
+            <a class="recipe-nav-link" href="/create"><i class="fas fa-plus-circle"></i> Add Recipes</a>
+          </li>
+          <li class="recipe-nav-item">
+            <a class="recipe-nav-link" href="/create_authour"><i class="fas fa-user"></i> Add User</a>
+          </li>
+          <li class="recipe-nav-item">
+            <a class="recipe-nav-link" href="/all_user"><i class="fas fa-user"></i> All User</a>
+          </li>
+          <li class="recipe-nav-item">
+            <a class="recipe-nav-link" href="/ingredients"><i class="fas fa-carrot"></i> Ingredients</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <script>
-        // Get all the navigation links
-        const navLinks = document.querySelectorAll('.recipe-nav-link');
+  <script>
+    // Get all the navigation links
+    const navLinks = document.querySelectorAll('.recipe-nav-link');
 
-        // Add event listeners to each link
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                // Remove 'active' class from all links
-                navLinks.forEach(link => link.classList.remove('active'));
-                
-                // Add 'active' class to the clicked link
-                this.classList.add('active');
-            });
-        });
-    </script>
+    // Add event listeners to each link
+    navLinks.forEach(link => {
+      link.addEventListener('click', function () {
+        // Remove 'active' class from all links
+        navLinks.forEach(link => link.classList.remove('active'));
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        // Add 'active' class to the clicked link
+        this.classList.add('active');
+      });
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
