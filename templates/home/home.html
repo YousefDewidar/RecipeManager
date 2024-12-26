@@ -268,6 +268,81 @@
       border: none;
       transition: background-color 0.3s ease;
     }
+  
+     /* Global body styling for night mode */
+  body.night-mode {
+    background: #121212;
+    color: #fff;
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.9), rgba(5, 4, 4, 0.7)), url('../../static/home/image.png') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+  }
+
+  /* Navbar night mode */
+  .recipe-navbar.night-mode {
+    background: linear-gradient(45deg, #333, #1c1c1c);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Card and button hover effects for night mode */
+  .card.night-mode {
+    background-color: #1a1a1a;
+    border: 1px solid #444;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card.night-mode:hover {
+    background-color: #333;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .card-title.night-mode {
+    color: #ff7f50;
+  }
+
+  .card-text.night-mode {
+    color: #aaa;
+  }
+
+  /* Night mode for buttons */
+  .btn-primary {
+    background-color: #ff7f50;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #ff5722;
+  }
+
+  .btn-light-dark {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  padding: 12px;
+  font-size: 20px;
+  position: fixed;
+  top: 1px;  /* Move the button to the bottom */
+  left: 20px;   /* Keep it at the right */
+  cursor: pointer;
+  z-index: 9999;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+
+  .btn-light-dark:hover {
+    background-color: #fff;
+    color: #333;
+  }
+
   </style>
 </head>
 
@@ -343,6 +418,7 @@
   <button id="scrollToTopBtn" class="btn btn-primary" onclick="scrollToTop()">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
+  <button class="btn-light-dark" onclick="toggleNightMode()">🌙</button>
 
   <script>
 
@@ -361,10 +437,16 @@
         behavior: "smooth"
       });
     }
+    function toggleNightMode() {
+      document.body.classList.toggle('night-mode');
+      const navbar = document.querySelector('.recipe-navbar');
+      navbar.classList.toggle('night-mode');
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{ url_for('static', filename='home/home.js') }}"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
