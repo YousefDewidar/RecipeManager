@@ -329,6 +329,21 @@ def insert_review(cursor, user_id, recipe_id, review_text, star_rating):
     
 # endregion
 
+
+@app.route("/submit_newcategory", methods=["POST"])
+def submit_newcategory():
+    # get category name from request
+    data = request.get_json()
+    category_name = data.get("category_name", "").strip()
+
+    if category_name:
+        category_exists = get_category_by_name(cursor, category_name)
+
+        # See if category already exists before inserting
+        if category_exists:
+            insert_category(cursor, category_name)
+
+
 app.run(debug=True)
 cursor.close()
 conn.close()

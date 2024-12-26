@@ -254,6 +254,9 @@
       padding: 8px 12px;
       font-size: 16px;
     }
+    .mt-10 {
+      margin-top: 10px;
+    }
   </style>
 </head>
 
@@ -284,15 +287,20 @@
             <option value="{{ user[0] }}" {% if user[0]==recipe.user_id %}selected{% endif %}>{{ user[1] }}</option>
             {% endfor %}
           </select>
-        </div>
 
+        </div>
         <div>
-          <label for="category_id">Category</label>
-          <select id="category_id" name="category_id" required>
+          <div class="ingredients-header">
+            <label for="category_id">Category</label>
+            <button type="button" class="add-ingredient-btn" onclick="addCategory()">
+              <i class="fas fa-plus"></i>
+              <span>New Category</span>
+            </button>
+          </div>
+          <select id="category_id" name="category_id" required class="mt-10">
             <option value="" selected hidden>Select a category</option>
             {% for category in categories %}
-            <option value="{{ category[0] }} " {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1]
-              }}</option>
+            <option value="{{ category[0] }}" {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1] }}</option>
             {% endfor %}
           </select>
         </div>
@@ -425,6 +433,33 @@
     window.addEventListener('DOMContentLoaded', () => {
       updateIngredientsList();
     });
+
+    function addCategory() {
+      Swal.fire({
+        title: 'Add Category',
+        text: 'Enter a category name:',
+        input: 'text',
+        inputPlaceholder: 'Category Name',
+        showCancelButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const categoryName = result.value.trim();
+          if (categoryName) {
+            fetch('/submit_newcategory', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ category_name: categoryName })
+            }).then(() => {
+              Swal.fire('Category created!', '', 'success').then(() => {
+                window.location.reload();
+              });
+            });
+          }
+        }
+      });
+    }
   </script>
 </body>
 
