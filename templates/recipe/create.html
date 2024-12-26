@@ -7,6 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <title>Add a New Recipe</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -68,6 +69,7 @@
     input,
     select,
     textarea {
+      box-sizing: border-box;
       width: 100%;
       padding: 12px;
       font-size: 16px;
@@ -170,6 +172,88 @@
         font-size: 1.8rem;
       }
     }
+
+    .ingredients-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .add-ingredient-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      color: #4CAF50;
+      border: none;
+      padding: 0;
+      font-size: 14px;
+      cursor: pointer;
+      width: auto;
+      height: auto;
+      margin-left: 10px;
+      position: relative;
+    }
+
+    .add-ingredient-btn i {
+        font-size: 16px;
+    }
+
+    .add-ingredient-btn:hover {
+        color: #45a049;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .swal2-input {
+        margin: 10px auto !important;
+    }
+
+    .swal2-select {
+        margin: 10px auto !important;
+        width: 100% !important;
+    }
+
+    .ingredients-list {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .ingredient-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        background: white;
+        margin-bottom: 5px;
+        border-radius: 4px;
+    }
+
+    .delete-ingredient {
+        color: red;
+        cursor: pointer;
+    }
+
+    .quantity-unit-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .quantity-unit-row .quantity-input {
+      width: 40%;
+    }
+    .quantity-unit-row .unit-select {
+      width: 60%;
+    }
+    .quantity-input, .unit-select {
+      height: 40px;
+      box-sizing: border-box;
+      padding: 8px 12px;
+      font-size: 16px;
+    }
   </style>
 </head>
 
@@ -206,14 +290,18 @@
           </select>
         </div>
         <div>
-          <label>Ingredients</label>
-          <div class="tags-container">
-            {% for ingredient in ingredients %}
-            <div class="tag">
-              <input type="checkbox" id="tag_{{ ingredient[0] }}" name="ingredient_id[]" value="{{ ingredient[0] }}">
-              <label for="tag_{{ ingredient[0] }}">{{ ingredient[1] }}</label>
+          <div class="ingredients-section">
+            <div class="ingredients-header">
+              <label>Ingredients</label>
+              <button type="button" class="add-ingredient-btn" onclick="addIngredient()">
+                  <i class="fas fa-plus"></i>
+                  <span>Add Ingredient</span>
+              </button>
             </div>
-            {% endfor %}
+            <div id="ingredients-list" class="ingredients-list">
+                <!-- Added ingredients will appear here -->
+            </div>
+            <input type="hidden" id="ingredients-data" name="ingredients" value="[]">
           </div>
         </div>
         <div>
@@ -228,6 +316,90 @@
     </div>
   </div>
   <script>
+    let ingredients = [];
+    let allIngredients = [
+        {% for ingredient in ingredients %}
+            { id: "{{ ingredient[0] }}", name: "{{ ingredient[1] }}" },
+        {% endfor %}
+    ];
+
+    function addIngredient() {
+        // Filter out already selected ingredients
+        const availableIngredients = allIngredients.filter(ing => 
+            !ingredients.some(selected => selected.id === ing.id)
+        );
+
+        const ingredientOptions = availableIngredients.map(ing =>
+            `<option value="${ing.id}">${ing.name}</option>`
+        ).join('');
+
+        Swal.fire({
+            title: 'Add Ingredient',
+            html: `
+                <select id="ingredient-select" class="swal2-select">
+                    <option value="" selected disabled>Select an ingredient</option>
+                    ${ingredientOptions}
+                </select>
+                <div class="quantity-unit-row">
+                  <input id="ingredient-quantity" class="swal2-input quantity-input" placeholder="Quantity" type="number" step="0.1" min="0" oninput="this.value = Math.max(0, parseFloat(this.value) || 0)">
+                  <select id="ingredient-unit" class="swal2-select unit-select">
+                    <option value="g">Grams (g)</option>
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="ml">Milliliters (ml)</option>
+                    <option value="l">Liters (l)</option>
+                    <option value="tsp">Teaspoon (tsp)</option>
+                    <option value="tbsp">Tablespoon (tbsp)</option>
+                    <option value="cup">Cup</option>
+                    <option value="pcs">Piece(pcs)</option>
+                  </select>
+                </div>
+            `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const select = document.getElementById('ingredient-select');
+                return {
+                    id: select.value,
+                    name: select.options[select.selectedIndex].text,
+                    quantity: document.getElementById('ingredient-quantity').value,
+                    unit: document.getElementById('ingredient-unit').value
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const quantity = parseFloat(result.value.quantity);
+                if (quantity >= 0.01 && result.value.id && result.value.quantity) {
+                    ingredients.push(result.value);
+                    updateIngredientsList();
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Please select an ingredient and specify a quantity.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        });
+    }
+
+    function deleteIngredient(index) {
+        ingredients.splice(index, 1);
+        updateIngredientsList();
+    }
+
+    function updateIngredientsList() {
+      const list = document.getElementById('ingredients-list');
+      const data = document.getElementById('ingredients-data');
+      list.innerHTML = ingredients.map((ing, index) => `
+          <div class="ingredient-item">
+              <span>${ing.quantity} ${ing.unit} of ${ing.name}</span>
+              <span class="delete-ingredient" onclick="deleteIngredient(${index})">×</span>
+          </div>
+      `).join('');
+      
+      data.value = JSON.stringify(ingredients);
+    }
+
     function showAlert(event) {
       event.preventDefault();
       const name = document.getElementById('name').value;
@@ -236,7 +408,7 @@
       const categoryId = document.getElementById('category_id').value;
       const description = document.getElementById('description').value;
 
-      if (name && cookingTime && userId && categoryId && description) {
+      if (name && cookingTime && userId && categoryId && description && ingredients.length > 0) {
         Swal.fire({
           title: 'Success!',
           text: 'Your recipe has been added successfully!',
@@ -248,7 +420,7 @@
       } else {
         Swal.fire({
           title: 'Error!',
-          text: 'Please fill in all fields before submitting.',
+          text: 'Please fill in all fields and add at least one ingredient before submitting.',
           icon: 'error',
           confirmButtonText: 'OK'
         });

@@ -1,3 +1,4 @@
+import json
 import logging
 from os import getenv
 
@@ -30,7 +31,6 @@ logging.basicConfig(level=logging.DEBUG)
 @app.route("/")
 def home():
     result = get_all_recipes(cursor)
-
     return render_template("home/home.html", recipes=result)
 
 
@@ -57,8 +57,10 @@ def submit_newrecipe():
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
 
-        ingredient_ids = request.form.getlist("ingredient_id[]")
-        logging.debug(f"Selected ingredients: {ingredient_ids}")
+        ingredients_data = request.form["ingredients"]
+        ingredients = json.loads(ingredients_data)
+
+        # logging.debug(f"Selected ingredients: {ingredients_data}")
 
         # Insert recipe first
         recipe_id = insert_recipe(
@@ -66,8 +68,14 @@ def submit_newrecipe():
         )
 
         # Insert recipe-ingredient relationships
-        for ingredient_id in ingredient_ids:
-            insert_recipe_ingredient(cursor, recipe_id, ingredient_id)
+        for ingredient in ingredients:
+            insert_recipe_ingredient(
+                cursor,
+                recipe_id,
+                ingredient["id"],
+                ingredient["quantity"],
+                ingredient["unit"],
+            )
 
         return redirect(url_for("home"))
 
@@ -82,23 +90,64 @@ def edit_recipe(recipe_id):
     users = get_all_users(cursor)
     categories = get_all_categories(cursor)
 
+    selected_ingredients = get_recipe_ingredients(cursor, recipe_id)
+    ingredients = get_all_ingredients(cursor)
+
     return render_template(
-        "recipe/edit.html", recipe=recipe, users=users, categories=categories
+        "recipe/edit.html",
+        recipe=recipe,
+        users=users,
+        categories=categories,
+        selected_ingredients=selected_ingredients,
+        ingredients=ingredients,
     )
 
 
 @app.route("/submit_updaterecipe", methods=["POST"])
 def update():
     if request.method == "POST":
+        # Update recipe info
         recipe_id = request.form["recipe_id"]
         name = request.form["name"]
         description = request.form["description"]
         cooking_time = request.form["cooking_time"]
         user_id = request.form["user_id"]
         category_id = request.form["category_id"]
+
         update_recipe(
             cursor, name, description, cooking_time, user_id, category_id, recipe_id
         )
+
+        # Update ingredients
+        new_ingredients_data = request.form["ingredients"]
+        new_ingredients = json.loads(new_ingredients_data)
+
+        old_ingredients = get_recipe_ingredients(cursor, recipe_id)
+
+        # Convert old ingredients to a set of names for easy comparison
+        old_ingredient_names = {ingredient[1] for ingredient in old_ingredients}
+
+        # Insert new ingredients not in old ingredients
+        for ingredient in new_ingredients:
+            if ingredient["name"] not in old_ingredient_names:
+                insert_recipe_ingredient(
+                    cursor,
+                    recipe_id,
+                    ingredient["id"],
+                    ingredient["quantity"],
+                    ingredient["unit"],
+                )
+
+        # Remove old ingredients not in new ingredients
+        new_ingredient_names = {ingredient["name"] for ingredient in new_ingredients}
+        for ingredient in old_ingredients:
+            ingredient_name = ingredient[1]
+            ingredient_id = ingredient[0]
+
+            if ingredient_name not in new_ingredient_names:
+                delete_recipe_ingredient(cursor, recipe_id, ingredient_id)
+
+        conn.commit()
         return redirect(url_for("home"))
 
 

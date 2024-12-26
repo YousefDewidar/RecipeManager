@@ -4,31 +4,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <title>Edit Recipe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.8), rgba(255, 170, 123, 0.9)),
+        url('../../static/home/home_background.jpg') no-repeat center center fixed;
       background-size: cover;
-      color: #333;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      color: #333;
+    }
+
+    .recipe-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
     }
 
     .container {
+      background-color: #fff;
       max-width: 800px;
-      margin: 0 auto;
-      background: white;
       padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h1 {
-      color: #333;
       text-align: center;
-      margin-bottom: 30px;
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 600;
     }
 
     form {
@@ -37,56 +62,197 @@
     }
 
     label {
-      font-weight: bold;
+      font-weight: 500;
       color: #555;
     }
 
     input,
-    textarea,
-    select {
-      max-width: 800px;
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+    select,
+    textarea {
       box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
+      outline: none;
     }
 
     textarea {
-      min-height: 200px;
+      min-height: 120px;
       resize: vertical;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .tag label {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #fff;
+      border: 1px solid #007BFF;
+      color: #007BFF;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .tag input[type="checkbox"] {
+      display: none;
+    }
+
+    .tag input[type="checkbox"]:checked+label {
+      background: #007BFF;
+      color: #fff;
+      border-color: #0056b3;
     }
 
     .button-container {
       display: flex;
-      justify-content: space-between;
+      gap: 15px;
     }
 
     button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      flex: 1;
+      padding: 12px;
       font-size: 16px;
-      transition: background-color 0.3s ease;
+      font-weight: bold;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
     }
 
-    .btn1 {
-      width: 48%;
+    button[type="submit"] {
+      background: #4CAF50;
+      color: #fff;
     }
 
-    button:hover {
-      background-color: #45a049;
+    button[type="submit"]:hover {
+      background: #45a049;
     }
 
     .return-home {
-      background-color: #00CED1;
+      background: #00CED1;
+      color: #fff;
     }
 
     .return-home:hover {
-      background-color: #20B2AA;
+      background: #20B2AA;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .ingredients-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .add-ingredient-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      color: #4CAF50;
+      border: none;
+      padding: 0;
+      font-size: 14px;
+      cursor: pointer;
+      width: auto;
+      height: auto;
+      margin-left: 10px;
+      position: relative;
+    }
+
+    .add-ingredient-btn i {
+        font-size: 16px;
+    }
+
+    .add-ingredient-btn:hover {
+        color: #45a049;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .swal2-input {
+        margin: 10px auto !important;
+    }
+
+    .swal2-select {
+        margin: 10px auto !important;
+        width: 100% !important;
+    }
+
+    .ingredients-list {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .ingredient-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        background: white;
+        margin-bottom: 5px;
+        border-radius: 4px;
+    }
+
+    .delete-ingredient {
+        color: red;
+        cursor: pointer;
+    }
+
+    .quantity-unit-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .quantity-unit-row .quantity-input {
+      width: 40%;
+    }
+    .quantity-unit-row .unit-select {
+      width: 60%;
+    }
+    .quantity-input, .unit-select {
+      height: 40px;
+      box-sizing: border-box;
+      padding: 8px 12px;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -94,106 +260,172 @@
 <body>
 
   {% include "navbar/navbar.html" %}
-  <div class="container">
-    <h1>Edit Recipe</h1>
-    <form action="/submit_updaterecipe" method="post">
-      <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">
+  <div class="recipe-page">
+    <div class="container">
+      <h1>Edit Recipe</h1>
+      <form action="/submit_updaterecipe" method="post">
+        <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">
 
-      <div>
-        <label for="name">Recipe Name</label>
-        <input type="text" id="name" name="name" value="{{ recipe.name }}" required>
-      </div>
+        <div>
+          <label for="name">Recipe Name</label>
+          <input type="text" id="name" name="name" value="{{ recipe.name }}" required>
+        </div>
 
-      <div>
-        <label for="cooking_time">Cooking Time (minutes)</label>
-        <input type="number" id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" required>
-      </div>
+        <div>
+          <label for="cooking_time">Cooking Time (minutes)</label>
+          <input type="number" id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" required>
+        </div>
 
-      <div>
-        <label for="user_id">Author</label>
-        <select id="user_id" name="user_id" required>
-          <option value="" selected hidden> Select an author </option>
-          {% for user in users %}
-          <option value="{{ user[0] }}" {% if user[0]==recipe.user_id %}selected{% endif %}>{{ user[1] }}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <div>
+          <label for="user_id">Author</label>
+          <select id="user_id" name="user_id" required>
+            <option value="" selected hidden> Select an author </option>
+            {% for user in users %}
+            <option value="{{ user[0] }}" {% if user[0]==recipe.user_id %}selected{% endif %}>{{ user[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <div>
-        <label for="category_id">Category</label>
-        <select id="category_id" name="category_id" required>
-          <option value="" selected hidden>Select a category</option>
-          {% for category in categories %}
-          <option value="{{ category[0] }} " {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1]
-            }}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <div>
+          <label for="category_id">Category</label>
+          <select id="category_id" name="category_id" required>
+            <option value="" selected hidden>Select a category</option>
+            {% for category in categories %}
+            <option value="{{ category[0] }} " {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1]
+              }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div>
+          <div class="ingredients-section">
+            <div class="ingredients-header">
+              <label>Ingredients</label>
+              <button type="button" class="add-ingredient-btn" onclick="addIngredient()">
+                <i class="fas fa-plus"></i>
+                <span>Add Ingredient</span>
+              </button>
+            </div>
+            <div id="ingredients-list" class="ingredients-list">
+              <!-- Added ingredients will appear here -->
+            </div>
+            <input type="hidden" id="ingredients-data" name="ingredients" value="[]">
+          </div>
+        </div>
 
-      <div>
-        <label for="description">Recipe Description</label>
-        <textarea id="description" name="description" required>{{ recipe.description }}</textarea>
-      </div>
+        <div>
+          <label for="description">Recipe Description</label>
+          <textarea id="description" name="description" required>{{ recipe.description }}</textarea>
+        </div>
+        
 
-      <div class="button-container">
-        <button class="btn1" onclick="showAlert(event)">Update Recipe</button>
-        <button class="btn1" type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
-      </div>
-    </form>
+        <div class="button-container">
+          <button class="btn1" type="submit">Save Recipe</button>
+          <button class="btn1" type="button" class="return-home" onclick="window.location.href='/'">Return Home</button>
+        </div>
+      </form>
+    </div>
   </div>
+
   <script>
-    function showAlert(event) {
-      event.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const cookingTime = document.getElementById('cooking_time').value.trim();
-      const userId = document.getElementById('user_id').value.trim();
-      const categoryId = document.getElementById('category_id').value.trim();
-      const description = document.getElementById('description').value.trim();
+    // ingredients already in the recipe
+    let ingredients = [
+      {% for ingredient in selected_ingredients %}
+        {
+          id: "{{ ingredient[0] }}",
+          name: "{{ ingredient[1] }}",
+          quantity: "{{ ingredient[2] | default('') }}",
+          unit: "{{ ingredient[3] | default('') }}"
+        },
+      {% endfor %}];
 
-      const originalName = "{{ recipe.name }}";
-      const originalCookingTime = "{{ recipe.cooking_time }}";
-      const originalUserId = "{{ recipe.user_id }}";
-      const originalCategoryId = "{{ recipe.category_id }}";
-      const originalDescription = "{{ recipe.description }}";
+    let allIngredients = [
+        {% for ingredient in ingredients %}
+            { id: "{{ ingredient[0]|trim }}", name: "{{ ingredient[1]|trim }}" },
+        {% endfor %}
+    ];
 
-      if (name === originalName && cookingTime === originalCookingTime && userId === originalUserId && categoryId === originalCategoryId && description === originalDescription) {
+    function addIngredient() {
+        // Filter out already selected ingredients
+        const availableIngredients = allIngredients.filter(ing => 
+            !ingredients.some(selected => selected.id === ing.id)
+        );
+
+        const ingredientOptions = availableIngredients.map(ing =>
+            `<option value="${ing.id}">${ing.name}</option>`
+        ).join('');
+
         Swal.fire({
-          title: 'No Changes!',
-          text: 'You haven\'t made any changes to the recipe.',
-          icon: 'info',
-          showCancelButton: true,
-          cancelButtonText: 'Cancel',
-          confirmButtonText: 'Go to Home',
-          customClass: {
-            confirmButton: 'return-home'
-          }
+            title: 'Add Ingredient',
+            html: `
+                <select id="ingredient-select" class="swal2-select">
+                    <option value="" selected disabled>Select an ingredient</option>
+                    ${ingredientOptions}
+                </select>
+                <div class="quantity-unit-row">
+                  <input id="ingredient-quantity" class="swal2-input quantity-input" placeholder="Quantity" type="number" step="0.1" min="0" oninput="this.value = Math.max(0, parseFloat(this.value) || 0)">
+                  <select id="ingredient-unit" class="swal2-select unit-select">
+                    <option value="g">Grams (g)</option>
+                    <option value="kg">Kilograms (kg)</option>
+                    <option value="ml">Milliliters (ml)</option>
+                    <option value="l">Liters (l)</option>
+                    <option value="tsp">Teaspoon (tsp)</option>
+                    <option value="tbsp">Tablespoon (tbsp)</option>
+                    <option value="cup">Cup</option>
+                    <option value="pcs">Piece(pcs)</option>
+                  </select>
+                </div>
+            `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const select = document.getElementById('ingredient-select');
+                return {
+                    id: select.value,
+                    name: select.options[select.selectedIndex].text,
+                    quantity: document.getElementById('ingredient-quantity').value,
+                    unit: document.getElementById('ingredient-unit').value
+                }
+            }
         }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = '/';
-          }
+            if (result.isConfirmed) {
+                const quantity = parseFloat(result.value.quantity);
+                if (quantity >= 0.01 && result.value.id && result.value.quantity) {
+                    ingredients.push(result.value);
+                    updateIngredientsList();
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Please select an ingredient and specify a quantity',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
         });
-      } else if (name && cookingTime && userId && categoryId && description) {
-        Swal.fire({
-          title: 'Success!',
-          text: 'Your recipe has been updated successfully!',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        }).then(() => {
-          document.forms[0].submit();
-        });
-      } else {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Please fill in all fields before submitting.',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        });
-      }
     }
 
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    function deleteIngredient(index) {
+        ingredients.splice(index, 1);
+        updateIngredientsList();
+    }
 
+    function updateIngredientsList() {
+      const list = document.getElementById('ingredients-list');
+      const data = document.getElementById('ingredients-data');
+      list.innerHTML = ingredients.map((ing, index) => `
+          <div class="ingredient-item">
+              <span>${ing.quantity} ${ing.unit} of ${ing.name}</span>
+              <span class="delete-ingredient" onclick="deleteIngredient(${index})">×</span>
+          </div>
+      `).join('');
+      
+      data.value = JSON.stringify(ingredients);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateIngredientsList();
+    });
+  </script>
 </body>
 
 </html>

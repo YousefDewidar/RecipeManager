@@ -9,7 +9,7 @@ def get_all_recipes(cursor):
 
 
 def get_recipe_ingredients(cursor, recipe_id):
-    query = """SELECT RI.recipe_id, I.name as ingredient_name, RI.quantity, RI.unit
+    query = """SELECT I.ingredient_id, I.name as ingredient_name, RI.quantity, RI.unit
                FROM [dbo].[Recipe_Ingredients] RI
                JOIN [dbo].[Ingredients] I ON RI.ingredient_id = I.ingredient_id
                WHERE RI.recipe_id = ?;"""
@@ -74,6 +74,13 @@ def insert_recipe_ingredient(
     query = """INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, quantity, unit)
                VALUES (?, ?, ?, ?);"""
     cursor.execute(query, (recipe_id, ingredient_id, quantity, unit))
+    cursor.commit()
+
+
+def delete_recipe_ingredient(cursor, recipe_id, ingredient_id):
+    query = """DELETE FROM Recipe_Ingredients
+               WHERE recipe_id = ? AND ingredient_id = ?;"""
+    cursor.execute(query, (recipe_id, ingredient_id))
     cursor.commit()
 
 
