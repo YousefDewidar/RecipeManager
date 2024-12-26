@@ -1,3 +1,4 @@
+# Retrieves all recipes with their author names, descriptions, and cooking times.
 def get_all_recipes(cursor):
     query = """SELECT R.recipe_id, U.full_name as author_name, R.name, R.description, R.cooking_time 
                FROM [dbo].[Recipes] R
@@ -8,6 +9,7 @@ def get_all_recipes(cursor):
     return results
 
 
+# Retrieves the ingredients for a specific recipe, including quantity and unit.
 def get_recipe_ingredients(cursor, recipe_id):
     query = """SELECT I.ingredient_id, I.name as ingredient_name, RI.quantity, RI.unit
                FROM [dbo].[Recipe_Ingredients] RI
@@ -19,12 +21,14 @@ def get_recipe_ingredients(cursor, recipe_id):
     return results if results else []
 
 
+# Retrieves detailed information about a specific recipe, including category and author.
 def get_recipe(cursor, recipe_id):
     cursor.execute("EXEC spGetRecipeById @recipe_id = ?", recipe_id)
     result = cursor.fetchone()
     return result if result else None
 
 
+# Searches for recipes by keyword in their name or description.
 def search_recipe(cursor, keyword):
     if not keyword or keyword.strip() == "":
         pass
@@ -40,6 +44,7 @@ def search_recipe(cursor, keyword):
         return results if results else None
 
 
+# Retrieves all authors (users) with their corresponding recipes.
 def get_authors_with_recipes(cursor):
     query = """SELECT 
                     u.full_name AS user_name,
@@ -57,6 +62,7 @@ def get_authors_with_recipes(cursor):
     return results
 
 
+# Inserts a new recipe into the database and returns the inserted recipe's ID.
 def insert_recipe(cursor, name, description, cooking_time, user_id, category_id):
     query = """INSERT INTO Recipes (name, description, cooking_time, user_id, category_id)
               OUTPUT INSERTED.recipe_id
@@ -68,9 +74,8 @@ def insert_recipe(cursor, name, description, cooking_time, user_id, category_id)
     return recipe_id
 
 
-def insert_recipe_ingredient(
-    cursor, recipe_id, ingredient_id, quantity=1.0, unit="grams"
-):
+# Inserts a new ingredient for a specific recipe.
+def insert_recipe_ingredient(cursor, recipe_id, ingredient_id, quantity=1.0, unit="grams"):
     query = """INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, quantity, unit)
                VALUES (?, ?, ?, ?);"""
     cursor.execute(query, (recipe_id, ingredient_id, quantity, unit))
@@ -90,17 +95,17 @@ def update_recipe(
     query = """UPDATE Recipes
             SET name = ?, description = ?, cooking_time = ?, user_id = ?, category_id = ?
             WHERE recipe_id = ?"""
-    cursor.execute(
-        query, (name, description, cooking_time, user_id, category_id, recipe_id)
-    )
+    cursor.execute(query, (name, description, cooking_time, user_id, category_id, recipe_id))
     cursor.commit()
 
 
+# Retrieves all users with their IDs, names, ages, and emails.
 def get_all_users(cursor):
     cursor.execute("SELECT user_id, full_name ,age ,email FROM Users;")
     return cursor.fetchall()
 
 
+# Retrieves a specific user's ID and name based on their user_id.
 def get_user(cursor, user_id):
     query = """SELECT user_id, full_name FROM Users WHERE user_id = ?;"""
     cursor.execute(query, user_id)
@@ -109,6 +114,7 @@ def get_user(cursor, user_id):
     return result if result else None
 
 
+# Deletes a user by their user_id.
 def delete_user_by_id(cursor, user_id):
     query = """DELETE FROM Users
                WHERE user_id = (?);"""
@@ -116,6 +122,7 @@ def delete_user_by_id(cursor, user_id):
     cursor.commit()
 
 
+# Updates a user's information (name, age, email) by their user_id.
 def update_user_by_id(cursor, user_id, new_name, new_age, new_email):
     query = """UPDATE Users
                SET full_name = ?, age = ?, email = ?
@@ -124,11 +131,13 @@ def update_user_by_id(cursor, user_id, new_name, new_age, new_email):
     cursor.commit()
 
 
+# Retrieves all categories with their IDs and names.
 def get_all_categories(cursor):
     cursor.execute("SELECT category_id, name FROM Category")
     return cursor.fetchall()
 
 
+# Retrieves a specific category by its category_id.
 def get_category(cursor, category_id):
     query = """SELECT category_id, name FROM Category WHERE category_id = ?;"""
     cursor.execute(query, category_id)
@@ -137,6 +146,7 @@ def get_category(cursor, category_id):
     return result if result else None
 
 
+# Inserts a new ingredient into the Ingredients table.
 def insert_ingredient(cursor, ingredient_name):
     query = """INSERT INTO Ingredients (name)
                values (?)"""
@@ -146,6 +156,7 @@ def insert_ingredient(cursor, ingredient_name):
     return
 
 
+# Retrieves the ingredient ID for a given ingredient name.
 def get_ingredient_id(cursor, ingredient_name):
     query = """SELECT ingredient_id FROM Ingredients
                WHERE name = (?)"""
@@ -155,6 +166,7 @@ def get_ingredient_id(cursor, ingredient_name):
     return result if result else None
 
 
+# Updates the name of an ingredient by its ingredient_id.
 def update_ingredient_name(cursor, ingredient_id, new_name):
     query = """UPDATE Ingredients
                SET name = (?)
@@ -165,6 +177,7 @@ def update_ingredient_name(cursor, ingredient_id, new_name):
     return
 
 
+# Deletes an ingredient by its name.
 def delete_ingredient_by_name(cursor, ingredient_name):
     query = """DELETE FROM Ingredients
                WHERE name = (?);"""
@@ -174,6 +187,7 @@ def delete_ingredient_by_name(cursor, ingredient_name):
     return
 
 
+# Deletes an ingredient by its ingredient_id.
 def delete_ingredient_by_id(cursor, ingredient_id):
     query = """DELETE FROM Ingredients
                WHERE ingredient_id = (?);"""
@@ -183,6 +197,7 @@ def delete_ingredient_by_id(cursor, ingredient_id):
     return
 
 
+# Retrieves all ingredients with their IDs and names.
 def get_all_ingredients(cursor):
     cursor.execute("SELECT ingredient_id, name FROM Ingredients")
     return cursor.fetchall()
