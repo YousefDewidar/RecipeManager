@@ -288,6 +288,25 @@
         }
       }
     }
+
+  .star-rating {
+    font-size: 40px; /* Increase the font size of stars */
+    color: gray; /* Default color for unselected stars */
+    cursor: pointer; /* Make the stars clickable */
+  }
+  
+  .star-rating .star {
+    margin: 0 5px; /* Add space between stars */
+  }
+
+  .star-rating .star:hover {
+    color: gold; /* Change color when hovering over a star */
+  }
+
+  /* Optional: Add transition effect */
+  .star-rating .star {
+    transition: color 0.2s ease;
+  }
   </style>
 </head>
 
@@ -329,23 +348,24 @@
 
     <!-- Add Review Form -->
     <h2 class="mt-4">Add a Review</h2>
-    <form action="/review/{{ recipe.recipe_id }}" method="POST">
-      <div class="mb-3">
-        <label for="reviewText" class="form-label">Your Review</label>
-        <textarea class="form-control" id="reviewText" name="review_text" rows="3" required></textarea>
-      </div>
-      <div class="mb-3">
-        <label for="starRating" class="form-label">Rating</label>
-        <select class="form-select" id="starRating" name="star_rating" required>
-          <option value="5">5 - Excellent</option>
-          <option value="4">4 - Very Good</option>
-          <option value="3">3 - Good</option>
-          <option value="2">2 - Fair</option>
-          <option value="1">1 - Poor</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-warning">Submit Review</button>
-    </form>
+<form action="/review/{{ recipe.recipe_id }}" method="POST">
+  <div class="mb-3">
+    <label for="reviewText" class="form-label">Your Review</label>
+    <textarea class="form-control" id="reviewText" name="review_text" rows="3" required></textarea>
+  </div>
+  <div class="mb-3">
+    <label for="starRating" class="form-label">Rating</label>
+    <div id="starRating" class="star-rating">
+      <span class="star" data-value="1">&#9733;</span>
+      <span class="star" data-value="2">&#9733;</span>
+      <span class="star" data-value="3">&#9733;</span>
+      <span class="star" data-value="4">&#9733;</span>
+      <span class="star" data-value="5">&#9733;</span>
+    </div>
+    <input type="hidden" id="selectedRating" name="star_rating" value="5" required>
+  </div>
+  <button type="submit" class="btn btn-warning">Submit Review</button>
+</form>
 
     <!-- Buttons Section -->
     <div class="button-container">
@@ -375,6 +395,25 @@
         }
       });
     }
+
+    const stars = document.querySelectorAll('.star');
+  const selectedRatingInput = document.getElementById('selectedRating');
+
+  stars.forEach(star => {
+    star.addEventListener('click', function() {
+      const rating = this.getAttribute('data-value');
+      selectedRatingInput.value = rating;
+
+      // Update the star icons
+      stars.forEach(star => {
+        if (star.getAttribute('data-value') <= rating) {
+          star.style.color = 'gold'; // Highlight the selected stars
+        } else {
+          star.style.color = 'gray'; // Reset the unselected stars
+        }
+      });
+    });
+  });
   </script>
 </body>
 
