@@ -43,15 +43,16 @@ INSERT INTO Recipe_Ingredients (recipe_id, ingredient_id, quantity, unit) VALUES
 
 
 -- Insert Reviews
-INSERT INTO Reviews (user_id, recipe_id, review_text, star_rating) VALUES
-(1, 1, 'Delicious pancakes, perfect for breakfast!', 5),
-(2, 1, 'Good but a bit too sweet for my taste.', 4),
-(3, 2, 'The chicken salad sandwich is very tasty and quick to make.', 5),
-(4, 3, 'Spaghetti Bolognese had a great flavor, but took longer than expected.', 4),
-(5, 4, 'Rich and moist chocolate cake! A family favorite.', 5),
-(6, 5, 'Bruschetta was fresh and flavorful, but needed more seasoning.', 3),
-(7, 6, 'Caesar Salad is a classic. The dressing was excellent.', 5),
-(8, 7, 'Tomato soup was comforting, but slightly too acidic.', 4),
-(9, 8, 'Mashed potatoes were creamy and delicious.', 5),
-(10, 9, 'Lemonade was refreshing, but a bit too sweet for me.', 4),
-(1, 10, 'Popcorn was perfect for our movie night. Easy to make!', 5);
+INSERT INTO Reviews (recipe_id, reviewer_name, review_text, star_rating)
+VALUES
+(1, 'Ahmed', 'The recipe was amazing! Loved the flavors and how easy it was to follow.', 5),
+(2, 'Sara', 'It turned out great! However, I added a bit more salt to suit my taste.', 4),
+(3, 'Mohamed', 'Not bad, but I think the cooking time was a bit too long for my liking.', 3),
+(4, 'Lina', 'I love this recipe! Simple and delicious, I will make it again.', 5),
+(5, 'Omar', 'I wasn’t too fond of the taste. I think I’ll try a different recipe next time.', 2),
+(6, 'Mona', 'Great recipe, but I had to substitute a few ingredients due to availability. Still tasted great!', 4),
+(7, 'Yasmin', 'It was okay, but I found the recipe to be a bit too complicated for beginners.', 3),
+(8, 'Tariq', 'The best recipe I’ve tried this month. Easy and quick to prepare, highly recommend!', 5),
+(9, 'Fatima', 'It’s good, but the portion size was a bit too much for me. I’ll reduce it next time.', 4),
+(10, 'Karim', 'I didn’t like the recipe much, the texture didn’t turn out right. Maybe it’s just me.', 2);
+

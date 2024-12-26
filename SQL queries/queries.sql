@@ -42,15 +42,13 @@ CREATE TABLE Recipe_Ingredients (
 
 CREATE TABLE Reviews (
     review_id INT PRIMARY KEY IDENTITY(1,1),
-    user_id INT,
+    reviewer_name TEXT,
     recipe_id INT,
+    star_rating INT,
     review_text TEXT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE
 );
 
-ALTER TABLE Reviews
-ADD star_rating INT CHECK (star_rating BETWEEN 1 AND 5); 
 
 
 CREATE PROCEDURE spGetRecipeById 

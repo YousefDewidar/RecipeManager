@@ -339,7 +339,9 @@
     <div class="reviews-list">
       {% for review in reviews %}
       <div class="review-item">
-        <p><strong>{{ review.reviewer_name }}</strong> ({{ review.star_rating }} / 5 stars)</p>
+        <p><strong>{{review.user_name}}</strong></p>
+
+        <p>({{ review.star_rating }} / 5 stars)</p>
         <p>{{ review.review_text }}</p>
         <hr>
       </div>
@@ -349,10 +351,18 @@
     <!-- Add Review Form -->
     <h2 class="mt-4">Add a Review</h2>
 <form action="/review/{{ recipe.recipe_id }}" method="POST">
+  <!-- Review Text Area -->
+   <!-- Reviewer Name -->
+  <div class="mb-3">
+    <label for="reviewerName" class="form-label">Your Name</label>
+    <input type="text" class="form-control" id="reviewerName" name="user_name" required>
+  </div>
   <div class="mb-3">
     <label for="reviewText" class="form-label">Your Review</label>
     <textarea class="form-control" id="reviewText" name="review_text" rows="3" required></textarea>
   </div>
+
+  <!-- Star Rating Section -->
   <div class="mb-3">
     <label for="starRating" class="form-label">Rating</label>
     <div id="starRating" class="star-rating">
@@ -364,8 +374,13 @@
     </div>
     <input type="hidden" id="selectedRating" name="star_rating" value="5" required>
   </div>
+
+  
+
+  <!-- Submit Button -->
   <button type="submit" class="btn btn-warning">Submit Review</button>
 </form>
+
 
     <!-- Buttons Section -->
     <div class="button-container">

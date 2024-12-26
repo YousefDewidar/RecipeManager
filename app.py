@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from flask import Flask, abort, redirect, render_template, request, url_for
 
 from services import *
-
 # Load environment variables
 load_dotenv()
 
@@ -294,14 +293,11 @@ def edit_ingredient(ingredient_id):
 @app.route("/review/<int:recipe_id>", methods=["POST"])
 def add_review(recipe_id):
     if request.method == "POST":
-        # تعيين قيمة ثابتة لـ user_id (مثال: user_id = 1)
-        user_id = 1  # قيمة ثابتة للمستخدم الذي يضيف المراجعة
-
+        reviewer_name= request.form["user_name"]
         review_text = request.form["review_text"]
         star_rating = request.form["star_rating"]
         
-        # إدخال المراجعة في قاعدة البيانات
-        insert_review(cursor, user_id, recipe_id, review_text, star_rating)
+        insert_review(cursor,  recipe_id, review_text, star_rating,reviewer_name)
         return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
@@ -317,14 +313,14 @@ def view_reviews(recipe_id):
 
 # Function to get reviews for a recipe
 def get_reviews_for_recipe(cursor, recipe_id):
-    query = "SELECT u.full_name as user_name, r.review_text, r.star_rating FROM Reviews r JOIN Users u ON r.user_id = u.user_id WHERE r.recipe_id = ?"
+    query = "SELECT reviewer_name as user_name, r.review_text, r.star_rating FROM Reviews r  WHERE r.recipe_id = ?"
     cursor.execute(query, (recipe_id,))
     return cursor.fetchall()
 
 # Function to insert a new review
-def insert_review(cursor, user_id, recipe_id, review_text, star_rating):
-    query = "INSERT INTO Reviews (user_id, recipe_id, review_text, star_rating) VALUES (?, ?, ?, ?)"
-    cursor.execute(query, (user_id, recipe_id, review_text, star_rating))
+def insert_review(cursor, recipe_id, review_text,reviewer_name, star_rating):
+    query = "INSERT INTO Reviews ( recipe_id, review_text,reviewer_name, star_rating) VALUES (?, ?, ?, ?)"
+    cursor.execute(query, ( recipe_id, review_text, star_rating,reviewer_name))
     cursor.connection.commit()
     
 # endregion

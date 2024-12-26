@@ -222,7 +222,7 @@ def get_all_ingredients(cursor):
 
 # Inserts a new review into the Reviews table.
 def insert_review(cursor, user_id, recipe_id, review_text):
-    query = """INSERT INTO Reviews (user_id, recipe_id, review_text)
+    query = """INSERT INTO Reviews (review_name, recipe_id, review_text,)
                OUTPUT INSERTED.review_id
                VALUES (?, ?, ?);"""
     cursor.execute(query, (user_id, recipe_id, review_text))
@@ -232,9 +232,9 @@ def insert_review(cursor, user_id, recipe_id, review_text):
 
 # Retrieves all reviews for a specific recipe.
 def get_reviews_for_recipe(cursor, recipe_id):
-    query = """SELECT R.review_id, U.full_name as author_name, R.review_text
+    query = """SELECT R.review_id, U.reviewer_name as author_name, R.review_text
                FROM Reviews R
-               JOIN Users U ON R.user_id = U.user_id
+               
                WHERE R.recipe_id = ?;"""
     cursor.execute(query, recipe_id)
     return cursor.fetchall()
