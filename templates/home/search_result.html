@@ -212,25 +212,22 @@
     {% if search_results %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
       {% for recipe in search_results %}
-      <div class="col">
-        <div class="card">
-          <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image">
+
+      <div class="col-md-4 mb-4">
+        <div class="card" , onclick="window.location.href='/recipe_details/{{ recipe.recipe_id }}'">
+
+          <img src="{{ url_for('static', filename='home/recipe_image.png') }}" class="card-img-top" alt="Recipe Image">
           <div class="card-body">
             <h5 class="card-title">{{ recipe.name }}</h5>
             <p class="card-text">{{ recipe.description }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="text-muted"><i class="fa-regular fa-user"></i> {{ recipe.author_name }}</div>
-              <div class="text-muted"><i class="fa-solid fa-clock"></i> {{ recipe.cooking_time }} min</div>
-            </div>
+
+            <!-- <span class="text-muted">Recipe Info</span> -->
           </div>
-          <div class="card-footer text-center">
-            <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-warning btn-sm me-2">Edit</a>
-            <form action="/delete/{{ recipe.recipe_id }}" method="POST" style="display: inline-block;" id="deleteForm">
-              <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete()">
-                Delete Recipe
-              </button>
-            </form>
+          <div class="card-footer d-flex justify-content-between align-items-center">
+            <div><i class="fa-regular fa-user"></i>{{ recipe.author_name }}</div>
+            <div><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }} m</div>
           </div>
+          <br>
         </div>
       </div>
       {% endfor %}
