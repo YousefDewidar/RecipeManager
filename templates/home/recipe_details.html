@@ -296,8 +296,7 @@
   <div class="container">
     <div class="card">
 <!-- <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image"> -->      <div class="card-body">
-  <div class="card-body">
-  <h1 class="text-center mb-4">{{ recipe.name }}</h1>
+        <h1 class="text-center mb-4">{{ recipe.name }}</h1>
         <p class="card-text"><strong>Description:</strong> {{ recipe.description }}</p>
         <p class="card-text"><strong>Author:</strong> {{ recipe.author_name }}</p>
         <p class="card-text"><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
@@ -309,9 +308,9 @@
     <ul class="ingredient-list">
       {% for ingredient in ingredients %}
       <li class="ingredient-item">
-        <div> <i class="fa-solid fa-carrot"> </i> {{ ingredient.ingredient_name }} </div>
-        <div> <i class="fa-solid fa-weight-hanging"> </i> {{ ingredient.quantity }} </div>
-        <div> <i class="fa-solid fa-ruler-combined"> </i> {{ ingredient.unit }}</div>
+        <div><i class="fa-solid fa-carrot"></i> {{ ingredient.ingredient_name }}</div>
+        <div><i class="fa-solid fa-weight-hanging"></i> {{ ingredient.quantity }}</div>
+        <div><i class="fa-solid fa-ruler-combined"></i> {{ ingredient.unit }}</div>
       </li>
       {% endfor %}
     </ul>
