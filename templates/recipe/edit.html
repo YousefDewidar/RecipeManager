@@ -174,9 +174,9 @@
     }
 
     .ingredients-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .add-ingredient-btn {
@@ -196,45 +196,45 @@
     }
 
     .add-ingredient-btn i {
-        font-size: 16px;
+      font-size: 16px;
     }
 
     .add-ingredient-btn:hover {
-        color: #45a049;
-        transform: none;
-        box-shadow: none;
+      color: #45a049;
+      transform: none;
+      box-shadow: none;
     }
 
     .swal2-input {
-        margin: 10px auto !important;
+      margin: 10px auto !important;
     }
 
     .swal2-select {
-        margin: 10px auto !important;
-        width: 100% !important;
+      margin: 10px auto !important;
+      width: 100% !important;
     }
 
     .ingredients-list {
-        margin-top: 10px;
-        padding: 10px;
-        background: #f9f9f9;
-        border-radius: 8px;
-        border: 1px solid #ddd;
+      margin-top: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #ddd;
     }
 
     .ingredient-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px;
-        background: white;
-        margin-bottom: 5px;
-        border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background: white;
+      margin-bottom: 5px;
+      border-radius: 4px;
     }
 
     .delete-ingredient {
-        color: red;
-        cursor: pointer;
+      color: red;
+      cursor: pointer;
     }
 
     .quantity-unit-row {
@@ -242,18 +242,23 @@
       gap: 10px;
       align-items: center;
     }
+
     .quantity-unit-row .quantity-input {
       width: 40%;
     }
+
     .quantity-unit-row .unit-select {
       width: 60%;
     }
-    .quantity-input, .unit-select {
+
+    .quantity-input,
+    .unit-select {
       height: 40px;
       box-sizing: border-box;
       padding: 8px 12px;
       font-size: 16px;
     }
+
     .mt-10 {
       margin-top: 10px;
     }
@@ -300,11 +305,12 @@
           <select id="category_id" name="category_id" required class="mt-10">
             <option value="" selected hidden>Select a category</option>
             {% for category in categories %}
-            <option value="{{ category[0] }}" {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1] }}</option>
+            <option value="{{ category[0] }}" {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1]
+              }}</option>
             {% endfor %}
           </select>
         </div>
-        
+
         <div>
           <div class="ingredients-section">
             <div class="ingredients-header">
@@ -325,7 +331,7 @@
           <label for="description">Recipe Description</label>
           <textarea id="description" name="description" required>{{ recipe.description }}</textarea>
         </div>
-        
+
 
         <div class="button-container">
           <button class="btn1" type="submit">Save Recipe</button>
@@ -339,33 +345,33 @@
     // ingredients already in the recipe
     let ingredients = [
       {% for ingredient in selected_ingredients %}
-        {
-          id: "{{ ingredient[0] }}",
-          name: "{{ ingredient[1] }}",
+    {
+      id: "{{ ingredient[0] }}",
+        name: "{{ ingredient[1] }}",
           quantity: "{{ ingredient[2] | default('') }}",
-          unit: "{{ ingredient[3] | default('') }}"
-        },
-      {% endfor %}];
+            unit: "{{ ingredient[3] | default('') }}"
+    },
+    {% endfor %}];
 
     let allIngredients = [
-        {% for ingredient in ingredients %}
-            { id: "{{ ingredient[0]|trim }}", name: "{{ ingredient[1]|trim }}" },
-        {% endfor %}
+      {% for ingredient in ingredients %}
+    { id: "{{ ingredient[0]|trim }}", name: "{{ ingredient[1]|trim }}" },
+    {% endfor %}
     ];
 
     function addIngredient() {
-        // Filter out already selected ingredients
-        const availableIngredients = allIngredients.filter(ing => 
-            !ingredients.some(selected => selected.id === ing.id)
-        );
+      // Filter out already selected ingredients
+      const availableIngredients = allIngredients.filter(ing =>
+        !ingredients.some(selected => selected.id === ing.id)
+      );
 
-        const ingredientOptions = availableIngredients.map(ing =>
-            `<option value="${ing.id}">${ing.name}</option>`
-        ).join('');
+      const ingredientOptions = availableIngredients.map(ing =>
+        `<option value="${ing.id}">${ing.name}</option>`
+      ).join('');
 
-        Swal.fire({
-            title: 'Add Ingredient',
-            html: `
+      Swal.fire({
+        title: 'Add Ingredient',
+        html: `
                 <select id="ingredient-select" class="swal2-select">
                     <option value="" selected disabled>Select an ingredient</option>
                     ${ingredientOptions}
@@ -384,37 +390,37 @@
                   </select>
                 </div>
             `,
-            focusConfirm: false,
-            preConfirm: () => {
-                const select = document.getElementById('ingredient-select');
-                return {
-                    id: select.value,
-                    name: select.options[select.selectedIndex].text,
-                    quantity: document.getElementById('ingredient-quantity').value,
-                    unit: document.getElementById('ingredient-unit').value
-                }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const quantity = parseFloat(result.value.quantity);
-                if (quantity >= 0.01 && result.value.id && result.value.quantity) {
-                    ingredients.push(result.value);
-                    updateIngredientsList();
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Please select an ingredient and specify a quantity',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            }
-        });
+        focusConfirm: false,
+        preConfirm: () => {
+          const select = document.getElementById('ingredient-select');
+          return {
+            id: select.value,
+            name: select.options[select.selectedIndex].text,
+            quantity: document.getElementById('ingredient-quantity').value,
+            unit: document.getElementById('ingredient-unit').value
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const quantity = parseFloat(result.value.quantity);
+          if (quantity >= 0.01 && result.value.id && result.value.quantity) {
+            ingredients.push(result.value);
+            updateIngredientsList();
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: 'Please select an ingredient and specify a quantity',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        }
+      });
     }
 
     function deleteIngredient(index) {
-        ingredients.splice(index, 1);
-        updateIngredientsList();
+      ingredients.splice(index, 1);
+      updateIngredientsList();
     }
 
     function updateIngredientsList() {
@@ -426,7 +432,7 @@
               <span class="delete-ingredient" onclick="deleteIngredient(${index})">×</span>
           </div>
       `).join('');
-      
+
       data.value = JSON.stringify(ingredients);
     }
 
@@ -460,7 +466,8 @@
         }
       });
     }
-  </script>
+
+</script>
 </body>
 
 </html>

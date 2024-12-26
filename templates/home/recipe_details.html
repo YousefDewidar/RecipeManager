@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-        body {
+    body {
       background: linear-gradient(to bottom right, rgba(255, 223, 186, 0.6), rgba(255, 170, 123, 0.7)), url('../../static/home/home_background.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #333;
@@ -88,6 +88,17 @@
     .card-body .btn-sm:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-review {
+      background-color: #28a745;
+      color: white;
+      width: 250px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
     .btn {
@@ -246,6 +257,7 @@
         margin-right: 5px;
       }
     }
+
     .ingredient-item div {
       width: 10%;
       margin-right: 20px;
@@ -271,7 +283,7 @@
       margin: 0;
     }
 
-   
+
 
 
 
@@ -289,24 +301,77 @@
       }
     }
 
-  .star-rating {
-    font-size: 40px; /* Increase the font size of stars */
-    color: gray; /* Default color for unselected stars */
-    cursor: pointer; /* Make the stars clickable */
-  }
-  
-  .star-rating .star {
-    margin: 0 5px; /* Add space between stars */
-  }
+    .star-rating {
+      font-size: 40px;
+      /* Increase the font size of stars */
+      color: gray;
+      /* Default color for unselected stars */
+      cursor: pointer;
+      /* Make the stars clickable */
+    }
 
-  .star-rating .star:hover {
-    color: gold; /* Change color when hovering over a star */
-  }
+    .star-rating .star {
+      margin: 0 5px;
+      /* Add space between stars */
+    }
 
-  /* Optional: Add transition effect */
-  .star-rating .star {
-    transition: color 0.2s ease;
-  }
+    .star-rating .star:hover {
+      color: gold;
+      /* Change color when hovering over a star */
+    }
+
+    /* Optional: Add transition effect */
+    .star-rating .star {
+      transition: color 0.2s ease;
+    }
+
+    /* Review dialog style */
+    .form {
+
+      & h2 {
+        text-align: center;
+        font-size: 35px;
+        padding-bottom: 30px;
+      }
+
+      & form {
+        display: flex;
+        flex-direction: column;
+
+
+        & input,
+        textarea {
+          padding: 15px;
+          background-color: #eeeeeec4;
+          border: 0;
+          border-bottom: 1px solid #989898d3;
+          margin-bottom: 20px;
+          caret-color: var(--main-color);
+          resize: none;
+        }
+
+        & input,
+        textarea:focus {
+          outline: 0;
+        }
+
+        & textarea {
+          height: 150px;
+        }
+
+        & input[type="submit"] {
+          background: var(--main-color);
+          font-size: 20px;
+          color: white;
+          cursor: pointer;
+
+        }
+
+      }
+
+
+
+    }
   </style>
 </head>
 
@@ -314,7 +379,8 @@
   {% include "navbar/navbar.html" %}
   <div class="container">
     <div class="card">
-<!-- <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image"> -->      <div class="card-body">
+      <!-- <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image"> -->
+      <div class="card-body">
         <h1 class="text-center mb-4">{{ recipe.name }}</h1>
         <p class="card-text"><strong>Description:</strong> {{ recipe.description }}</p>
         <p class="card-text"><strong>Author:</strong> {{ recipe.author_name }}</p>
@@ -335,7 +401,12 @@
     </ul>
 
     <!-- Reviews Section -->
-    <h2 class="mt-4">Reviews</h2>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="mt-4">Reviews</h2>
+      <button onclick="addNewReview()" class="btn-success add-review">
+        <i class="fas fa-plus"></i> Add Review
+      </button>
+    </div>
     <div class="reviews-list">
       {% for review in reviews %}
       <div class="review-item">
@@ -347,39 +418,7 @@
       </div>
       {% endfor %}
     </div>
-
-    <!-- Add Review Form -->
-    <h2 class="mt-4">Add a Review</h2>
-<form action="/review/{{ recipe.recipe_id }}" method="POST">
-  <!-- Review Text Area -->
-   <!-- Reviewer Name -->
-  <div class="mb-3">
-    <label for="reviewerName" class="form-label">Your Name</label>
-    <input type="text" class="form-control" id="reviewerName" name="user_name" required>
-  </div>
-  <div class="mb-3">
-    <label for="reviewText" class="form-label">Your Review</label>
-    <textarea class="form-control" id="reviewText" name="review_text" rows="3" required></textarea>
-  </div>
-
-  <!-- Star Rating Section -->
-  <div class="mb-3">
-    <label for="starRating" class="form-label">Rating</label>
-    <div id="starRating" class="star-rating">
-      <span class="star" data-value="1">&#9733;</span>
-      <span class="star" data-value="2">&#9733;</span>
-      <span class="star" data-value="3">&#9733;</span>
-      <span class="star" data-value="4">&#9733;</span>
-      <span class="star" data-value="5">&#9733;</span>
-    </div>
-    <input type="hidden" id="selectedRating" name="star_rating" value="5" required>
-  </div>
-
-  
-
-  <!-- Submit Button -->
-  <button type="submit" class="btn btn-warning">Submit Review</button>
-</form>
+    <br>
 
 
     <!-- Buttons Section -->
@@ -411,24 +450,80 @@
       });
     }
 
-    const stars = document.querySelectorAll('.star');
-  const selectedRatingInput = document.getElementById('selectedRating');
 
-  stars.forEach(star => {
-    star.addEventListener('click', function() {
-      const rating = this.getAttribute('data-value');
-      selectedRatingInput.value = rating;
+    function addNewReview() {
+      Swal.fire({
+        // title: 'Add Review',
+        text: 'Enter your review:',
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        html:
+          `
+          <div class="form">
+          <h2 class="mt-4">Add a Review</h2>
+          <form action="/review/{{ recipe.recipe_id }}" method="POST" id="reviewForm">
+          <!-- Review Text Area -->
+          <!-- Reviewer Name -->
+          <div class="mb-3">
+          <label for="reviewerName" class="form-label">Your Name</label>
+          <input type="text" class="form-control" id="reviewerName" name="user_name" required>
+        </div>
+      <div class="mb-3">
+        <label for="reviewText" class="form-label">Your Review</label>
+        <textarea class="form-control" id="reviewText" name="review_text" rows="3" required></textarea>
+      </div>
 
-      // Update the star icons
-      stars.forEach(star => {
-        if (star.getAttribute('data-value') <= rating) {
-          star.style.color = 'gold'; // Highlight the selected stars
-        } else {
-          star.style.color = 'gray'; // Reset the unselected stars
+      <!-- Star Rating Section -->
+      <div class="mb-3">
+        <label for="starRating" class="form-label">Rating</label>
+        <div id="starRating" class="star-rating">
+          <span class="star" data-value="1">&#9733;</span>
+          <span class="star" data-value="2">&#9733;</span>
+          <span class="star" data-value="3">&#9733;</span>
+          <span class="star" data-value="4">&#9733;</span>
+          <span class="star" data-value="5">&#9733;</span>
+        </div>
+        <input type="hidden" id="selectedRating" name="star_rating" value="5" required>
+      </div>
+    </form>
+    </div>`,
+        didOpen: () => {
+          const stars = document.querySelectorAll('.star');
+          const selectedRatingInput = document.getElementById('selectedRating');
+
+          stars.forEach(star => {
+            star.addEventListener('click', function () {
+              const rating = this.getAttribute('data-value');
+              selectedRatingInput.value = rating;
+
+              // Update the star icons
+              stars.forEach(star => {
+                if (star.getAttribute('data-value') <= rating) {
+                  star.style.color = 'gold'; // Highlight the selected stars
+                } else {
+                  star.style.color = 'gray'; // Reset the unselected stars
+                }
+              });
+            });
+          });
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const reviewerName = document.getElementById('reviewerName').value;
+          const reviewText = document.getElementById('reviewText').value;
+
+          if (!reviewerName || !reviewText) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Incomplete Data',
+              text: 'Please fill in all fields before submitting your review.',
+            });
+          } else {
+            document.getElementById('reviewForm').submit();
+          }
         }
       });
-    });
-  });
+    }
   </script>
 </body>
 
