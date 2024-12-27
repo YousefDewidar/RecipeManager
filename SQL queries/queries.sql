@@ -46,9 +46,10 @@ CREATE TABLE Reviews (
     recipe_id INT,
     star_rating INT,
     review_text TEXT,
+	is_edited bit default 0,
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id) ON DELETE CASCADE
 );
-
+GO
 
 
 CREATE PROCEDURE spGetRecipeById 
@@ -61,4 +62,22 @@ BEGIN
 	join [dbo].[Category] C on R.category_id = C.category_id
 	WHERE R.recipe_id = @recipe_id
 end
+GO
+
+CREATE TRIGGER TR_Reviews_Update
+ON Reviews
+AFTER UPDATE
+AS
+BEGIN
+    -- Check if the is_edited column was updated and if its new value is 1
+    IF UPDATE(is_edited)
+    BEGIN
+        -- Update the is_edited column to 1 ONLY for rows where it was changed to something other than 1
+        UPDATE r
+        SET is_edited = 1
+        FROM Reviews r
+        INNER JOIN inserted i ON r.review_id = i.review_id
+        WHERE i.is_edited = 1 and r.is_edited=0;
+    END
+END;
 
