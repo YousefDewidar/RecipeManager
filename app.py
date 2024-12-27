@@ -331,24 +331,6 @@ def view_reviews(recipe_id):
     return render_template("recipe/edit.html", reviews=reviews, recipe_id=recipe_id)
 
 
-# Function to get reviews for a recipe
-def get_reviews_for_recipe(cursor, recipe_id):
-    query = """
-        SELECT r.review_id, r.reviewer_name as user_name, r.review_text, r.star_rating 
-        FROM Reviews r 
-        WHERE r.recipe_id = ?
-    """
-    cursor.execute(query, (recipe_id,))
-    return cursor.fetchall()
-
-
-# Function to insert a new review
-def insert_review(cursor, recipe_id, review_text, reviewer_name, star_rating):
-    query = "INSERT INTO Reviews ( recipe_id, review_text,reviewer_name, star_rating) VALUES (?, ?, ?, ?)"
-    cursor.execute(query, (recipe_id, review_text, star_rating, reviewer_name))
-    cursor.connection.commit()
-
-
 # endregion
 
 

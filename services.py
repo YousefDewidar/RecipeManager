@@ -194,16 +194,6 @@ def update_ingredient_name(cursor, ingredient_id, new_name):
     return
 
 
-# Deletes an ingredient by its name.
-def delete_ingredient_by_name(cursor, ingredient_name):
-    query = """DELETE FROM Ingredients
-               WHERE name = (?);"""
-
-    cursor.execute(query, ingredient_name)
-    cursor.commit()
-    return
-
-
 # Deletes an ingredient by its ingredient_id.
 def delete_ingredient_by_id(cursor, ingredient_id):
     query = """DELETE FROM Ingredients
@@ -220,24 +210,22 @@ def get_all_ingredients(cursor):
     return cursor.fetchall()
 
 
-# Inserts a new review into the Reviews table.
-def insert_review(cursor, user_id, recipe_id, review_text):
-    query = """INSERT INTO Reviews (review_name, recipe_id, review_text,)
-               OUTPUT INSERTED.review_id
-               VALUES (?, ?, ?);"""
-    cursor.execute(query, (user_id, recipe_id, review_text))
-    review_id = cursor.fetchone()[0]
-    cursor.commit()
-    return review_id
-
-
-# Retrieves all reviews for a specific recipe.
+# Function to get reviews for a recipe
 def get_reviews_for_recipe(cursor, recipe_id):
-    query = """SELECT R.review_id, U.reviewer_name as author_name, R.review_text
-               FROM Reviews R
-               WHERE R.recipe_id = ?;"""
-    cursor.execute(query, recipe_id)
+    query = """
+        SELECT r.review_id, r.reviewer_name as user_name, r.review_text, r.star_rating 
+        FROM Reviews r 
+        WHERE r.recipe_id = ?
+    """
+    cursor.execute(query, (recipe_id,))
     return cursor.fetchall()
+
+
+# Function to insert a new review
+def insert_review(cursor, recipe_id, review_text, reviewer_name, star_rating):
+    query = "INSERT INTO Reviews ( recipe_id, review_text,reviewer_name, star_rating) VALUES (?, ?, ?, ?)"
+    cursor.execute(query, (recipe_id, review_text, star_rating, reviewer_name))
+    cursor.commit()
 
 
 def delete_review_by_id(cursor, review_id):
