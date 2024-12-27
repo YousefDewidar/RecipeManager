@@ -27,6 +27,7 @@ def get_recipe(cursor, recipe_id):
     result = cursor.fetchone()
     return result if result else None
 
+
 # Searches for recipes by keyword in their name or description.
 def search_recipe(cursor, keyword):
     if not keyword or keyword.strip() == "":
@@ -213,7 +214,7 @@ def get_all_ingredients(cursor):
 # Function to get reviews for a recipe
 def get_reviews_for_recipe(cursor, recipe_id):
     query = """
-        SELECT r.review_id, r.reviewer_name as user_name, r.review_text, r.star_rating 
+        SELECT r.review_id, r.reviewer_name as user_name, r.review_text, r.star_rating , r.is_edited
         FROM Reviews r 
         WHERE r.recipe_id = ?
     """

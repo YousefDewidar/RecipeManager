@@ -445,7 +445,7 @@
             onclick="editReview('{{recipe.recipe_id}}', '{{review.review_id}}', '{{review.user_name}}', '{{review.review_text}}','{{review.star_rating}}')"></i>
           <i class="fas fa-times" onclick="deleteReview('{{review.review_id}}','{{recipe.recipe_id}}')"></i>
         </div>
-        <p><strong>{{review.user_name}}</strong></p>
+        <p><strong>{{ review.user_name }} {% if review.is_edited == 1 %}(Edited){% endif %}</strong></p>
         <p>({{ review.star_rating }} / 5 stars)</p>
         <p>{{ review.review_text }}</p>
         <hr>
