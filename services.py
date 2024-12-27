@@ -27,15 +27,6 @@ def get_recipe(cursor, recipe_id):
     result = cursor.fetchone()
     return result if result else None
 
-
-def get_recipe_id_by_review_id(cursor, review_id):
-    query = """SELECT recipe_id FROM Reviews WHERE review_id = ?"""
-
-    cursor.execute(query, review_id)
-    result = cursor.fetchone()
-    return result[0] if result else None
-
-
 # Searches for recipes by keyword in their name or description.
 def search_recipe(cursor, keyword):
     if not keyword or keyword.strip() == "":

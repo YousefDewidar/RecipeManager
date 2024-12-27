@@ -281,42 +281,42 @@
     }
 
     .review-actions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.review-actions i {
-    margin-left: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #7e99a315;
-    padding: 8px;
-    border-radius: 4px;
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
 
-.review-actions i.fa-times {
-    color: #dc3545;
+    .review-actions i {
+      margin-left: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: #7e99a315;
+      padding: 8px;
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-.review-actions i.fa-pen {
-    color: #0d6efd;
+    .review-actions i.fa-times {
+      color: #dc3545;
     }
 
-.review-actions i:hover {
-    opacity: 0.8;
-    background-color: #e0e0e0;
+    .review-actions i.fa-pen {
+      color: #0d6efd;
+    }
+
+    .review-actions i:hover {
+      opacity: 0.8;
+      background-color: #e0e0e0;
     }
 
     .review-item p {
       margin: 0;
     }
-    
+
     .button-container {
       display: flex;
       justify-content: space-between;
@@ -441,8 +441,9 @@
       {% for review in reviews %}
       <div class="review-item">
         <div class="review-actions">
-          <i class="fas fa-pen" onclick="editReview('{{review.review_id}}', '{{review.user_name}}', '{{review.review_text}}', {{review.star_rating}})"></i>
-          <i class="fas fa-times" onclick="deleteReview({{review.review_id}})"></i>
+          <i class="fas fa-pen"
+            onclick="editReview('{{recipe.recipe_id}}', '{{review.review_id}}', '{{review.user_name}}', '{{review.review_text}}','{{review.star_rating}}')"></i>
+          <i class="fas fa-times" onclick="deleteReview('{{review.review_id}}','{{recipe.recipe_id}}')"></i>
         </div>
         <p><strong>{{review.user_name}}</strong></p>
         <p>({{ review.star_rating }} / 5 stars)</p>
@@ -554,7 +555,7 @@
       });
     }
 
-    function deleteReview(reviewId) {
+    function deleteReview(reviewId, recipeId) {
       Swal.fire({
         title: 'Delete Review?',
         text: 'Are you sure you want to delete this review?',
@@ -567,19 +568,19 @@
           // Create a form and submit it
           const form = document.createElement('form');
           form.method = 'POST';
-          form.action = `/review/delete/${reviewId}`;
+          form.action = `/review/delete/${recipeId}/${reviewId}`;
           document.body.appendChild(form);
           form.submit();
         }
       });
     }
 
-    function editReview(reviewId, userName, reviewText, starRating) {
+    function editReview(recipe_id, reviewId, userName, reviewText, starRating) {
       Swal.fire({
         html: `
                 <div class="form">
                     <h2 class="mt-4">Edit Review</h2>
-                    <form action="/review/edit/${reviewId}" method="POST" id="editReviewForm">
+                    <form action="/review/edit/${recipe_id}/${reviewId}" method="POST" id="editReviewForm">
                         <input type="text" placeholder="Enter Your Name" class="form-control" id="editReviewerName" name="user_name" value="${userName}" required>
                         <textarea class="form-control" placeholder="Enter Your Review Here" id="editReviewText" name="review_text" rows="3" required>${reviewText}</textarea>
                         <div class="mb-3">

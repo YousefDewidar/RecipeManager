@@ -189,24 +189,16 @@ def recipe_details(recipe_id):
     )
 
 
-@app.route("/review/delete/<int:review_id>", methods=["POST"])
-def delete_review(review_id):
-    # Get the review's recipe_id for redirection later
-    recipe_id = get_recipe_id_by_review_id(cursor, review_id)
+@app.route("/review/delete/<int:recipe_id>/<int:review_id>", methods=["POST"])
+def delete_review(review_id, recipe_id):
 
     delete_review_by_id(cursor, review_id)
     return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
-@app.route("/review/edit/<int:review_id>", methods=["POST"])
-def edit_review(review_id):
+@app.route("/review/edit/<int:recipe_id>/<int:review_id>", methods=["POST"])
+def edit_review(review_id, recipe_id):
     if request.method == "POST":
-        # Get the review's recipe_id for redirection later
-        recipe_id = get_recipe_id_by_review_id(cursor, review_id)
-        if not recipe_id:
-            abort(404)
-
-        # Update the review
         reviewer_name = request.form["user_name"]
         review_text = request.form["review_text"]
         star_rating = request.form["star_rating"]
