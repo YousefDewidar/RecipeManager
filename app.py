@@ -324,13 +324,6 @@ def add_review(recipe_id):
         return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
-# Route to fetch reviews for a recipe
-@app.route("/recipe/<int:recipe_id>")
-def view_reviews(recipe_id):
-    reviews = get_reviews_for_recipe(cursor, recipe_id)
-    return render_template("recipe/edit.html", reviews=reviews, recipe_id=recipe_id)
-
-
 # endregion
 
 
@@ -344,7 +337,7 @@ def submit_newcategory():
         category_exists = get_category_by_name(cursor, category_name)
 
         # See if category already exists before inserting
-        if category_exists:
+        if not category_exists:
             insert_category(cursor, category_name)
 
 
