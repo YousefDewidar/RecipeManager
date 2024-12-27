@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask import Flask, abort, redirect, render_template, request, url_for
 
 from services import *
+
 # Load environment variables
 load_dotenv()
 
@@ -181,8 +182,38 @@ def recipe_details(recipe_id):
     reviews = get_reviews_for_recipe(cursor, recipe_id)
 
     return render_template(
-        "home/recipe_details.html", recipe=recipe, ingredients=ingredients, reviews=reviews
+        "home/recipe_details.html",
+        recipe=recipe,
+        ingredients=ingredients,
+        reviews=reviews,
     )
+
+
+@app.route("/review/delete/<int:review_id>", methods=["POST"])
+def delete_review(review_id):
+    # Get the review's recipe_id for redirection later
+    recipe_id = get_recipe_id_by_review_id(cursor, review_id)
+
+    delete_review_by_id(cursor, review_id)
+    return redirect(url_for("recipe_details", recipe_id=recipe_id))
+
+
+@app.route("/review/edit/<int:review_id>", methods=["POST"])
+def edit_review(review_id):
+    if request.method == "POST":
+        # Get the review's recipe_id for redirection later
+        recipe_id = get_recipe_id_by_review_id(cursor, review_id)
+        if not recipe_id:
+            abort(404)
+
+        # Update the review
+        reviewer_name = request.form["user_name"]
+        review_text = request.form["review_text"]
+        star_rating = request.form["star_rating"]
+
+        update_review_by_id(cursor, review_id, reviewer_name, review_text, star_rating)
+
+        return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
 @app.route("/submit_search", methods=["GET"])
@@ -293,13 +324,12 @@ def edit_ingredient(ingredient_id):
 @app.route("/review/<int:recipe_id>", methods=["POST"])
 def add_review(recipe_id):
     if request.method == "POST":
-        reviewer_name= request.form["user_name"]
+        reviewer_name = request.form["user_name"]
         review_text = request.form["review_text"]
         star_rating = request.form["star_rating"]
-        
-        insert_review(cursor,  recipe_id, review_text, star_rating,reviewer_name)
-        return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
+        insert_review(cursor, recipe_id, review_text, star_rating, reviewer_name)
+        return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
 # Route to fetch reviews for a recipe
@@ -309,20 +339,24 @@ def view_reviews(recipe_id):
     return render_template("recipe/edit.html", reviews=reviews, recipe_id=recipe_id)
 
 
-
-
 # Function to get reviews for a recipe
 def get_reviews_for_recipe(cursor, recipe_id):
-    query = "SELECT reviewer_name as user_name, r.review_text, r.star_rating FROM Reviews r  WHERE r.recipe_id = ?"
+    query = """
+        SELECT r.review_id, r.reviewer_name as user_name, r.review_text, r.star_rating 
+        FROM Reviews r 
+        WHERE r.recipe_id = ?
+    """
     cursor.execute(query, (recipe_id,))
     return cursor.fetchall()
 
+
 # Function to insert a new review
-def insert_review(cursor, recipe_id, review_text,reviewer_name, star_rating):
+def insert_review(cursor, recipe_id, review_text, reviewer_name, star_rating):
     query = "INSERT INTO Reviews ( recipe_id, review_text,reviewer_name, star_rating) VALUES (?, ?, ?, ?)"
-    cursor.execute(query, ( recipe_id, review_text, star_rating,reviewer_name))
+    cursor.execute(query, (recipe_id, review_text, star_rating, reviewer_name))
     cursor.connection.commit()
-    
+
+
 # endregion
 
 

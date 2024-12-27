@@ -28,6 +28,14 @@ def get_recipe(cursor, recipe_id):
     return result if result else None
 
 
+def get_recipe_id_by_review_id(cursor, review_id):
+    query = """SELECT recipe_id FROM Reviews WHERE review_id = ?"""
+
+    cursor.execute(query, review_id)
+    result = cursor.fetchone()
+    return result[0] if result else None
+
+
 # Searches for recipes by keyword in their name or description.
 def search_recipe(cursor, keyword):
     if not keyword or keyword.strip() == "":
@@ -42,24 +50,6 @@ def search_recipe(cursor, keyword):
         cursor.execute(query, (search_pattern, search_pattern))
         results = cursor.fetchall()
         return results if results else None
-
-
-# Retrieves all authors (users) with their corresponding recipes.
-def get_authors_with_recipes(cursor):
-    query = """SELECT 
-                    u.full_name AS user_name,
-                    r.name AS recipe_name,
-                    r.recipe_id
-               FROM 
-                    [dbo].[Recipes] r
-               JOIN 
-                    [dbo].[Users] u
-               ON 
-                    r.user_id = u.user_id;"""
-
-    cursor.execute(query)
-    results = cursor.fetchall()
-    return results
 
 
 # Inserts a new recipe into the database and returns the inserted recipe's ID.
@@ -107,6 +97,24 @@ def update_recipe(
 def get_all_users(cursor):
     cursor.execute("SELECT user_id, full_name ,age ,email FROM Users;")
     return cursor.fetchall()
+
+
+# Retrieves all authors (users) with their corresponding recipes.
+def get_authors_with_recipes(cursor):
+    query = """SELECT 
+                    u.full_name AS user_name,
+                    r.name AS recipe_name,
+                    r.recipe_id
+               FROM 
+                    [dbo].[Recipes] r
+               JOIN 
+                    [dbo].[Users] u
+               ON 
+                    r.user_id = u.user_id;"""
+
+    cursor.execute(query)
+    results = cursor.fetchall()
+    return results
 
 
 # Retrieves a specific user's ID and name based on their user_id.
@@ -220,6 +228,7 @@ def get_all_ingredients(cursor):
     cursor.execute("SELECT ingredient_id, name FROM Ingredients")
     return cursor.fetchall()
 
+
 # Inserts a new review into the Reviews table.
 def insert_review(cursor, user_id, recipe_id, review_text):
     query = """INSERT INTO Reviews (review_name, recipe_id, review_text,)
@@ -230,13 +239,26 @@ def insert_review(cursor, user_id, recipe_id, review_text):
     cursor.commit()
     return review_id
 
+
 # Retrieves all reviews for a specific recipe.
 def get_reviews_for_recipe(cursor, recipe_id):
     query = """SELECT R.review_id, U.reviewer_name as author_name, R.review_text
                FROM Reviews R
-               
                WHERE R.recipe_id = ?;"""
     cursor.execute(query, recipe_id)
     return cursor.fetchall()
 
 
+def delete_review_by_id(cursor, review_id):
+    query = """DELETE FROM Reviews WHERE review_id = (?);"""
+    cursor.execute(query, review_id)
+    cursor.commit()
+    return
+
+
+def update_review_by_id(cursor, review_id, reviewer_name, review_text, star_rating):
+    query = """UPDATE Reviews
+            SET reviewer_name = ?, review_text = ?, star_rating = ?
+            WHERE review_id = ?"""
+    cursor.execute(query, (reviewer_name, review_text, star_rating, review_id))
+    cursor.commit()

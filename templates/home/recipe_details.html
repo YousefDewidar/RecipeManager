@@ -277,16 +277,46 @@
 
     .review-item {
       margin-bottom: 15px;
+      position: relative;
+    }
+
+    .review-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.review-actions i {
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #7e99a315;
+    padding: 8px;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+.review-actions i.fa-times {
+    color: #dc3545;
+    }
+
+.review-actions i.fa-pen {
+    color: #0d6efd;
+    }
+
+.review-actions i:hover {
+    opacity: 0.8;
+    background-color: #e0e0e0;
     }
 
     .review-item p {
       margin: 0;
     }
-
-
-
-
-
+    
     .button-container {
       display: flex;
       justify-content: space-between;
@@ -410,6 +440,10 @@
     <div class="reviews-list">
       {% for review in reviews %}
       <div class="review-item">
+        <div class="review-actions">
+          <i class="fas fa-pen" onclick="editReview('{{review.review_id}}', '{{review.user_name}}', '{{review.review_text}}', {{review.star_rating}})"></i>
+          <i class="fas fa-times" onclick="deleteReview({{review.review_id}})"></i>
+        </div>
         <p><strong>{{review.user_name}}</strong></p>
         <p>({{ review.star_rating }} / 5 stars)</p>
         <p>{{ review.review_text }}</p>
@@ -516,6 +550,77 @@
           } else {
             document.getElementById('reviewForm').submit();
           }
+        }
+      });
+    }
+
+    function deleteReview(reviewId) {
+      Swal.fire({
+        title: 'Delete Review?',
+        text: 'Are you sure you want to delete this review?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Create a form and submit it
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = `/review/delete/${reviewId}`;
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
+    }
+
+    function editReview(reviewId, userName, reviewText, starRating) {
+      Swal.fire({
+        html: `
+                <div class="form">
+                    <h2 class="mt-4">Edit Review</h2>
+                    <form action="/review/edit/${reviewId}" method="POST" id="editReviewForm">
+                        <input type="text" placeholder="Enter Your Name" class="form-control" id="editReviewerName" name="user_name" value="${userName}" required>
+                        <textarea class="form-control" placeholder="Enter Your Review Here" id="editReviewText" name="review_text" rows="3" required>${reviewText}</textarea>
+                        <div class="mb-3">
+                            <label for="editStarRating" class="form-label">Rating</label>
+                            <div id="editStarRating" class="star-rating">
+                                <span class="star" data-value="1">&#9733;</span>
+                                <span class="star" data-value="2">&#9733;</span>
+                                <span class="star" data-value="3">&#9733;</span>
+                                <span class="star" data-value="4">&#9733;</span>
+                                <span class="star" data-value="5">&#9733;</span>
+                            </div>
+                            <input type="hidden" id="editSelectedRating" name="star_rating" value="${starRating}" required>
+                        </div>
+                    </form>
+                </div>`,
+        showCancelButton: true,
+        confirmButtonText: 'Update',
+        didOpen: () => {
+          const stars = document.querySelectorAll('.star');
+          const selectedRatingInput = document.getElementById('editSelectedRating');
+
+          // Set initial stars
+          stars.forEach(star => {
+            if (star.getAttribute('data-value') <= starRating) {
+              star.style.color = 'gold';
+            }
+          });
+
+          stars.forEach(star => {
+            star.addEventListener('click', function () {
+              const rating = this.getAttribute('data-value');
+              selectedRatingInput.value = rating;
+              stars.forEach(s => {
+                s.style.color = s.getAttribute('data-value') <= rating ? 'gold' : 'gray';
+              });
+            });
+          });
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('editReviewForm').submit();
         }
       });
     }
