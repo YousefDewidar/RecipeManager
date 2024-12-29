@@ -272,16 +272,16 @@
     <div class="container">
       <h1>Edit Recipe</h1>
       <form action="/submit_updaterecipe" method="post">
-        <input type="hidden" name="recipe_id" value="{{ recipe.recipe_id }}">
+        <input type="hidden" name="recipe_id" value="{{ recipe[0] }}">
 
         <div>
           <label for="name">Recipe Name</label>
-          <input type="text" id="name" name="name" value="{{ recipe.name }}" required>
+          <input type="text" id="name" name="name" value="{{ recipe[1] }}" required>
         </div>
 
         <div>
           <label for="cooking_time">Cooking Time (minutes)</label>
-          <input type="number" id="cooking_time" name="cooking_time" value="{{ recipe.cooking_time }}" required>
+          <input type="number" id="cooking_time" name="cooking_time" value="{{ recipe[4] }}" required>
         </div>
 
         <div>
@@ -289,7 +289,7 @@
           <select id="user_id" name="user_id" required>
             <option value="" selected hidden> Select an author </option>
             {% for user in users %}
-            <option value="{{ user[0] }}" {% if user[0]==recipe.user_id %}selected{% endif %}>{{ user[1] }}</option>
+            <option value="{{ user[0] }}" {% if user[1]==recipe[1] %}selected{% endif %}>{{ user[1] }}</option>
             {% endfor %}
           </select>
 
@@ -305,7 +305,7 @@
           <select id="category_id" name="category_id" required class="mt-10">
             <option value="" selected hidden>Select a category</option>
             {% for category in categories %}
-            <option value="{{ category[0] }}" {% if category[0]==recipe.category_id %}selected{% endif %}>{{ category[1]
+            <option value="{{ category[0] }}" {% if category[1]==recipe[5] %}selected{% endif %}>{{ category[1]
               }}</option>
             {% endfor %}
           </select>
@@ -329,7 +329,7 @@
 
         <div>
           <label for="description">Recipe Description</label>
-          <textarea id="description" name="description" required>{{ recipe.description }}</textarea>
+          <textarea id="description" name="description" required>{{ recipe[5] }}</textarea>
         </div>
 
 
@@ -362,11 +362,11 @@
     function addIngredient() {
       // Filter out already selected ingredients
       const availableIngredients = allIngredients.filter(ing =>
-        !ingredients.some(selected => selected.id === ing.id)
+        !ingredients.some(selected => selected['id'] === ing['id'])
       );
 
       const ingredientOptions = availableIngredients.map(ing =>
-        `<option value="${ing.id}">${ing.name}</option>`
+        `<option value="${ing['id']}">${ing['name']}</option>`
       ).join('');
 
       Swal.fire({

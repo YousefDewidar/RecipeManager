@@ -411,10 +411,10 @@
     <div class="card">
       <!-- <img src="{{ url_for('static', filename='home/img_test.jpg') }}" class="card-img-top" alt="Recipe Image"> -->
       <div class="card-body">
-        <h1 class="text-center mb-4">{{ recipe.name }}</h1>
-        <p class="card-text"><strong>Description:</strong> {{ recipe.description }}</p>
-        <p class="card-text"><strong>Author:</strong> {{ recipe.author_name }}</p>
-        <p class="card-text"><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
+        <h1 class="text-center mb-4">{{ recipe[2] }}</h1>
+        <p class="card-text"><strong>Description:</strong> {{ recipe[3] }}</p>
+        <p class="card-text"><strong>Author:</strong> {{ recipe[1] }}</p>
+        <p class="card-text"><strong>Cooking Time:</strong> {{ recipe[4] }} minutes</p>
       </div>
     </div>
 
@@ -423,9 +423,9 @@
     <ul class="ingredient-list">
       {% for ingredient in ingredients %}
       <li class="ingredient-item">
-        <div><i class="fa-solid fa-carrot"></i> {{ ingredient.ingredient_name }}</div>
-        <div><i class="fa-solid fa-weight-hanging"></i> {{ ingredient.quantity }}</div>
-        <div><i class="fa-solid fa-ruler-combined"></i> {{ ingredient.unit }}</div>
+        <div><i class="fa-solid fa-carrot"></i> {{ ingredient[1] }}</div>
+        <div><i class="fa-solid fa-weight-hanging"></i> {{ ingredient[2] }}</div>
+        <div><i class="fa-solid fa-ruler-combined"></i> {{ ingredient[3] }}</div>
       </li>
       {% endfor %}
     </ul>
@@ -442,12 +442,12 @@
       <div class="review-item">
         <div class="review-actions">
           <i class="fas fa-pen"
-            onclick="editReview('{{recipe.recipe_id}}', '{{review.review_id}}', '{{review.user_name}}', '{{review.review_text}}','{{review.star_rating}}')"></i>
-          <i class="fas fa-times" onclick="deleteReview('{{review.review_id}}','{{recipe.recipe_id}}')"></i>
+            onclick="editReview('{{recipe[0]}}', '{{review[0]}}', '{{review[1]}}', '{{review[2]}}','{{review[3]}}')"></i>
+          <i class="fas fa-times" onclick="deleteReview('{{review[0]}}','{{recipe[0]}}')"></i>
         </div>
-        <p><strong>{{ review.user_name }} {% if review.is_edited == 1 %}(Edited){% endif %}</strong></p>
-        <p>({{ review.star_rating }} / 5 stars)</p>
-        <p>{{ review.review_text }}</p>
+        <p><strong>{{ review[1] }} {% if review[4] == 1 %}(Edited){% endif %}</strong></p>
+        <p>({{ review[3] }} / 5 stars)</p>
+        <p>{{ review[2] }}</p>
         <hr>
       </div>
       {% endfor %}
@@ -457,8 +457,8 @@
 
     <!-- Buttons Section -->
     <div class="button-container">
-      <a href="/edit/{{ recipe.recipe_id }}" class="btn btn-primary">Edit</a>
-      <form action="/delete/{{ recipe.recipe_id }}" method="POST" id="deleteForm">
+      <a href="/edit/{{ recipe[0] }}" class="btn btn-primary">Edit</a>
+      <form action="/delete/{{ recipe[0] }}" method="POST" id="deleteForm">
         <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete</button>
       </form>
       <a href="/" class="btn btn-back">Back to Home</a>
@@ -495,7 +495,7 @@
           `
         <div class="form">
           <h2 class="mt-4">Add a Review</h2>
-          <form action="/review/{{ recipe.recipe_id }}" method="POST" id="reviewForm">
+          <form action="/review/{{ recipe[0] }}" method="POST" id="reviewForm">
     
           <!-- Reviewer Name -->
           <input type="text" placeholder="Enter Your Name" class="form-control" id="reviewerName" name="user_name" required>

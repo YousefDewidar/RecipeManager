@@ -214,18 +214,18 @@
       {% for recipe in search_results %}
 
       <div class="col-md-4 mb-4">
-        <div class="card" , onclick="window.location.href='/recipe_details/{{ recipe.recipe_id }}'">
+        <div class="card" , onclick="window.location.href='/recipe_details/{{ recipe[0] }}'">
 
           <img src="{{ url_for('static', filename='home/recipe_image.png') }}" class="card-img-top" alt="Recipe Image">
           <div class="card-body">
-            <h5 class="card-title">{{ recipe.name }}</h5>
-            <p class="card-text">{{ recipe.description }}</p>
+            <h5 class="card-title">{{ recipe[2] }}</h5>
+            <p class="card-text">{{ recipe[3] }}</p>
 
             <!-- <span class="text-muted">Recipe Info</span> -->
           </div>
           <div class="card-footer d-flex justify-content-between align-items-center">
-            <div><i class="fa-regular fa-user"></i>{{ recipe.author_name }}</div>
-            <div><i class="fa-solid fa-clock"></i>{{ recipe.cooking_time }} m</div>
+            <div><i class="fa-regular fa-user"></i>{{ recipe[1] }}</div>
+            <div><i class="fa-solid fa-clock"></i>{{ recipe[4] }} m</div>
           </div>
           <br>
         </div>

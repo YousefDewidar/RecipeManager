@@ -210,30 +210,31 @@
           <div class="card-body">
             <div class="card-title-container">
               <h5 class="card-title">
-                <i class="fas fa-user"></i> {{ user.full_name }}
+                <i class="fas fa-user"></i> {{ users[loop.index0][1] }}
               </h5>
               <div class="action-buttons">
                 <button
-                  onclick="showEditAlert('{{ user.user_id }}', '{{ user.full_name }}', '{{ user.age }}', '{{ user.email }}')"
+                  onclick="showEditAlert('{{ users[loop.index0][0] }}', '{{ users[loop.index0][1] }}', '{{ users[loop.index0][2] }}', '{{ users[loop.index0][3] }}')"
                   class="btn-icon edit">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button onclick="confirmDelete('{{ user.user_id }}')" class="btn-icon delete">
+                <button onclick="confirmDelete('{{ users[loop.index0][0] }}')" class="btn-icon delete">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
             </div>
             <p class="card-text">
-              <i class="fas fa-id-badge"></i> User ID: {{ user.user_id }}
+              <i class="fas fa-id-badge"></i> User ID: {{ users[loop.index0][0] }}
             </p>
-            <p><i class="fa-solid fa-person"></i> Age: {{ user.age }}</p>
-            <p> <i class="fa-solid fa-envelope"></i> Email: {{ user.email }}</p>
+            <p><i class="fa-solid fa-person"></i> Age: {{ users[loop.index0][2] }}</p>
+            <p> <i class="fa-solid fa-envelope"></i> Email: {{ users[loop.index0][3] }}</p>
             <h4><i class="fa-solid fa-bowl-food"></i> Recipes:</h4>
             <ul>
+              {% set current_user = users[loop.index0][1] %}
               {% for recipe in authors_with_recipes %}
-              {% if recipe.user_name == user[1] %}
-              <li>{{ recipe.recipe_name }}</li>
-              {% endif %}
+                {% if recipe[0] == current_user %}
+                  <li style="--i: {{ loop.index }}">{{ recipe[1] }}</li>
+                {% endif %}
               {% endfor %}
             </ul>
           </div>

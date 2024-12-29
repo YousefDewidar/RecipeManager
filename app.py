@@ -2,7 +2,7 @@ import json
 import logging
 from os import getenv
 
-import pyodbc
+import psycopg2
 from dotenv import load_dotenv
 from flask import Flask, abort, redirect, render_template, request, url_for
 
@@ -13,14 +13,10 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# Connection to Postgres
+DATABASE_URL = "postgres://01941470-91a1-719b-aa0e-42643030eb70:d9c1ab55-4630-454f-9b34-8859ffd08187@us-west-2.db.thenile.dev:5432/recipe_2"
 
-# Connection to the SQL Server
-server = getenv("DB_SERVER", ".")  # Fallback to '.' if not set
-database = getenv("DB_NAME", "recipe")  # Fallback to 'recipe' if not set
-
-conn = pyodbc.connect(
-    f"Driver={{SQL Server}};Server={server};Database={database};Trusted_Connection=yes;"
-)
+conn = psycopg2.connect(DATABASE_URL)
 
 # Create a cursor object to execute SQL queries
 cursor = conn.cursor()
@@ -78,6 +74,7 @@ def submit_newrecipe():
                 ingredient["unit"],
             )
 
+        conn.commit()
         return redirect(url_for("home"))
 
 
@@ -159,7 +156,7 @@ def delete_recipe(recipe_id):
     if not recipe:
         abort(404)
 
-    query2 = "DELETE FROM Recipes WHERE recipe_id = ?;"
+    query2 = "DELETE FROM Recipes WHERE recipe_id = %s;"
     cursor.execute(query2, (recipe_id,))
     conn.commit()
 
@@ -193,6 +190,8 @@ def recipe_details(recipe_id):
 def delete_review(review_id, recipe_id):
 
     delete_review_by_id(cursor, review_id)
+    conn.commit()
+
     return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
@@ -204,7 +203,7 @@ def edit_review(review_id, recipe_id):
         star_rating = request.form["star_rating"]
 
         update_review_by_id(cursor, review_id, reviewer_name, review_text, star_rating)
-
+        conn.commit()
         return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
@@ -241,8 +240,8 @@ def submit_newauthor():
         name = request.form["name"]
         age = request.form.get("age")
         email = request.form.get("email")
-        query = """INSERT INTO Users(full_name,age,email)
-                  VALUES (?,?,?);"""
+        query = """INSERT INTO authors(full_name,age,email)
+                  VALUES (%s,%s,%s);"""
 
         cursor.execute(query, (name, age, email))
         conn.commit()
@@ -253,6 +252,8 @@ def submit_newauthor():
 def delete_user(user_id):
 
     delete_user_by_id(cursor, user_id)
+    conn.commit()
+
     return redirect(url_for("all_users_with_recipes"))
 
 
@@ -264,6 +265,8 @@ def edit_user(user_id):
     new_email = request.args.get("email")
 
     update_user_by_id(cursor, user_id, new_name, new_age, new_email)
+    conn.commit()
+
     return redirect(url_for("all_users_with_recipes"))
 
 
@@ -287,6 +290,7 @@ def create_ingredient():
 
     # create new ingredient
     insert_ingredient(cursor, name)
+    conn.commit()
 
     return redirect(url_for("show_ingredients"))
 
@@ -295,6 +299,8 @@ def create_ingredient():
 def delete_ingredient(ingredient_id):
 
     delete_ingredient_by_id(cursor, ingredient_id)
+    conn.commit()
+
     return redirect(url_for("show_ingredients"))
 
 
@@ -308,6 +314,7 @@ def edit_ingredient(ingredient_id):
 
     # Update ingredient name
     update_ingredient_name(cursor, ingredient_id, new_name)
+    conn.commit()
 
     return redirect(url_for("show_ingredients"))
 
@@ -321,6 +328,7 @@ def add_review(recipe_id):
         star_rating = request.form["star_rating"]
 
         insert_review(cursor, recipe_id, review_text, star_rating, reviewer_name)
+        conn.commit()
         return redirect(url_for("recipe_details", recipe_id=recipe_id))
 
 
@@ -339,8 +347,14 @@ def submit_newcategory():
         # See if category already exists before inserting
         if not category_exists:
             insert_category(cursor, category_name)
+            conn.commit()
+            return 200
 
 
-app.run(debug=True)
-cursor.close()
-conn.close()
+if __name__ == "__main__":
+    from waitress import serve
+
+    serve(app, host="0.0.0.0", port=8080)
+
+# cursor.close()
+# conn.close()
