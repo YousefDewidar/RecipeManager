@@ -247,7 +247,7 @@ def get_reviews_for_recipe(cursor, recipe_id):
 # Function to insert a new review
 def insert_review(cursor, recipe_id, review_text, reviewer_name, star_rating):
     query = "INSERT INTO Reviews (recipe_id, review_text, reviewer_name, star_rating) VALUES (%s, %s, %s, %s)"
-    cursor.execute(query, (recipe_id, review_text, reviewer_name, star_rating))
+    cursor.execute(query, (recipe_id, review_text, star_rating, reviewer_name))
 
 
 def delete_review_by_id(cursor, review_id):
