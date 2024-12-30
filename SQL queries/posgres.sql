@@ -44,3 +44,17 @@ CREATE TABLE public.Reviews (
   review_text TEXT,
   is_edited BOOLEAN DEFAULT FALSE
 );
+
+CREATE OR REPLACE FUNCTION TR_Reviews_Update()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Update is_edited to TRUE for the updated row
+    NEW.is_edited := TRUE;
+    RETURN NEW; -- Important: Return the modified row
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER TR_Reviews_Update
+BEFORE UPDATE ON reviews -- Use BEFORE UPDATE for efficiency
+FOR EACH ROW
+EXECUTE FUNCTION TR_Reviews_Update();
