@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from flask import Flask, abort, json, redirect, render_template, request, url_for
 
 from services import *
-from utils import init_pool, _execute_query
+from utils import _execute_query, init_pool
 
 # Load environment variables
 load_dotenv()
@@ -348,9 +348,11 @@ def submit_newcategory():
 
 
 if __name__ == "__main__":
-    from waitress import serve
+    vercel_env = os.getenv("VERCEL_ENV")
+    if vercel_env:
+        from waitress import serve
 
-    serve(app, host="0.0.0.0", port=8080)
-
-# cursor.close()
-# conn.close()
+        serve(app, host="0.0.0.0", port=8080)
+    else:
+        # Running locally
+        app.run(debug=True, port=5000)
