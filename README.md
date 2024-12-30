@@ -19,6 +19,13 @@
 ![WhatsApp Image 2024-12-27 at 23 37 05_72100bc4](https://github.com/user-attachments/assets/e60bca89-1091-412e-8c25-adf73e854d31)
 
 
+## Live Demo
+<div align="center" style="border: 2px solid #4CAF50; padding: 10px; border-radius: 5px; background-color: #ffffff;">
+  <a href="https://recipe-manager-psi.vercel.app/" style="font-size: 18px; color: #4CAF50; text-decoration: none;">
+    🌐 Click here to visit the live website
+  </a>
+</div>
+
 
 ## Tech Stack  
 - **Frontend**: HTML, CSS (Static templates).  
