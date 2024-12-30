@@ -14,7 +14,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Connection to Postgres
-DATABASE_URL = "postgres://01941470-91a1-719b-aa0e-42643030eb70:d9c1ab55-4630-454f-9b34-8859ffd08187@us-west-2.db.thenile.dev:5432/recipe_2"
+DATABASE_URL = getenv("DATABASE_URL")
 
 conn = psycopg2.connect(DATABASE_URL)
 
